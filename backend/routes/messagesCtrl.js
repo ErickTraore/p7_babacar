@@ -3,23 +3,20 @@ var models = require('../models');
 var asyncLib = require('async');
 var jwtUtils = require('../utils/jwt.utils');
 
-
 // httpServer.listen(8080);
 // Constants
 const TITLE_LIMIT = 2;
 const CONTENT_LIMIT = 4;
 const ITEMS_LIMIT = 50;
 
-
 // Routes
 module.exports = {
-
     createMessage: function(req, res) {
-
         // Getting auth header
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
-
+        // console.log(headerAuth);
+        // console.log(userId);
         // Params
         var title = req.body.title;
         var content = req.body.content;
@@ -32,8 +29,6 @@ module.exports = {
         }
 
         asyncLib.waterfall([
-            // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8',
-            // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*',
             function(done) {
                 models.User.findOne({
                         where: { id: userId }

@@ -11,6 +11,7 @@
       <router-link to="/profile">Profile</router-link> |  
       <!-- <router-link to="/postView">LoginNew</router-link> |    -->
       <router-link to="/updateUserProfile">maj-profile</router-link> |   
+      <router-link to="/messagesNew">messages</router-link> |   
     </div>
     </div>
     <router-view/>
