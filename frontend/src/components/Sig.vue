@@ -1,57 +1,52 @@
 <template>
-  <div> 
-  <!-- <form v-on:submit.prevent="submitForm"> -->
-  <form
-    id="app"
-    @submit="checkForm"
-    action="http://localhost:8080/api/users/register/"
-    method="post"
-    
-  >
-    <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>  
+  <div class='group'>
+   <div class='group__header'> 
+      <form
+        id="app"
+        @submit="checkForm"
+        action="http://localhost:8080/api/users/register/"
+        method="post"
+        
+      >
+      <div class='group__header__body'>
+        <p v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors" :key="error">{{ error }}</li>
+          </ul>
+        </p>  
+          <p>
+        <label for="username">Pseudo :</label>
+        <input
+          id="username"
+          v-model="username"
+          type="text"
+          name="username"
+        >
+      </p> 
+        <p>
+        <label for="email">Email :</label>
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          name="email"
+        >
+      </p> 
       <p>
-    <label for="username">Pseudo</label>
-    <input
-      id="username"
-      v-model="username"
-      type="text"
-      name="username"
-    >
-  </p>
-  <p>
-    <!-- <label for="bio">Biographie</label>
-    <input
-      id="bio"
-      v-model="bio"
-      type="text"
-      name="bio"
-    > -->
-  </p>  
-    <p>
-    <label for="email">Email</label>
-    <input
-      id="email"
-      v-model="email"
-      type="email"
-      name="email"
-    >
-  </p> 
-   <p>
-    <label for="password">Password</label>
-    <input
-      id="password"
-      v-model="password"
-      type="password"
-      name="password"
-    >
-  </p> 
-      <button class="btn"> Submit</button>
-  </form>
+        <label for="password">Password :</label>
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          name="password"
+        >
+      </p> 
+          <button class="btn"> Submit</button>
+   </div>
+
+      </form>
+   </div>
   </div>
 </template>
 <script>
@@ -114,3 +109,30 @@ import axios from 'axios';
         
   
 </script>
+<style scoped>
+
+.group {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+* {
+  box-sizing: border-box;
+}
+.group__header{
+  font-size:1.2rem;
+  align-items: center;
+  background-color:rgba(10, 10, 10, 0.288);
+  padding:1rem;
+  border-radius:2rem;
+  color:white;
+  }
+  .group__header__body{
+        padding: 1rem;
+        background-color:rgba(14, 14, 15, 0.205);
+        border-radius:2rem;
+        margin-top:1rem;
+        margin-bottom:1rem;
+        }
+</style>

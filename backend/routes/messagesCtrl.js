@@ -74,13 +74,13 @@ module.exports = {
         }
 
         models.Message.findAll({
-            order: [(order != null) ? order.split(':') : ['title', 'ASC']],
-            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
-            limit: (!isNaN(limit)) ? limit : null,
-            offset: (!isNaN(offset)) ? offset : null,
+            // order: [(order != null) ? order.split(':') : ['title', 'ASC']],
+            // attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            // limit: (!isNaN(limit)) ? limit : null,
+            // offset: (!isNaN(offset)) ? offset : null,
             include: [{
                 model: models.User,
-                attributes: ['username']
+                attributes: ['username', 'email']
             }]
         }).then(function(messages) {
             if (messages) {

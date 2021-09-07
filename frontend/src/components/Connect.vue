@@ -1,26 +1,30 @@
 <template>
-  <div> 
-  <form
-    @submit="postData" 
-    method="post"  
-  >
-    <input
-      id="email"
-      v-model="posts.email"
-      type="text"
-      name="email"
-      placeholder="Email"
-    > <br> <br>
+<div class='group'>
+   <div class='group__header'> 
+      <form
+        @submit="postData" 
+        method="post"  
+      >
+                  <div class='group__header__body'>
+                    <input
+                      id="email"
+                      v-model="posts.email"
+                      type="text"
+                      name="email"
+                      placeholder="Email"
+                    > <br> <br>
 
-    <input
-      id="password"
-      v-model="posts.password"
-      type="password"
-      name="password"
-      placeholder="Password"
-    > <br> <br>
-      <button type="submit">Post</button>
-  </form>
+                    <input
+                      id="password"
+                      v-model="posts.password"
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                    > <br> <br>
+                      <button type="submit">Post</button>
+                  </div>
+      </form>  
+   </div>
   </div>
 </template>
 
@@ -29,7 +33,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
-
   export default{
      name: 'PostComponent',
         data() {
@@ -65,3 +68,30 @@ Vue.use(VueAxios, axios)
           }
   }
 </script>
+<style scoped>
+
+.group {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+* {
+  box-sizing: border-box;
+}
+.group__header{
+  font-size:1.2rem;
+  align-items: center;
+  background-color:rgba(10, 10, 10, 0.288);
+  padding:1rem;
+  border-radius:2rem;
+  color:white;
+  }
+  .group__header__body{
+        padding: 1rem;
+        background-color:rgba(14, 14, 15, 0.205);
+        border-radius:2rem;
+        margin-top:1rem;
+        margin-bottom:1rem;
+        }
+</style>

@@ -22,97 +22,98 @@ module.exports = {
         }
 
         asyncLib.waterfall([
-                function(done) {
-                    models.Message.findOne({
-                            where: { id: messageId }
+            function(done) {
+                models.Message.findOne({
+                        where: { id: messageId }
+                    })
+                    .then(function(messageFound) {
+                        done(null, messageFound);
+                    })
+                    .catch(function(err) {
+                        return res.status(501).json({ 'error': 'unable to verify message' });
+                    });
+            },
+            function(messageFound, done) {
+                if (messageFound) {
+                    models.User.findOne({
+                            where: { id: userId }
                         })
-                        // la fonction messageFound contientle message ciblé
-                        .then(function(messageFound) {
-                            done(null, messageFound);
+                        .then(function(userFound) {
+                            done(null, messageFound, userFound);
                         })
                         .catch(function(err) {
-                            return res.status(500).json({ 'error': 'unable to verify message' });
+                            return res.status(502).json({ 'error': 'unable to verify user' });
                         });
-                },
-                function(messageFound, done) {
-                    if (messageFound) {
-                        models.User.findOne({
-                                where: { id: userId }
-                            })
-                            // la fonction userFound contient l'utilisateur 
-
-                        .then(function(userFound) {
-                                done(null, messageFound, userFound);
-                            })
-                            .catch(function(err) {
-                                return res.status(500).json({ 'error': 'unable to verify user' });
-                            });
-                    } else {
-                        res.status(404).json({ 'error': 'post already liked' });
-                    }
-                },
-                function(messageFound, userFound, done) {
-                    if (userFound) {
-                        models.Like.findOne({
-                                where: {
-                                    userId: userId,
-                                    messageId: messageId
-                                }
-                            })
-                            // la fonction userAlreadyLikedFound connait l'identifiant de l'utilisateur ainsi que celui du message qu'il like
-
-                        .then(function(userAlreadyLikedFound) {
-                                console.log('Mon test:', userAlreadyLikedFound)
-
-                                done(null, messageFound, userFound, userAlreadyLikedFound);
-                            })
-                            .catch(function(err) {
-                                return res.status(500).json({ 'error': 'unable to verify is user already liked' });
-                            });
-                    } else {
-                        res.status(404).json({ 'error': 'user not exist' });
-                    }
-                },
-                function(messageFound, userFound, userAlreadyLikedFound, done) {
-                    if (!userAlreadyLikedFound) {
-                        messageFound.addUser(userFound, { isLike: DISLIKED })
-                            .then(function(alreadyLikeFound) {
-                                done(null, messageFound, userFound);
-                            })
-                            .catch(function(err) {
-                                return res.status(500).json({ 'error': 'unable to set user reaction' });
-                            });
-                    } else {
-                        if (userAlreadyLikedFound.isLike === DISLIKED) {
-                            userAlreadyLikedFound.update({
-                                isLike: LIKED,
-                            }).then(function() {
-                                done(null, messageFound, userFound);
-                            }).catch(function(err) {
-                                res.status(500).json({ 'error': 'cannot update user reaction' });
-                            });
-                        } else {
-                            res.status(409).json({ 'error': 'message already liked' });
-                        }
-                    }
-                },
-                function(messageFound, userFound, done) {
-                    messageFound.update({
-                        likes: messageFound.likes + 1,
-                    }).then(function() {
-                        done(messageFound);
-                    }).catch(function(err) {
-                        res.status(500).json({ 'error': 'cannot update message like counter' });
-                    });
-                },
-            ],
-            function(messageFound) {
-                if (messageFound) {
-                    return res.status(201).json(messageFound);
                 } else {
-                    return res.status(500).json({ 'error': 'cannot update message' });
+                    res.status(404).json({ 'error': 'post already liked' });
                 }
-            });
+            },
+            function(messageFound, userFound, done) {
+                if (userFound) {
+                    models.Like.findOne({
+                            where: {
+                                userId: userId,
+                                messageId: messageId,
+                            }
+                        })
+                        .then(function(userAlreadyLikedFound) {
+                            done(null, messageFound, userFound, userAlreadyLikedFound);
+                        })
+                        .catch(function(err) {
+                            return res.status(503).json({ 'error': 'unable to verify is user already liked' });
+                        });
+                } else {
+                    res.status(404).json({ 'error': 'user not exist' });
+                }
+            },
+            function(messageFound, userFound, userAlreadyLikedFound, done) {
+                if (!userAlreadyLikedFound) {
+
+                    messageFound.addUser(userFound, { isLike: LIKED })
+                        .then(function(alreadyLikeFound) {
+                            done(null, messageFound, userFound);
+                        })
+                        .catch(function(err) {
+                            console.log('toto' + err);
+                            return res.status(504).json({
+                                'error': userId,
+                                messageId,
+                                // 'a t\'il déja liké le messagen° ',
+                                // messageId,
+                                // 'réponse = ',
+                                userAlreadyLikedFound
+                            });
+                        });
+                } else {
+                    if (userAlreadyLikedFound.isLike === DISLIKED) {
+                        userAlreadyLikedFound.update({
+                            isLike: LIKED,
+                        }).then(function() {
+                            done(null, messageFound, userFound);
+                        }).catch(function(err) {
+                            res.status(505).json({ 'error': 'cannot update user reaction' });
+                        });
+                    } else {
+                        res.status(409).json({ 'error': 'message already liked' });
+                    }
+                }
+            },
+            function(messageFound, userFound, done) {
+                messageFound.update({
+                    likes: messageFound.likes + 1,
+                }).then(function() {
+                    done(messageFound);
+                }).catch(function(err) {
+                    res.status(506).json({ 'error': 'cannot update message like counter' });
+                });
+            },
+        ], function(messageFound) {
+            if (messageFound) {
+                return res.status(201).json(messageFound);
+            } else {
+                return res.status(507).json({ 'error': 'cannot update message' });
+            }
+        });
     },
     dislikePost: function(req, res) {
         // Getting auth header
@@ -156,7 +157,10 @@ module.exports = {
                 function(messageFound, userFound, done) {
                     if (userFound) {
                         models.Like.findOne({
-                                where: { userId: userId, messageId: messageId }
+                                where: {
+                                    userId: userId,
+                                    messageId: messageId
+                                }
                             })
                             .then(function(userAlreadyLikedFound) {
                                 done(null, messageFound, userFound, userAlreadyLikedFound);
@@ -170,6 +174,7 @@ module.exports = {
                 },
                 function(messageFound, userFound, userAlreadyLikedFound, done) {
                     if (!userAlreadyLikedFound) {
+                        console.log('traore ' + userFound);
                         messageFound.addUser(userFound, { isLike: DISLIKED })
                             .then(function(alreadyLikeFound) {
                                 done(null, messageFound, userFound);

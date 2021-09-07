@@ -1,24 +1,11 @@
 <template>
-  <div> 
+  <div class='group'>
+   <div class='group__header'> 
   <form
     @submit="postData" 
     method="post"  
   >
-    <!-- <input
-      id="username"
-      v-model="posts.username"
-      type="text"
-      name="username"
-      placeholder="username"
-    > <br> <br>
-    <input
-      id="email"
-      v-model="posts.email"
-      type="text"
-      name="email"
-      placeholder="Email"
-    > <br> <br> -->
-
+      <div class='group__header__body'>
 <label>Biographie </label>
     <input
       id="bio"
@@ -28,7 +15,9 @@
       placeholder="Biographie"
     > <br> <br>
       <button type="submit">Post</button>
+  </div>
   </form>
+  </div>
   </div>
 </template>
 
@@ -75,14 +64,28 @@ Vue.use(VueAxios, axios)
 </script>
 <style scoped>
 
-table,
-td {
-    border: 1px solid #333;
+.group {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
-
-thead,
-tfoot {
-    background-color: #333;
-    color: #fff;
+* {
+  box-sizing: border-box;
 }
+.group__header{
+  font-size:1.2rem;
+  align-items: center;
+  background-color:rgba(10, 10, 10, 0.288);
+  padding:1rem;
+  border-radius:2rem;
+  color:white;
+  }
+  .group__header__body{
+        padding: 1rem;
+        background-color:rgba(14, 14, 15, 0.205);
+        border-radius:2rem;
+        margin-top:1rem;
+        margin-bottom:1rem;
+        }
 </style>
