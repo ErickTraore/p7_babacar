@@ -24,7 +24,7 @@ module.exports = {
           key: 'id'
         }
       },
-      isLike : {
+      isLike: {
         allowNull: false,
         type: Sequelize.INTEGER
       },

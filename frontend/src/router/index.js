@@ -10,61 +10,42 @@ const routes = [{
         component: Home
     },
     {
-        path: '/login',
-        name: 'Login',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+        path: '/connect',
+        name: 'Connect',
         component: () =>
-            import ( /* webpackChunkName: "login" */ '../views/Login.vue')
-    },
-    {
-        path: '/signin',
-        name: 'SignIn',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "signÌn" */ '../views/SignIn.vue')
+            import ('../views/Connection.vue')
     }, {
         path: '/profile',
         name: 'Profile',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () =>
-            import ( /* webpackChunkName: "profile" */ '../views/Profile.vue')
+            import ('../views/Profile.vue')
     }, {
-        path: '/postView',
-        name: 'PostView',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "postView" */ '../views/PostView.vue')
+        path: "/logout",
+        name: "logout",
+        component: {
+            beforeRouteEnter() {
+                logout()
+            }
+        }
     }, {
-        path: '/updateUserProfile',
-        name: 'UpdateUserProfile',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "updateUserProfile" */ '../views/UpdateUserProfile.vue')
-    }, {
-        path: '/messagesNew',
-        name: 'MessagesNew',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "messagesNew" */ '../views/MessagesNew.vue')
-    }
-
-
+        path: '*',
+        name: 'Home',
+        component: Home
+    },
 ]
 
 const router = new VueRouter({
     routes
+})
+
+const logout = () => {
+    localStorage.removeItem('obj');
+    router.push('/connect');
+}
+
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'Connect' && !localStorage.getItem('obj')) next({ name: 'Connect' })
+    else next()
 })
 
 export default router

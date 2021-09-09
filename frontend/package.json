@@ -9,6 +9,7 @@
         "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
     },
     "dependencies": {
+        "@vuejs-community/vue-filter-date-format": "^1.6.3",
         "axios": "^0.21.1",
         "core-js": "^3.16.2",
         "cors": "^2.8.5",
