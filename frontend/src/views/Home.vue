@@ -1,7 +1,38 @@
 <template>
     <div id="app">
 
-        <div class="group">
+ 
+
+        <div class='group__header__body'>
+            <div v-for="message in messages" :key="message.id">
+                <div>
+                    <b>{{ message.User.username }}</b> à écrit le
+                    {{ new Date(message.createdAt) | dateFormat('DD/MM/YYYY') }} à
+                    {{ new Date(message.createdAt) | dateFormat('hh:mm') }} : <br>
+                    <b>{{ message.title }}</b><br>
+                    {{ message.content }}<br>
+                    <!-- <u>Nombre de like:</u> {{ message.likes }} -->
+                </div>
+                <div _ngcontent-cpa-c6="" class="like-buttons">
+                    <div _ngcontent-cpa-c6="" class="likes">
+                        <button
+                                v-on:click="doLike(message.id)">
+                            <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
+                        </button>
+                        <span _ngcontent-cpa-c6="">{{ message.likes }}</span>
+
+                    </div>
+                    <div _ngcontent-cpa-c6="" class="dislikes">
+                        <button
+                                v-on:click="doDislike(message.id)">
+                            <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
+                        </button>
+                        <span _ngcontent-cpa-c6="">{{ message.dislikes }}</span>
+
+                    </div>
+                </div>
+            </div>
+        
             <div class='group__header__body'>
                 <form @submit="postData" method="post">
                     <label>Nouveau message</label> <br> <br>
@@ -25,33 +56,6 @@
                 </form>
             </div>
         </div>
-
-        <div class='group__header__body'>
-            <div v-for="message in messages" :key="message.id">
-                <div>
-                    <b>{{ message.User.username }}</b> à écrit le
-                    {{ new Date(message.createdAt) | dateFormat('DD/MM/YYYY') }} à
-                    {{ new Date(message.createdAt) | dateFormat('hh:mm') }} : <br>
-                    <b>{{ message.title }}</b><br>
-                    {{ message.content }}<br>
-                    <u>Nombre de like:</u> {{ message.likes }}
-                </div>
-                <div _ngcontent-cpa-c6="" class="like-buttons">
-                    <div _ngcontent-cpa-c6="" class="likes">
-                        <button
-                                v-on:click="doLike(message.id)">
-                            <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
-                        </button>
-                    </div>
-                    <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button
-                                v-on:click="doDislike(message.id)">
-                            <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -66,8 +70,8 @@
     data() {
       return {
         messages: [],
-        like: "",
-        dislike: "",
+        likes: 0,
+        dislikes:0,
         posts: {
           title: null,
           content: null,
@@ -76,7 +80,7 @@
     },
     created() {
       axios
-        .get('http://localhost:8080/api/messages/')
+        .get('http://localhost:3000/api/messages/')
         .then(response => this.messages = response.data)
         .catch(error => console.log(error()))
     },
@@ -85,7 +89,7 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:8080/api/messages/' + id + '/vote/like', null, {
+        this.axios.post('http://localhost:3000/api/messages/' + id + '/vote/like', null, {
             headers: {
               'Authorization': token
             }
@@ -93,7 +97,7 @@
         )
           .then(() => {
             axios
-              .get('http://localhost:8080/api/messages/')
+              .get('http://localhost:3000/api/messages/')
               .then(response => this.messages = response.data)
               .catch(error => console.log(error()))
 
@@ -104,7 +108,7 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:8080/api/messages/' + id + '/vote/dislike', null, {
+        this.axios.post('http://localhost:3000/api/messages/' + id + '/vote/dislike', null, {
             headers: {
               'Authorization': token
             }
@@ -112,7 +116,7 @@
         )
           .then(() => {
             axios
-              .get('http://localhost:8080/api/messages/')
+              .get('http://localhost:3000/api/messages/')
               .then(response => this.messages = response.data)
               .catch(error => console.log(error()))
           })
@@ -122,7 +126,7 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:8080/api/messages/new/', this.posts, {
+        this.axios.post('http://localhost:3000/api/messages/new/', this.posts, {
             headers: {
               'Authorization': token
             }
@@ -134,7 +138,7 @@
               content: null,
             };
             axios
-              .get('http://localhost:8080/api/messages/')
+              .get('http://localhost:3000/api/messages/')
               .then(response => this.messages = response.data)
               .catch(error => console.log(error()))
           })

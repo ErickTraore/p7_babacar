@@ -1,5 +1,6 @@
 <template>
     <div class='group__header'>
+     <div>INSCRIPTION</div>
         <form @submit="postData" method="post">
             <div class='group__header__body'>
                 <p v-if="errors.length">
@@ -48,6 +49,11 @@
                 <button class="btn"> S'inscrire</button>
             </div>
         </form>
+         <div>Vous avez déja un compte:</div>
+     <div>
+       <a href="/signin#/login">Connectez-vous içi</a>
+
+       </div>
     </div>
 </template>
 
@@ -58,7 +64,7 @@
 
   Vue.use(VueAxios, axios)
   export default {
-    name: 'PostComponent',
+    name: 'SignupComponent',
     data() {
       return {
         errors: [],
@@ -99,7 +105,7 @@
       },
 
       post: function (user) {
-        this.axios.post('http://localhost:8080/api/users/register/', user)
+        this.axios.post('http://localhost:3000/api/users/register/', user)
           .then(response => {
             this.data = response.data
             // stock token dans localStorage
@@ -110,7 +116,7 @@
             let sessionStore = JSON.stringify(objMySession);
             localStorage.setItem("obj", sessionStore);
             // redirect to /home
-            this.$router.push({path: '/'});
+            this.$router.push({path: '/login'})
           })
           .catch(error => console.log(error()))
       },

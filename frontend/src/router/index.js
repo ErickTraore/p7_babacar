@@ -4,48 +4,64 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+
 const routes = [{
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+
+
     },
     {
-        path: '/connect',
-        name: 'Connect',
+        path: '/login',
+        name: 'Login',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
         component: () =>
-            import ('../views/Connection.vue')
+            import ( /* webpackChunkName: "login" */ '../views/Login.vue')
+    },
+    {
+        path: '/logout',
+        name: 'Logout',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "login" */ '../views/Logout.vue')
+    },
+    {
+        path: '/signup',
+        name: 'Signup',
+
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "signÌn" */ '../views/Signup.vue')
     }, {
         path: '/profile',
         name: 'Profile',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
         component: () =>
-            import ('../views/Profile.vue')
+            import ( /* webpackChunkName: "profile" */ '../views/Profile.vue')
     }, {
-        path: "/logout",
-        name: "logout",
-        component: {
-            beforeRouteEnter() {
-                logout()
-            }
-        }
-    }, {
-        path: '*',
-        name: 'Home',
-        component: Home
-    },
+        path: '/updateUserProfile',
+        name: 'UpdateUserProfile',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "updateUserProfile" */ '../views/UpdateUserProfile.vue')
+    }
 ]
 
 const router = new VueRouter({
     routes
 })
 
-const logout = () => {
-    localStorage.removeItem('obj');
-    router.push('/connect');
-}
 
-router.beforeEach((to, from, next) => {
-    if (to.name !== 'Connect' && !localStorage.getItem('obj')) next({ name: 'Connect' })
-    else next()
-})
 
 export default router

@@ -3,14 +3,12 @@
         <div class='group__header'>
             <div id="app">
                 <div class='group__header__body'>
-                    <h2>Mon compte</h2>
+                    <h2>Mon profil</h2>
                     <div>Pseudo: {{ profile.username }}</div>
                     <div>Email: {{ profile.email }}</div>
                     <div>Biographie: {{ profile.bio }}</div>
                 </div>
             </div>
-        </div>
-        <div class='group__header'>
             <form @submit="postData" method="post">
                 <div class='group__header__body'>
                     <label>Mettre à jour ma biographie</label> <br> <br>
@@ -25,6 +23,7 @@
                 </div>
             </form>
         </div>
+
     </div>
 </template>
 
@@ -47,7 +46,7 @@
       let myStorageToken = JSON.parse(objMySession)
       let token = myStorageToken.myToken;
       axios
-        .get('http://localhost:8080/api/users/me/', {
+        .get('http://localhost:3000/api/users/me/', {
           headers: {
             'Authorization': token
           }
@@ -60,7 +59,7 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.put('http://localhost:8080/api/users/me/', this.posts, {
+        this.axios.put('http://localhost:3000/api/users/me/', this.posts, {
           headers: {
             'Authorization': token
           }
