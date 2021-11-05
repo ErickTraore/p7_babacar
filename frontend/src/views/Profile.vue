@@ -29,6 +29,7 @@
 
 <script>
   import axios from 'axios';
+// import { mapState } from 'vuex';
 
   export default {
     data() {
@@ -59,6 +60,7 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
+
         this.axios.put('http://localhost:3000/api/users/me/', this.posts, {
           headers: {
             'Authorization': token

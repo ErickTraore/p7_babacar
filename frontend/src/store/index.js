@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,31 +9,24 @@ export default new Vuex.Store({
     },
 
     mutations: {
-        nowLogged(state) {
-            let objMySession = localStorage.getItem("obj")
-            let myStorageToken = JSON.parse(objMySession)
-            let token = myStorageToken.myToken;
-            if (token === '!null') {
-                console.log('je suis un YANKEE');
-                console.log('mon_token',
-                    token);
-                state.logged = true
-            } else {
-                console.log('je ne suis pas un YANKEE');
-                console.log('mon_token', token);
-                state.logged = false
-            }
-            // return `${state.logged}`
-            return `state.logged `
+        NOW_LOGGED(state) {
+            state.logged = false
+
         },
-        beforeLogged(state) {
+        BEFORE_LOGGED(state) {
             state.logged = true
         }
 
     },
 
     actions: {
+        nowLogged(context) {
+            context.commit("NOW_LOGGED")
+        },
+        beforeLogged(context) {
+            context.commit("BEFORE_LOGGED")
 
+        }
     },
 
     getters: {

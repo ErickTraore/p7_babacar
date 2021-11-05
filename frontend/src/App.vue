@@ -21,12 +21,11 @@
 <script>
 
 import { mapState } from 'vuex'
-
 export default {
   computed: {
     ...mapState(['logged']),
     // ...mapGetters(['nowLogged'])
-
+// 
   },
   methods:{
 // callLogin(){
