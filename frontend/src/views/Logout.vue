@@ -1,9 +1,9 @@
 <template>
   <div class="Logout">
-      <p>Merci de votre visite
-            <button v-on:click="logoutClick" >  Se Déconnecter </button> </p> <br> 
-       <p> Continuer votre visite  
-            <button v-on:click="continuerClick" >  Retour page d'accueille  </button> </p>
+      <div>Merci de votre visite
+            <button @click="logoutClick"> Se Déconnecter </button> </div> <br> 
+       <div> Continuer votre visite  
+            <button @click="continuerClick" >  Retour page d'accueille  </button> </div>
          <!-- <a href="/Singnup#/signup">page d'acceuil/a> -->
 
 
@@ -11,19 +11,20 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import Vue from 'vue'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 export default {
    methods: {
-      logoutClick: function () {
-    
+      logoutClick () {
+        this.$store.commit('beforeLogged')
          window.localStorage.clear()
         //  <a href = "/login"> page d'acceuil </a> 
 
         },
       continuerClick: function () {
-    
-        //  this.
+    // 
           this.$router.push('/') 
 
         }

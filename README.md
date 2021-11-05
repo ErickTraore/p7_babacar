@@ -12,19 +12,24 @@ create database database_development;
 
 4- Depuis le back, lancer les migrations
 ```
-cd backend
+
 npm install
+cd backend
+
+5- Synchroniser la bdd crée avec les tables du site groupomania.
+sequelize db:drop
+sequelize db:create
 sequelize db:migrate
 ```
 
 #Lancer le projet en local
 
-1- Démarrer le serveur back
+6- Démarrer le serveur back
 ```
 nodemon serve
 ```
 
-2- Démarrer le serveur front 
+7- Démarrer le serveur front 
 ```
 cd ../frontend
 npm install

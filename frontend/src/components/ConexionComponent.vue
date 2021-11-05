@@ -37,8 +37,11 @@
 
 <script>
 import Vue from 'vue'
+import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
+Vue.use(Vuex)
 Vue.use(VueAxios, axios)
   export default{
      name: 'ConexionComponent',
@@ -53,9 +56,12 @@ Vue.use(VueAxios, axios)
         methods:{
               postData(e){
                   // console.warn(this.posts);
+        // this.$store.commit('nowLogged')
+
                 this.axios.post('http://localhost:3000/api/users/login/',this.posts)
                   // .then(reponse => console.log(reponse.data))
                   .then(reponse => {
+
                     this.user = reponse.data
                     // stokage token dans localStorage
                     let objMySession = {
@@ -64,6 +70,7 @@ Vue.use(VueAxios, axios)
                       }
                     let sessionStore = JSON.stringify(objMySession);
                     localStorage.setItem("obj",sessionStore);
+                    this.$store.commit('nowLogged')
                     this.$router.push({path: '/'});
                     })
                   .catch(error => console.log(error()))
