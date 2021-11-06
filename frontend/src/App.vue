@@ -12,6 +12,7 @@
       <!-- <router-link to="/updateUserProfile">maj-profile</router-link> |    -->
       <router-link v-if=logged to="/login">Login</router-link>  
       <router-link v-else  to="/logout">Logout</router-link> | 
+      
     </div>
     </div>
     <router-view/>

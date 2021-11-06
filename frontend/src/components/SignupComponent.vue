@@ -59,6 +59,7 @@
 
 <script>
   import Vue from "vue";
+  
   import VueAxios from "vue-axios";
   import axios from "axios";
 
@@ -108,15 +109,7 @@
         this.axios.post('http://localhost:3000/api/users/register/', user)
           .then(response => {
             this.data = response.data
-            // stock token dans localStorage
-            let objMySession = {
-              myId: this.data.$userId,
-              myToken: this.data.$token
-            }
-            let sessionStore = JSON.stringify(objMySession);
-            localStorage.setItem("obj", sessionStore);
-            // redirect to /home
-            this.$router.push({path: '/login'})
+             this.$router.push({path: '/login'})
           })
           .catch(error => console.log(error()))
       },
