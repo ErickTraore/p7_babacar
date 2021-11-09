@@ -96,5 +96,46 @@ module.exports = {
         }).catch(function(err) {
             res.status(500).json({ "error": "invalid fields" });
         });
-    }
+    },
+    deleteMessage: function(req, res) {
+        // Getting auth header
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                        where: { id: userId }
+                    })
+                    .then(function(userFound) {
+                        done(null, userFound);
+                    })
+                    .catch(function(err) {
+                        return res.status(500).json({ 'error': 'unable to verify user' });
+                    });
+            },
+            function(userFound, done) {
+                if (userFound) {
+                    models.Message.findOne({
+                            title: title,
+                            content: content,
+                            likes: 0,
+                            dislikes: 0,
+                            UserId: userFound.id
+                        })
+                        .then(function(newMessage) {
+                            done(newMessage);
+                        });
+                } else {
+                    res.status(404).json({ 'error': 'user not found' });
+                }
+            },
+        ], function(newMessage) {
+            if (newMessage) {
+                return res.status(201).json(newMessage);
+            } else {
+                return res.status(500).json({ 'error': 'cannot post message' });
+            }
+        });
+    },
 }

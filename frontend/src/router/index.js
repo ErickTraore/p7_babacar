@@ -39,7 +39,8 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "signÌn" */ '../views/Signup.vue')
-    }, {
+    },
+    {
         path: '/profile',
         name: 'Profile',
         // route level code-splitting
@@ -55,6 +56,12 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "updateUserProfile" */ '../views/UpdateUserProfile.vue')
+    },
+    {
+        path: '/compte',
+        name: 'Compte',
+        component: () =>
+            import ( /* webpackChunkName: "login" */ '../views/Compte.vue')
     }, {
         path: '*',
         name: 'NotFound',

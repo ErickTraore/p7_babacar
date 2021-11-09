@@ -7,6 +7,7 @@ export default new Vuex.Store({
 
     state: {
         logged: true,
+        role: false
 
     },
     plugins: [createPersistedState()],
@@ -28,7 +29,8 @@ export default new Vuex.Store({
         beforeLogged(context) {
             context.commit("BEFORE_LOGGED")
 
-        }
+        },
+
     },
 
     getters: {

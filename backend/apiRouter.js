@@ -7,21 +7,24 @@ const auth = require('./middleware/auth');
 const router = express.Router();
 
 // Router
-exports.router = (function () {
-  var router = express.Router();
-  // Users routes
-  router.post('/users/register/', usersCtrl.register);
-  router.post('/users/login/', usersCtrl.login);
-  router.get('/users/me/', usersCtrl.getUserProfile);
-  router.put('/users/me/', usersCtrl.updateUserProfile);
+exports.router = (function() {
+    var router = express.Router();
+    // Users routes
+    router.post('/users/register/', usersCtrl.register);
+    router.post('/users/login/', usersCtrl.login);
+    router.get('/users/me/', usersCtrl.getUserProfile);
+    router.get('/users/', usersCtrl.listUsers);
+    router.post('/users/:userId/del', usersCtrl.destroyUser);
+    router.post('/users/:userId/delMe', usersCtrl.delMeUser);
+    router.put('/users/me/', usersCtrl.updateUserProfile);
 
-  // Messages routes
-  router.post('/messages/new/', messagesCtrl.createMessage);
-  router.get('/messages/', messagesCtrl.listMessages);
+    // Messages routes
+    router.post('/messages/new/', messagesCtrl.createMessage);
+    router.get('/messages/', messagesCtrl.listMessages);
 
-  // Likes
-  router.post('/messages/:messageId/vote/like', likesCtrl.likePost);
-  router.post('/messages/:messageId/vote/dislike', likesCtrl.dislikePost);
-  return router;
+    // Likes
+    router.post('/messages/:messageId/vote/like', likesCtrl.likePost);
+    router.post('/messages/:messageId/vote/dislike', likesCtrl.dislikePost);
+    return router;
 
 })();
