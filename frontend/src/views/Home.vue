@@ -195,14 +195,14 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
         background-color: rgb(172, 204, 214);
-        border:3px solid rgb(66, 63, 63) ;
     }
     .group__header__body__first {
-        background-color: rgb(217, 219, 214);
+        height: 100%;
 
     }
      .group__header__body__second {
-        background-color: rgb(134, 143, 136);
+        height: 100%;
+        background-color: rgb(217, 219, 214);
 
     }
     .like-buttons[_ngcontent-cpa-c6] {

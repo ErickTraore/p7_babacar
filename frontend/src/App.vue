@@ -62,12 +62,15 @@ export default {
 <style>
 
 .nav__in{
-border: 3px solid rgb(151, 143, 143);
+border: 3px solid white;
 }
 .nav__down{
-   width: 100%;
+   min-width: 300PX;
+  width: 100%;
   height: 100%;
-background-color: rgb(168, 165, 160);}
+border: 3px solid white;
+
+}
 img {
   width: 100%;
   height: 100%;
