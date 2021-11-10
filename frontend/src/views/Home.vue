@@ -1,18 +1,22 @@
 <template>
     <div id="app">
-        <div class='group__header__body'>
+        <div class="group__header__body">
 
             <div v-for="item  in messages" :key="item .id">
             <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
               <!-- <tr v-for="item in items | paginate"> -->
-                <div>
-                    <b>{{ item .User.username }}</b> à écrit le
-                    {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
-                    {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
-                    <b>{{ item .title }}</b><br>
-                    {{ item .content }}<br>                  <!-- <u>Nombre de like:</u> {{ message.likes }} -->
+                <div class="group__header__body__first"> 
+                   <div class="group__header__body__first__in"> 
+                      <b>{{ item .User.username }}</b> à écrit le
+                      {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
+                      {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
+                      <b>{{ item .title }}</b><br>
+                  </div>
+                   <div class="group__header__body__first__down"> 
+                     {{ item .content }}<br> 
+                    </div>             <!-- <u>Nombre de like:</u> {{ message.likes }} -->
                 </div>
-                <div _ngcontent-cpa-c6="" class="like-buttons">
+                <div _ngcontent-cpa-c6="" class="like-buttons group__header__body__second">
                     <div _ngcontent-cpa-c6="" class="likes">
                         <button id="dolike"
                                 v-on:click="doLike(item .id)">
@@ -184,7 +188,6 @@
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        border:3px solid red ;
     }
     .group__header__body {
         padding: 1rem;
@@ -193,7 +196,13 @@
         margin-bottom: 1rem;
         background-color: rgb(172, 204, 214);
         border:3px solid rgb(66, 63, 63) ;
+    }
+    .group__header__body__first {
+        background-color: rgb(217, 219, 214);
 
+    }
+     .group__header__body__second {
+        background-color: rgb(134, 143, 136);
 
     }
     .like-buttons[_ngcontent-cpa-c6] {
@@ -203,9 +212,6 @@
     .dislikes[_ngcontent-cpa-c6], .likes[_ngcontent-cpa-c6] {
         margin: 0 .3em;
     }
-    .dolile{
-        border:10px solid rgba(29, 22, 22, 0.075) ;
-
-    }
+  
  
 </style>

@@ -1,17 +1,18 @@
 <template>
-  <div id="app">   
-    <div id="nav"><div>
-    <img alt="Vue logo" src="./assets/logo.png"> 
-  </div>
-  <div>
-      <router-link to="/">Home</router-link> |
-      <router-link v-if= !testBool  to="/compte">Admin</router-link> |  
-      <router-link to="/profile">Profile</router-link> |  
-      <router-link v-if=logged to="/login">Login</router-link>  
-      <router-link v-else  to="/logout">Logout</router-link> | 
-  </div>
-  </div>
-    <router-view/>
+   <div class="nav">
+            <div class="nav__in" id="app">   
+                  <img alt="Vue logo" src="./assets/logo4.png"> 
+            </div>
+            <div class="nav__down">
+              <router-link to="/">Home</router-link> |
+              <router-link to="/profile">Profile</router-link> |  
+              <router-link v-if=logged to="/login">Login</router-link>  
+              <router-link v-else  to="/logout">Logout</router-link> | 
+              <router-link v-if= testBool  to="/compte">Admin</router-link> 
+
+           </div>
+                                                <router-view/>
+
   </div>
 </template>
 
@@ -58,6 +59,19 @@ export default {
  
 };
 </script>
+<style>
 
+.nav__in{
+border: 3px solid rgb(151, 143, 143);
+}
+.nav__down{
+   width: 100%;
+  height: 100%;
+background-color: rgb(168, 165, 160);}
+img {
+  width: 100%;
+  height: 100%;
+}
+</style>
 
 
