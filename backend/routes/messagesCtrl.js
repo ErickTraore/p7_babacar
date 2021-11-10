@@ -133,41 +133,37 @@ module.exports = {
                     models.Message.findOne({
                             where: {
                                 id: messageId,
-                                // userId: userLive.id
                             }
                         })
                         .then(function(messageLive) {
-                            // return res.status(200).json({ userLive });
-                            done(null, messageLive);
-
+                            done(null, messageLive, userLive);
                         })
                         .catch(function(error) {
-                            return res.status(502).json({ 'error': 'unable to load message' });
+                            return res.status(502).json({ 'error': 'is not the owner message' });
                         });
                 } else {
-                    res.status(404).json({ 'error': 'utilisateur inconnu' });
+                    return res.status(201).json({ 'error': 'You are not the owner message' });
                 }
             },
-            function(messageLive, done) {
-                if (messageLive) {
+            function(messageLive, userLive, done) {
+                if (messageLive.userId == userLive.id) {
                     models.Message.destroy({
                             where: {
                                 id: messageId,
-                                userId: userLive.id
                             }
                         })
-                        .then(function(delMessage) {
+                        .then(function() {
                             done(delMessage);
                         })
                         .catch(function(err) {
-                            return res.status(500).json({ 'error': 'unable to destroy message' });
+                            return res.status(404).json({ 'error': 'unable to destroy message' });
                         });
                 } else {
-                    res.status(404).json({ 'error': 'user not found' });
+                    res.status(404).json({ 'error': 'unable to load message found' });
                 }
             },
         ], function(delMessage) {
-            if (!delMessage) {
+            if (delMessage) {
                 return res.status(201).json('message delete');
             } else {
                 return res.status(500).json({ 'error': 'cannot delete message' });

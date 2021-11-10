@@ -54,8 +54,7 @@
             headers: {
               'Authorization': token
             }
-          }
-        )
+          })
               .then(response => this.users = response.data)
               .catch(error => console.log(error()))
 

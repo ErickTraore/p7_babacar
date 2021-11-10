@@ -285,115 +285,50 @@ module.exports = {
         });
 
     },
-    userAdmin: function(req, res) {
-        var userId = -1;
-        var headerAuth = req.headers['authorization'];
-        var userId = jwtUtils.getUserId(headerAuth);
-        console.log('Utilisateur', userId);
-        console.log(headerAuth);
-        if (userId <= 0) {
-            return res.status(400).json({ 'error': 'invalid parameters' });
-        }
-        models.User.findOne({
-                where: {
-                    id: userId
-                }
-            })
-            .then(response => userNow)
-            .catch(error => console.log(error()))
-    },
-    delMeUser: function(req, res) {
-        var headerAuth = req.headers['authorization'];
-        var userId = jwtUtils.getUserId(headerAuth);
-        var destroyId = -1;
-        console.log('Utilisateur', userId);
-        console.log(headerAuth);
 
-        // Params
-        var destroyId = parseInt(req.params.userId);
-        console.log('destroyId', destroyId);
-
-        if (destroyId <= 0) {
-            return res.status(400).json({ 'error': 'invalid parameters' });
-        }
-
-        models.Like.destroy({
-            where: {
-                userId: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-        models.Message.destroy({
-            where: {
-                userId: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-        models.User.destroy({
-            where: {
-                id: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-
-    },
     destroyProfil: function(req, res) {
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
-        var destroyId = -1;
         console.log('Utilisateur', userId);
         console.log(headerAuth);
 
-        // Params
-        var destroyId = parseInt(req.params.userId);
-        console.log('destroyId', destroyId);
-
-        if (destroyId <= 0) {
+        if (userId <= 0) {
             return res.status(400).json({ 'error': 'invalid parameters' });
         }
 
-        models.Like.destroy({
-            where: {
-                userId: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-        models.Message.destroy({
-            where: {
-                userId: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-        models.User.destroy({
-            where: {
-                id: destroyId
-            }
-        }).then(count => {
-            if (!count) {
-                res.status(204).send();
-            }
-            res.status(204).send();
-        });
-
-    },
+        asyncLib.waterfall([
+                // on charge le message concerné dans la variable messageFound..
+                function(done) {
+                    models.User.findOne({
+                            where: {
+                                id: userId
+                            }
+                        })
+                        .then(function(userLive) {
+                            done(userLive);
+                        })
+                        .catch(function(error) {
+                            return res.status(500).json({ 'error': 'unable to load user' });
+                        });
+                },
+            ],
+            function(userLive, done) {
+                if (userLive) {
+                    models.Message.destroy({
+                            where: {
+                                id: messageId,
+                            }
+                        })
+                        .then(function() {
+                            done(delMessage);
+                        })
+                        .catch(function(err) {
+                            return res.status(404).json({ 'error': 'unable to destroy message' });
+                        });
+                } else {
+                    res.status(404).json({ 'error': 'user not found' });
+                }
+            },
+        )
+    }
 }

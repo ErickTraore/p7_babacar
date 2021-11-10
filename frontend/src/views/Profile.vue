@@ -20,7 +20,7 @@
                             v-model="posts.bio"
                     ></textarea> <br> <br>
                     <button type="submit">Soumettre</button>
-                    <button type="submit" @click=delProfil>Supprimer</button>
+                    <button @click="delProfil()">Supprimer</button>
                 </div>
             </form>
         </div>
