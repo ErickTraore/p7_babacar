@@ -13,6 +13,7 @@ exports.router = (function() {
     router.post('/users/register/', usersCtrl.register);
     router.post('/users/login/', usersCtrl.login);
     router.get('/users/me/', usersCtrl.getUserProfile);
+    router.post('/users/delProfil', usersCtrl.destroyProfil);
     router.get('/users/', usersCtrl.listUsers);
     router.post('/users/:userId/del', usersCtrl.destroyUser);
     router.post('/users/:userId/delMe', usersCtrl.delMeUser);

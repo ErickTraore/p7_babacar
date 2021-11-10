@@ -133,7 +133,7 @@ module.exports = {
                     models.Message.findOne({
                             where: {
                                 id: messageId,
-                                userId: userLive.id
+                                // userId: userLive.id
                             }
                         })
                         .then(function(messageLive) {

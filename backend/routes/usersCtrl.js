@@ -349,4 +349,51 @@ module.exports = {
         });
 
     },
+    destroyProfil: function(req, res) {
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var destroyId = -1;
+        console.log('Utilisateur', userId);
+        console.log(headerAuth);
+
+        // Params
+        var destroyId = parseInt(req.params.userId);
+        console.log('destroyId', destroyId);
+
+        if (destroyId <= 0) {
+            return res.status(400).json({ 'error': 'invalid parameters' });
+        }
+
+        models.Like.destroy({
+            where: {
+                userId: destroyId
+            }
+        }).then(count => {
+            if (!count) {
+                res.status(204).send();
+            }
+            res.status(204).send();
+        });
+        models.Message.destroy({
+            where: {
+                userId: destroyId
+            }
+        }).then(count => {
+            if (!count) {
+                res.status(204).send();
+            }
+            res.status(204).send();
+        });
+        models.User.destroy({
+            where: {
+                id: destroyId
+            }
+        }).then(count => {
+            if (!count) {
+                res.status(204).send();
+            }
+            res.status(204).send();
+        });
+
+    },
 }

@@ -20,7 +20,7 @@
                             v-model="posts.bio"
                     ></textarea> <br> <br>
                     <button type="submit">Soumettre</button>
-                    <button type="submit">Supprimer</button>
+                    <button type="submit" @click=delProfil>Supprimer</button>
                 </div>
             </form>
         </div>
@@ -73,6 +73,22 @@
           .catch(error => console.log(error()))
 
         e.preventDefault();
+      }, 
+      delProfil() {
+        let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let token = myStorageToken.myToken;
+
+        this.axios.post('http://localhost:3000/api/users/delProfil', null, {
+          headers: {
+            'Authorization': token
+          }
+        })
+          .then(response => {
+            this.profile = response.data
+          })
+          .catch(error => console.log(error()))
+
       }
     }
   }
