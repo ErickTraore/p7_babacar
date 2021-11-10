@@ -31,7 +31,7 @@
                      <div _ngcontent-cpa-c6="" class="dislikes">
                         <button
                                 v-on:click="doDelete(item .id)">
-                           Supprimez 
+                           Supprimer
                         </button>
                     </div>
                 </div>
@@ -167,19 +167,13 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:3000/api/messages/' + id + '/vote/dislike', null, {
+        this.axios.post('http://localhost:3000/api/messages/' + id + '/del', null, {
             headers: {
               'Authorization': token
             }
-          }
-        )
-          .then(() => {
-            axios
-              .get('http://localhost:3000/api/messages/')
+          })
               .then(response => this.messages = response.data)
               .catch(error => console.log(error()))
-          })
-          .catch(error => console.log(error()))
       },
     }
   }

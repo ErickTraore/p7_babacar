@@ -97,45 +97,81 @@ module.exports = {
             res.status(500).json({ "error": "invalid fields" });
         });
     },
-    deleteMessage: function(req, res) {
+    delMessPost: function(req, res) {
         // Getting auth header
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
+        console.log('Utilisateur', userId);
+        console.log(headerAuth);
+
+        // Params
+        var messageId = parseInt(req.params.messageId);
+        console.log('message.id', messageId);
+
+        if (messageId <= 0) {
+            return res.status(400).json({ 'error': 'invalid parameters' });
+        }
 
         asyncLib.waterfall([
+            // on charge le message concerné dans la variable messageFound..
             function(done) {
                 models.User.findOne({
-                        where: { id: userId }
+                        where: {
+                            id: userId
+                        }
                     })
-                    .then(function(userFound) {
-                        done(null, userFound);
+                    .then(function(userLive) {
+                        done(null, userLive);
                     })
-                    .catch(function(err) {
-                        return res.status(500).json({ 'error': 'unable to verify user' });
+                    .catch(function(error) {
+                        return res.status(500).json({ 'error': 'unable to load user' });
                     });
             },
-            function(userFound, done) {
-                if (userFound) {
+            function(userLive, done) {
+                if (userLive) {
+
                     models.Message.findOne({
-                            title: title,
-                            content: content,
-                            likes: 0,
-                            dislikes: 0,
-                            UserId: userFound.id
+                            where: {
+                                id: messageId,
+                                userId: userLive.id
+                            }
                         })
-                        .then(function(newMessage) {
-                            done(newMessage);
+                        .then(function(messageLive) {
+                            // return res.status(200).json({ userLive });
+                            done(null, messageLive);
+
+                        })
+                        .catch(function(error) {
+                            return res.status(502).json({ 'error': 'unable to load message' });
+                        });
+                } else {
+                    res.status(404).json({ 'error': 'utilisateur inconnu' });
+                }
+            },
+            function(messageLive, done) {
+                if (messageLive) {
+                    models.Message.destroy({
+                            where: {
+                                id: messageId,
+                                userId: userLive.id
+                            }
+                        })
+                        .then(function(delMessage) {
+                            done(delMessage);
+                        })
+                        .catch(function(err) {
+                            return res.status(500).json({ 'error': 'unable to destroy message' });
                         });
                 } else {
                     res.status(404).json({ 'error': 'user not found' });
                 }
             },
-        ], function(newMessage) {
-            if (newMessage) {
-                return res.status(201).json(newMessage);
+        ], function(delMessage) {
+            if (!delMessage) {
+                return res.status(201).json('message delete');
             } else {
-                return res.status(500).json({ 'error': 'cannot post message' });
+                return res.status(500).json({ 'error': 'cannot delete message' });
             }
         });
-    },
+    }
 }
