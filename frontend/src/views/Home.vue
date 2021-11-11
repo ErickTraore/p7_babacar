@@ -248,7 +248,7 @@ border: solid 1px black;
  }
   .spanDislikes{
 padding: 0px 7px 0px 7px;
-background: rgb(230, 122, 122);
+/* background: rgb(230, 122, 122); */
 border: solid 1px black;
  }
  .colorRed{
@@ -256,11 +256,10 @@ border: solid 1px black;
    font-size: 8px;
    }
    .container{
-border: solid 5px rgb(189, 182, 182);
-background: rgba(248, 247, 247, 0.801);
-
-border-radius: 20px;
-margin: 5px;
+    border: solid 5px rgb(189, 182, 182);
+    background: rgba(248, 247, 247, 0.801);
+    border-radius: 20px;
+    margin: 5px;
    }
    .labelForm {
      color:white;
