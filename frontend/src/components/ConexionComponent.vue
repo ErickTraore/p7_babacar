@@ -35,7 +35,7 @@
         </form>
       <div>Vous n'avez pas de compte:</div>
      <div>
-       <a href="/Singnup#/signup">Créer un compte</a>
+       <a class="labelForm" href="/Singnup#/signup">Créer un compte</a>
 
        </div>
     </div>
@@ -120,19 +120,28 @@
     * {
         box-sizing: border-box;
     }
+
     .group__header {
         font-size: 1.2rem;
         align-items: center;
-        background-color: rgba(10, 10, 10, 0.288);
         padding: 1rem;
         border-radius: 2rem;
         color: white;
+          background-color: rgb(35, 49, 82);
+
+
+
     }
+
     .group__header__body {
         padding: 1rem;
-        background-color: rgba(14, 14, 15, 0.205);
+        background-color: rgba(196, 192, 192, 0.849);
+
         border-radius: 2rem;
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+     .labelForm {
+     color:white;
+   }
 </style>

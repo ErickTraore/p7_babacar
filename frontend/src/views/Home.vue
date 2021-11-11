@@ -248,7 +248,7 @@ border: solid 1px black;
  }
   .spanDislikes{
 padding: 0px 7px 0px 7px;
-/* background: rgb(230, 122, 122); */
+background: rgb(230, 122, 122);
 border: solid 1px black;
  }
  .colorRed{
