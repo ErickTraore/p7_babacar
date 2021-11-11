@@ -2,7 +2,7 @@
     <div id="app">
         <div class="group__header__body">
 
-            <div v-for="item  in messages" :key="item .id">
+            <div class="container" v-for="item  in messages" :key="item .id">
             <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
               <!-- <tr v-for="item in items | paginate"> -->
                 <div class="group__header__body__first"> 
@@ -24,7 +24,7 @@
                                     v-on:click="doLike(item .id)">
                                 <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
                             </button>
-                            <span _ngcontent-cpa-c6="">{{ item .likes }}</span>
+                            <span class="spanLikes" _ngcontent-cpa-c6="">{{ item .likes }}</span>
 
                         </div>
                         <div _ngcontent-cpa-c6="" class="dislikes">
@@ -32,29 +32,26 @@
                                     v-on:click="doDislike(item .id)">
                                 <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
                             </button>
-                            <span _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
+                            <span class="spanDislikes" _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
                         </div>
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button
+                        <button class="colorRed"
                                 v-on:click="doDelete(item .id)">
-                           Supprimer
+                           Supprimer votre message
                         </button>
                     </div>
                   </div>
 
                 </div>
                  <ul>
-    <!-- <li v-for="pageNumber in totalPages">
-      <a href="#" @click="setPage(pageNumber)">{{ pageNumber+1 }}</a>
-    </li> -->
   </ul>
             </div>
         
             <div class='group__header__body'>
                 <form @submit="postData" method="post">
-                    <label>Nouveau message</label> <br> <br>
+                    <label class="labelForm">Nouveau message</label> <br> <br>
                     <input
                             id="title"
                             v-model="posts.title"
@@ -200,14 +197,15 @@
         border-radius: 2rem;
         margin-top: 1rem;
         margin-bottom: 1rem;
-        background-color: rgb(193, 200, 202);
+        background-color: rgb(35, 49, 82);
     }
     .group__header__body__first {
         height: 100%;
-
+        margin: 5px;
     }
     .group__header__body__first__in {
         font-size: 10px;
+
 
      }
     .group__header__body__first__down {
@@ -218,7 +216,7 @@
      }
      .group__header__body__second {
         height: 100%;
-        background-color: rgb(217, 219, 214);
+        /* background-color: rgb(104, 161, 18); */
 
     }
     .like-buttons[_ngcontent-cpa-c6] {
@@ -235,11 +233,36 @@ justify-content: space-between;
   }
   .left{
         display: flex;
+        
 
   }
   .right{
         display: flex;
 
   }
- 
+ .spanLikes{
+padding: 0px 7px 0px 7px;
+background: rgb(134, 228, 139);
+border: solid 1px black;
+
+ }
+  .spanDislikes{
+padding: 0px 7px 0px 7px;
+background: rgb(230, 122, 122);
+border: solid 1px black;
+ }
+ .colorRed{
+   color: red;
+   font-size: 8px;
+   }
+   .container{
+border: solid 5px rgb(189, 182, 182);
+background: rgba(248, 247, 247, 0.801);
+
+border-radius: 20px;
+margin: 5px;
+   }
+   .labelForm {
+     color:white;
+   }
 </style>
