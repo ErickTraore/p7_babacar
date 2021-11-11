@@ -12,32 +12,38 @@
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
                       <b>{{ item .title }}</b><br>
                   </div>
+                 
                    <div class="group__header__body__first__down"> 
                      {{ item .content }}<br> 
                     </div>             <!-- <u>Nombre de like:</u> {{ message.likes }} -->
                 </div>
-                <div _ngcontent-cpa-c6="" class="like-buttons group__header__body__second">
-                    <div _ngcontent-cpa-c6="" class="likes">
-                        <button id="dolike"
-                                v-on:click="doLike(item .id)">
-                            <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
-                        </button>
-                        <span _ngcontent-cpa-c6="">{{ item .likes }}</span>
+                <div _ngcontent-cpa-c6="" class="position like-buttons group__header__body__second">
+                  <div class="left">
+                        <div _ngcontent-cpa-c6="" class="likes">
+                            <button id="dolike"
+                                    v-on:click="doLike(item .id)">
+                                <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
+                            </button>
+                            <span _ngcontent-cpa-c6="">{{ item .likes }}</span>
 
-                    </div>
-                    <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button
-                                v-on:click="doDislike(item .id)">
-                            <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
-                        </button>
-                        <span _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
-                    </div>
+                        </div>
+                        <div _ngcontent-cpa-c6="" class="dislikes">
+                            <button
+                                    v-on:click="doDislike(item .id)">
+                                <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
+                            </button>
+                            <span _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
+                        </div>
+                  </div>
+                  <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
                         <button
                                 v-on:click="doDelete(item .id)">
                            Supprimer
                         </button>
                     </div>
+                  </div>
+
                 </div>
                  <ul>
     <!-- <li v-for="pageNumber in totalPages">
@@ -194,12 +200,22 @@
         border-radius: 2rem;
         margin-top: 1rem;
         margin-bottom: 1rem;
-        background-color: rgb(172, 204, 214);
+        background-color: rgb(193, 200, 202);
     }
     .group__header__body__first {
         height: 100%;
 
     }
+    .group__header__body__first__in {
+        font-size: 10px;
+
+     }
+    .group__header__body__first__down {
+        font-size: 14px;
+        background-color:white;
+
+
+     }
      .group__header__body__second {
         height: 100%;
         background-color: rgb(217, 219, 214);
@@ -212,6 +228,18 @@
     .dislikes[_ngcontent-cpa-c6], .likes[_ngcontent-cpa-c6] {
         margin: 0 .3em;
     }
-  
+  .position{
+        display: flex;
+justify-content: space-between;
+
+  }
+  .left{
+        display: flex;
+
+  }
+  .right{
+        display: flex;
+
+  }
  
 </style>

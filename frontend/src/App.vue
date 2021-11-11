@@ -82,7 +82,6 @@ border-radius: 30px;
 border: 3px solid rgb(230, 122, 122);
 margin: 5px;
 padding: 5px;
-text-align: 16px;
 font-size: 10px;
 font-weight: bold;
 background: rgb(231, 216, 216);
