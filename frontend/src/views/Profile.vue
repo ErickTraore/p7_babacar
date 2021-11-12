@@ -9,18 +9,34 @@
                     <div>Biographie: {{ profile.bio }}</div>
                 </div>
             </div>
+          
             <form @submit="postData" method="post">
                 <div class='group__header__body'>
-                    <label>Mettre à jour ma biographie</label> <br> <br>
+                    <label>Mettre à jour ma biographie</label><br>
                     <textarea
                             id="bio"
                             name="bio"
                             placeholder="Biographie"
                             type="text"
                             v-model="posts.bio"
-                    ></textarea> <br> <br>
+                    ></textarea><br>
                     <button type="submit">Soumettre</button>
-                    <button @click="delProfil()">Supprimer</button>
+                </div>
+            </form>
+            <form @submit="postData" method="post">
+                <div class='group__header__body'>
+                    <label>Mettre à jour ma photo profile</label> <br>
+                   <div id='main'>
+                    <input type="file" name="picture" id="picture"><br>
+                    <!-- Input text lié à une variable de vuejs pour le texte alternatif de l'image -->
+                    <input type="text" name="alt-picture" id="" placeholder="alt text" v-model="alt_text"> <br>
+                    <!-- Le bouton d'envoi lié à une fonction d'envoi -->
+                    <button @click="envoi()">Envoyer</button>
+                </div>
+                </div>
+                <div>
+                    <button class="colorRed" @click="delProfil()">Supprimer mon compte</button>
+
                 </div>
             </form>
         </div>
@@ -33,8 +49,10 @@
 // import { mapState } from 'vuex';
 
   export default {
+     name: 'App',
     data() {
       return {
+        alt_text: '',
         profile: '',
         posts: {
           username: '',
@@ -89,7 +107,22 @@
           })
           .catch(error => console.log(error()))
 
-      }
+      },envoi(){
+      // Récupération de l'image
+      let img = document.getElementById('picture').files[0]
+      // Création d'un formData obligatoire pour envoi de l'image
+        var formData = new FormData()
+        formData.append('img', img)
+        formData.append('alt_text', this.alt_text)
+        // Envoi des données sur l'url du serveur (mettez la votre) en POST en envoyant le formData contenant notre image et notre texte
+        axios.post('http://localhost:3000/upload_image', formData)
+          .then((resp) => {
+            console.log(resp)
+          })
+          .catch((err) => {
+            console.log(err.response)
+          })
+    }
     }
   }
 
@@ -126,4 +159,8 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+    .colorRed{
+   color: red;
+   font-size: 10px;
+   }
 </style>

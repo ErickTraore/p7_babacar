@@ -6,6 +6,9 @@ var likesCtrl = require('./routes/likesCtrl');
 const auth = require('./middleware/auth');
 const router = express.Router();
 
+const { updateAnUserImage } = require('./routes/usersCtrl.js');
+const upload = require('./upload.js')
+
 // Router
 exports.router = (function() {
     var router = express.Router();
@@ -24,6 +27,8 @@ exports.router = (function() {
     router.post('/messages/:messageId/del', messagesCtrl.delMessPost);
     router.post('/messages/:messageId/vote/like', likesCtrl.likePost);
     router.post('/messages/:messageId/vote/dislike', likesCtrl.dislikePost);
+    router.patch('/user/:_id', upload, updateAnUserImage);
+
     return router;
 
 })();

@@ -253,7 +253,7 @@ border: solid 1px black;
  }
  .colorRed{
    color: red;
-   font-size: 8px;
+   font-size: 10px;
    }
    .container{
     border: solid 5px rgb(189, 182, 182);
