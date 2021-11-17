@@ -4,6 +4,9 @@ var asyncLib = require('async');
 var jwtUtils = require('../utils/jwt.utils');
 const usersCtrl = require('./usersCtrl');
 
+const fileUpload = require("express-fileupload");
+const path = require("path");
+const util = require('util');
 
 // httpServer.listen(8080);
 // Constants
@@ -169,5 +172,35 @@ module.exports = {
                 return res.status(500).json({ 'error': 'cannot delete message' });
             }
         });
+    },
+    uploadImage: async function(req, res) {
+
+        try {
+
+            var file = req.files.file;
+            var fileName = file.name;
+            var size = file.data.length;
+            var extension = path.extname(fileName);
+            var allowedExtensions = /png|jpeg|jpg|gif/;
+
+            if (!allowedExtensions.test(extension)) throw "unsupported extension!";
+            if (size > 5000000) throw "File must be less than 5 MB";
+
+
+            const md5 = file.md5;
+            const URL = "/uploads/" + md5 + extension;
+
+            await util.promisify(file.mv)("./public" + URL);
+            res.status(201).json({
+                message: "File uploaded successfully!"
+
+            })
+        } catch (err) {
+            console.log(err);
+            res.status(501).json({
+                message: err,
+            });
+        };
+
     }
 }

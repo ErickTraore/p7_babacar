@@ -12,9 +12,15 @@ server.use((req, res, next) => {
     next();
 });
 
+const fileUpload = require("express-fileupload");
+
 // Body Parser configuration
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
+
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+server.use(fileUpload());
 
 //Configure routes
 server.get('/', function(req, res) {
@@ -27,5 +33,5 @@ server.use('/api/', apiRouter);
 
 // Launch server
 server.listen(3000, function() {
-    console.log('Server en écoute :)');
+    console.log('Server en écoute :');
 });

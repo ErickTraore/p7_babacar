@@ -24,6 +24,9 @@ exports.router = (function() {
     router.post('/messages/:messageId/del', messagesCtrl.delMessPost);
     router.post('/messages/:messageId/vote/like', likesCtrl.likePost);
     router.post('/messages/:messageId/vote/dislike', likesCtrl.dislikePost);
+
+    router.post("/upload", messagesCtrl.uploadImage);
+
     return router;
 
 })();
