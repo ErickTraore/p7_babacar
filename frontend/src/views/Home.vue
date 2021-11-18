@@ -162,13 +162,6 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-
-
-        const fd= new FormData();
-        fd.append('image', this.selectedFile,this.selectedFile.name)
-
-
-
       
         this.axios.post('http://localhost:3000/api/messages/new/', this.posts, {
             headers: {
