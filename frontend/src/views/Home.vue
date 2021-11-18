@@ -96,6 +96,7 @@
   export default {
     data() {
       return {
+        image:'',
         messages: [],
         likes: 0,
         dislikes:0,
