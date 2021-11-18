@@ -24,6 +24,7 @@ module.exports = {
         // Params
         var title = req.body.title;
         var content = req.body.content;
+        var attachment = req.body.attachment;
         if (title == null || content == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
@@ -49,6 +50,7 @@ module.exports = {
                     models.Message.create({
                             title: title,
                             content: content,
+                            attachment: attachment || null,
                             likes: 0,
                             dislikes: 0,
                             UserId: userFound.id

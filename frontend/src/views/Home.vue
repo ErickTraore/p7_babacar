@@ -50,7 +50,7 @@
             </div>
         
             <div class='group__header__body'>
-                <form @submit="postData" method="post">
+                <form @submit="postData" method="post" enctype="multipart/form-data">
                     <label class="labelForm">Nouveau message</label> <br> <br>
                     <input
                             id="title"
@@ -66,9 +66,19 @@
                             type="text"
                             name="content"
                             placeholder="Contenu"
-                    > <br> <br>
-
-                    <button type="submit">Envoyer</button>
+                    > <br> 
+           <div>
+                          <div v-if="!image">
+                            <h2>Select an image</h2>
+                            <input type="file" @change="onFileChange">
+                          </div>
+                          <div v-else>
+                            <img :src="image" />
+                            <button @click="removeImage">Remove image</button>
+                          </div>
+                        </div>
+            <br><br>
+                      <button type="submit">Envoyer</button>
                 </form>
             </div>
         </div>
@@ -160,6 +170,7 @@
             this.posts = {
               title: null,
               content: null,
+              attachment: null
             };
             axios
               .get('http://localhost:3000/api/messages/')
@@ -169,7 +180,27 @@
           .catch(error => console.log(error()))
 
         e.preventDefault();
-      },  
+      },
+
+      onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    removeImage: function (e) {
+      this.image = '';
+    },  
       doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
@@ -264,4 +295,10 @@ border: solid 1px black;
    .labelForm {
      color:white;
    }
+img {
+  width: 30%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
+}
 </style>
