@@ -70,7 +70,7 @@
            <div>
                           <div v-if="!image">
                             <h2>Select an image</h2>
-                            <input type="file" @change="onFileChange">
+                            <input type="file" @change="onFileSelected">
                           </div>
                           <div v-else>
                             <img :src="image" />
@@ -97,6 +97,7 @@
     data() {
       return {
         image:'',
+        selectedFile: null,
         messages: [],
         likes: 0,
         dislikes:0,
@@ -161,13 +162,22 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
+
+
+        const fd= new FormData();
+        fd.append('image', this.selectedFile,this.selectedFile.name)
+
+
+
+      
         this.axios.post('http://localhost:3000/api/messages/new/', this.posts, {
             headers: {
               'Authorization': token
             }
           }
         )
-          .then(() => {
+         .then(res => {
+            console.log(res),
             this.posts = {
               title: null,
               content: null,
@@ -183,7 +193,8 @@
         e.preventDefault();
       },
 
-      onFileChange(e) {
+      onFileSelected(e) {
+         this.selectedFile = e.target.files[0];
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;
