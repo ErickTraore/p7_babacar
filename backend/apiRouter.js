@@ -6,6 +6,7 @@ var likesCtrl = require('./routes/likesCtrl');
 const auth = require('./middleware/auth');
 const router = express.Router();
 
+
 // Router
 exports.router = (function() {
     var router = express.Router();
@@ -25,7 +26,7 @@ exports.router = (function() {
     router.post('/messages/:messageId/vote/like', likesCtrl.likePost);
     router.post('/messages/:messageId/vote/dislike', likesCtrl.dislikePost);
 
-    router.post("/upload", messagesCtrl.uploadImage);
+    router.post("/messages/upload", messagesCtrl.uploadImage);
 
     return router;
 

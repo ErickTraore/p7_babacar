@@ -3,8 +3,7 @@
         <div class="group__header__body">
 
             <div class="container" v-for="item  in messages" :key="item .id">
-            <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
-              <!-- <tr v-for="item in items | paginate"> -->
+            
                 <div class="group__header__body__first"> 
                    <div class="group__header__body__first__in"> 
                       <b>{{ item .User.username }}</b> à écrit le
@@ -51,10 +50,18 @@
         
             <div class='group__header__body'>
                 <form @submit="postData" method="post" enctype="multipart/form-data">
+                    
+                    
                     <label class="labelForm">Nouveau message</label> <br> <br>
+                        <p v-if="errors.length">
+                        <b>Merci de corriger les erreurs suivantes : </b>
+                      <ul>
+                          <li v-for="error in errors" :key="error">{{ error }}</li>
+                      </ul>
+                </p>
                     <input
                             id="title"
-                            v-model="posts.title"
+                            v-model="message.title"
                             type="text"
                             name="title"
                             placeholder="Titre"
@@ -62,22 +69,27 @@
 
                     <input
                             id="content"
-                            v-model="posts.content"
+                            v-model="message.content"
                             type="text"
                             name="content"
                             placeholder="Contenu"
                     > <br> 
-           <div>
+                        <div>
                           <div v-if="!image">
                             <h2>Select an image</h2>
-                            <input type="file" @change="onFileSelected">
+                            <input 
+                            
+                            id="file" 
+                            type="file" 
+                            @change="onFileSelected"
+                            name="attachment"
+                            >
                           </div>
                           <div v-else>
                             <img :src="image" />
                             <button @click="removeImage">Remove image</button>
                           </div>
-                        </div>
-            <br><br>
+                        </div><br><br>
                       <button type="submit">Envoyer</button>
                 </form>
             </div>
@@ -94,8 +106,17 @@
   Vue.use(VueFilterDateFormat);
   Vue.use(VueAxios, axios)
   export default {
+    name: 'Home',
     data() {
       return {
+        file:'',
+          errors: [],
+       message: {
+         title: null,
+         content: null,
+         attachment: null,
+       },
+        IDURL: null,
         image:'',
         selectedFile: null,
         messages: [],
@@ -104,7 +125,7 @@
         posts: {
           title: null,
           content: null,
-          loading: false
+          attachment:null
           },
       }
     },
@@ -158,24 +179,39 @@
           })
           .catch(error => console.log(error()))
       },
-      postData(e) {
+    postData: function (e) {
+      e.preventDefault();
+        this.errors = [];
+
+        if (!this.message.title) {
+          this.errors.push('Veillez saisir le titre');
+          }
+         else if (this.message.title.length >= 30 || this.message.title.length <= 3){
+          this.errors.push('Votre titre doit comprendre entre 4 et 30 caractères.');
+        }
+        if (!this.message.content) {
+          this.errors.push('Veillez saisir le message');
+        } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
+          this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
+        }
+        if (!this.errors.length && this.message.attachment == null) {
+          return this.post(this.message);
+        }else return this.put(this.message);
+        // else return this.put(this.message);
+},
+        post: function (message) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
       
-        this.axios.post('http://localhost:3000/api/messages/new/', this.posts, {
+        this.axios.post('http://localhost:3000/api/messages/new/', message, {
             headers: {
               'Authorization': token
             }
           }
         )
-         .then(res => {
-            console.log(res),
-            this.posts = {
-              title: null,
-              content: null,
-              attachment: null
-            };
+         .then(reponse => {
+            this.message = reponse.data
             axios
               .get('http://localhost:3000/api/messages/')
               .then(response => this.messages = response.data)
@@ -202,9 +238,33 @@
         vm.image = e.target.result;
       };
       reader.readAsDataURL(file);
+      if (this.image)
+        return;
+      this.pushImage();
+    },
+    pushImage(e) {
+
+        let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let token = myStorageToken.myToken;
+
+  var formData = new FormData();
+  console.log(e);
+  let file = e.target.files[0];
+
+  formData.append("image", file, file.name);
+  axios.post('http://localhost:3000/api/messages/upload', formData, {
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'multipart/form-data'
+    }
+})    
+        e.preventDefault();
+
     },
     removeImage: function (e) {
       this.image = '';
+      e.preventDefault();
     },  
       doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
@@ -219,8 +279,9 @@
               .catch(error => console.log(error()))
       },
     }
-  }
+    }
 </script>
+
 <style scoped>
     .group {
         height: 100%;
@@ -264,7 +325,7 @@
     }
   .position{
         display: flex;
-justify-content: space-between;
+        justify-content: space-between;
 
   }
   .left{
@@ -306,4 +367,5 @@ img {
   display: block;
   margin-bottom: 10px;
 }
+
 </style>
