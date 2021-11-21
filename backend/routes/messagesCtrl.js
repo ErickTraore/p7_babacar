@@ -14,6 +14,10 @@ const TITLE_LIMIT = 2;
 const CONTENT_LIMIT = 3;
 const ITEMS_LIMIT = 50;
 
+
+
+
+
 // Routes
 module.exports = {
     createMessage: function(req, res) {
@@ -176,43 +180,26 @@ module.exports = {
         });
     },
     uploadImage: async function(req, res) {
-        // Getting auth header
-        var headerAuth = req.headers['authorization'];
-        var userId = jwtUtils.getUserId(headerAuth);
+        var file = req.files.file;
+        var fileName = file.name;
+        var size = file.data.length;
+        var extension = path.extname(fileName);
+        var allowedExtensions = /png|jpeg|jpg|gif/;
+        const md5 = file.md5;
+        const URL = "/uploads/" + md5 + extension;
+        const IDURL = md5 + extension;
 
-        var title = req.body.title;
-        var content = req.body.content;
-        var attachment = req.body.attachment;
-        // if (title == null || content == null) {
-        //     return res.status(400).json({ 'error': 'missing parameters' });
-        // }
-
-        // if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
-        //     return res.status(400).json({ 'error': 'invalid parameters' });
-        // }
 
         try {
-
-            var file = req.files.file;
-            var fileName = file.name;
-            var size = file.data.length;
-            var extension = path.extname(fileName);
-            var allowedExtensions = /png|jpeg|jpg|gif/;
-            console.log('je suis unYankee');
-            console.log(file, filename, size);
             if (!allowedExtensions.test(extension)) throw "unsupported extension!";
             if (size > 5000000) throw "File must be less than 5 MB";
-
-
-            const md5 = file.md5;
-            const URL = "/uploads/" + md5 + extension;
-            const IDURL = md5 + extension;
 
             await util.promisify(file.mv)("./public" + URL);
             res.status(200).json({
                 IDURL,
                 message: "File uploaded successfully!"
             })
+
         } catch (err) {
             console.log(err);
             res.status(500).json({

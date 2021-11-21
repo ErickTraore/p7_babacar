@@ -243,25 +243,26 @@
       this.pushImage();
     },
     pushImage(e) {
+    console.log('je suis pushImage n°1');
+    var formData = new FormData();
+    var file= this.selectedFile;
+    console.log(file);
 
-        let objMySession = localStorage.getItem("obj")
-        let myStorageToken = JSON.parse(objMySession)
-        let token = myStorageToken.myToken;
-
-  var formData = new FormData();
-  console.log(e);
-  let file = e.target.files[0];
-
-  formData.append("image", file, file.name);
-  axios.post('http://localhost:3000/api/messages/upload', formData, {
+    formData.append("image", file, file.name);
+    console.log('je suis pushImage n°2');
+    axios.post('http://localhost:3000/api/messages/upload', formData, {
     headers: {
-      'Authorization': token,
       'Content-Type': 'multipart/form-data'
     }
-})    
-        e.preventDefault();
+    })
+        .then(response => {
+          response.status(200).json(file);
+          })
+        .catch(error => {
+          error.status(500).json({ 'error': 'unable load target image' });
+          })
+      },
 
-    },
     removeImage: function (e) {
       this.image = '';
       e.preventDefault();

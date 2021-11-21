@@ -23,11 +23,11 @@ server.use(express.urlencoded({ extended: true }));
 server.use(fileUpload());
 
 //Configure routes
-server.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).send('<h1>Bonjour sur notre super server</h1>');
+// server.get('/', function(req, res) {
+//     res.setHeader('Content-Type', 'text/html');
+//     res.status(200).send('<h1>Bonjour sur notre super server</h1>');
 
-});
+// });
 
 server.use('/api/', apiRouter);
 
