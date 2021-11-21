@@ -180,6 +180,8 @@ module.exports = {
         });
     },
     uploadImage: async function(req, res) {
+          console.log('je suis pushImage n°5 reponse uploadImage');
+
         var file = req.files.file;
         var fileName = file.name;
         var size = file.data.length;

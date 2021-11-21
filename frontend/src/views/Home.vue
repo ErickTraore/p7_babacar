@@ -102,7 +102,7 @@
   import axios from 'axios';
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
-
+  import FormData from 'form-data'
   Vue.use(VueFilterDateFormat);
   Vue.use(VueAxios, axios)
   export default {
@@ -243,24 +243,31 @@
       this.pushImage();
     },
     pushImage(e) {
-    console.log('je suis pushImage n°1');
+      console.log('je suis pushImage n°1');
     var formData = new FormData();
     var file= this.selectedFile;
     console.log(file);
 
     formData.append("image", file, file.name);
     console.log('je suis pushImage n°2');
-    axios.post('http://localhost:3000/api/messages/upload', formData, {
+        let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let token = myStorageToken.myToken;
+    this.axios.post('http://localhost:3000/api/messages/upload', formData, {
     headers: {
+      'Authorization': token,
       'Content-Type': 'multipart/form-data'
     }
     })
         .then(response => {
+          console.log('je suis pushImage n°3 reponse then');
           response.status(200).json(file);
           })
         .catch(error => {
+          console.log('je suis pushImage n°4 reponse catch');
           error.status(500).json({ 'error': 'unable load target image' });
           })
+
       },
 
     removeImage: function (e) {
