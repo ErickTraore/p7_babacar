@@ -82,7 +82,7 @@
                             id="file" 
                             type="file" 
                             @change="onFileSelected"
-                            name="attachment"
+                            name="file"
                             >
                           </div>
                           <div v-else>
@@ -103,13 +103,14 @@
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
   import FormData from 'form-data'
-  Vue.use(VueFilterDateFormat);
-  Vue.use(VueAxios, axios)
+  // const path = require('path').
+   Vue.use(VueFilterDateFormat);
+   Vue.use(VueAxios, axios);
   export default {
     name: 'Home',
     data() {
       return {
-        file:'',
+        file:Blob,
           errors: [],
        message: {
          title: null,
@@ -225,11 +226,12 @@
       onFileSelected(e) {
          this.selectedFile = e.target.files[0];
       var files = e.target.files || e.dataTransfer.files;
+      
       if (!files.length)
         return;
       this.createImage(files[0]);
     },
-    createImage(file) {
+    createImage(file, next) {
       var image = new Image();
       var reader = new FileReader();
       var vm = this;
@@ -238,35 +240,36 @@
         vm.image = e.target.result;
       };
       reader.readAsDataURL(file);
-      if (this.image)
-        return;
-      this.pushImage();
+      if(this.image)
+        return; 
+        this.pushImage();
     },
     pushImage(e) {
-      console.log('je suis pushImage n°1');
-    var formData = new FormData();
-    var file= this.selectedFile;
-    console.log(file);
-
-    formData.append("image", file, file.name);
-    console.log('je suis pushImage n°2');
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-    this.axios.post('http://localhost:3000/api/messages/upload', formData, {
-    headers: {
-      'Authorization': token,
-      'Content-Type': 'multipart/form-data'
-    }
-    })
-        .then(response => {
-          console.log('je suis pushImage n°3 reponse then');
-          response.status(200).json(file);
+
+        const path = require("path");
+        const util = require('util');
+        var fileName = fileName;
+
+        var formData = new FormData();
+        var imagefile = document.querySelector('#file');
+        formData.append("file", imagefile.files[0]);
+        axios.post('http://localhost:3000/api/messages/upload', formData, {
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'multipart/form-data' 
+          }
+      })   
+     .then(response => {
+          // console.log('je suis pushImage n°3 reponse then')
+          response.status(200).json(file)
           })
-        .catch(error => {
-          console.log('je suis pushImage n°4 reponse catch');
-          error.status(500).json({ 'error': 'unable load target image' });
-          })
+       .catch(error => {
+        return response.status(503).json({ 'error': 'upload because they are errors'});
+       })
+        e.preventDefault();
 
       },
 

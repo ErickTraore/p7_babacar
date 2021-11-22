@@ -46,6 +46,7 @@ export default {
           })
         .then(response => {
           this.item = response.data
+          console.log(this.item);
 
           })
         

@@ -14,10 +14,6 @@ const TITLE_LIMIT = 2;
 const CONTENT_LIMIT = 3;
 const ITEMS_LIMIT = 50;
 
-
-
-
-
 // Routes
 module.exports = {
     createMessage: function(req, res) {
@@ -180,17 +176,18 @@ module.exports = {
         });
     },
     uploadImage: async function(req, res) {
-          console.log('je suis pushImage n°5 reponse uploadImage');
-
+        // return Promise.resolve('traore erick');
+        // console.log(req);
+        // console.log(JSON.stringify(req).files)
         var file = req.files.file;
         var fileName = file.name;
         var size = file.data.length;
         var extension = path.extname(fileName);
+
         var allowedExtensions = /png|jpeg|jpg|gif/;
         const md5 = file.md5;
         const URL = "/uploads/" + md5 + extension;
         const IDURL = md5 + extension;
-
 
         try {
             if (!allowedExtensions.test(extension)) throw "unsupported extension!";
