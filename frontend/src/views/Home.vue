@@ -110,6 +110,7 @@
     name: 'Home',
     data() {
       return {
+        testName:false,
         file:Blob,
           errors: [],
        message: {
@@ -195,9 +196,9 @@
         } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
           this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
         }
-        if (!this.errors.length && this.message.attachment == null) {
+        if (!this.errors.length) {
           return this.post(this.message);
-        }else return this.put(this.message);
+        }
         // else return this.put(this.message);
 },
         post: function (message) {
