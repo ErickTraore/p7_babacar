@@ -73,16 +73,22 @@
                             type="text"
                             name="content"
                             placeholder="Contenu"
-                    > <br> 
+                    > 
+                    <br> 
                         <div>
                           <div v-if="!image">
                             <h2>Select an image</h2>
+                            <div id="list">
+                                <img src="uploads/dp.png">
+                            </div>
+
                             <input 
-                            
                             id="file" 
                             type="file" 
                             @change="onFileSelected"
-                            name="file"
+                            name="attachment"
+                            value="uploads/dp.png"
+                            alt="example"
                             >
                           </div>
                           <div v-else>
@@ -90,7 +96,14 @@
                             <button @click="removeImage">Remove image</button>
                           </div>
                         </div><br><br>
-                      <button type="submit">Envoyer</button>
+                        <div>
+                        </div>
+                      <button 
+                      type="submit"
+                      value="val"
+
+                      >
+                      Envoyer</button>
                 </form>
             </div>
         </div>
@@ -103,14 +116,21 @@
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
   import FormData from 'form-data'
+  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
   // const path = require('path').
    Vue.use(VueFilterDateFormat);
    Vue.use(VueAxios, axios);
   export default {
     name: 'Home',
+    computed: {
+      ...mapGetters(["imageExist"])
+,    },
+   
     data() {
       return {
-        testName:false,
+        IDURL: null,
+        testName:Boolean,
         file:Blob,
           errors: [],
        message: {
@@ -118,7 +138,6 @@
          content: null,
          attachment: null,
        },
-        IDURL: null,
         image:'',
         selectedFile: null,
         messages: [],
@@ -181,7 +200,8 @@
           })
           .catch(error => console.log(error()))
       },
-    postData: function (e) {
+    postData(e) {
+
       e.preventDefault();
         this.errors = [];
 
@@ -212,16 +232,17 @@
             }
           }
         )
+
          .then(reponse => {
             this.message = reponse.data
             axios
               .get('http://localhost:3000/api/messages/')
-              .then(response => this.messages = response.data)
+              .then(response => {
+                this.messages = response.data
+                })
               .catch(error => console.log(error()))
           })
-          .catch(error => console.log(error()))
 
-        e.preventDefault();
       },
 
       onFileSelected(e) {
@@ -240,6 +261,7 @@
       reader.onload = (e) => {
         vm.image = e.target.result;
       };
+      
       reader.readAsDataURL(file);
       if(this.image)
         return; 
@@ -257,6 +279,9 @@
         var formData = new FormData();
         var imagefile = document.querySelector('#file');
         formData.append("file", imagefile.files[0]);
+      
+
+
         axios.post('http://localhost:3000/api/messages/upload', formData, {
           headers: {
             'Authorization': token,
@@ -264,14 +289,12 @@
           }
       })   
      .then(response => {
-          // console.log('je suis pushImage n°3 reponse then')
-          response.status(200).json(file)
+          IDURL,
+          response.status(200).json(file,)
           })
-       .catch(error => {
-        return response.status(503).json({ 'error': 'upload because they are errors'});
+     .catch(error => {
+        error.status(503).json({ 'error': 'upload because they are errors'});
        })
-        e.preventDefault();
-
       },
 
     removeImage: function (e) {

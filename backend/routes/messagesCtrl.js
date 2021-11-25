@@ -24,7 +24,7 @@ module.exports = {
         // Params
         var title = req.body.title;
         var content = req.body.content;
-        var attachment = req.body.attachment;
+        var attachment = 'uploads/dp.jpeg ';
         if (title == null || content == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
