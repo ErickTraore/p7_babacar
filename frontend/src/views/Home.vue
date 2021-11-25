@@ -129,7 +129,7 @@
    
     data() {
       return {
-        IDURL: null,
+      infoImage: null,
         testName:Boolean,
         file:Blob,
           errors: [],
@@ -203,6 +203,7 @@
     postData(e) {
 
       e.preventDefault();
+
         this.errors = [];
 
         if (!this.message.title) {
@@ -246,6 +247,7 @@
       },
 
       onFileSelected(e) {
+
          this.selectedFile = e.target.files[0];
       var files = e.target.files || e.dataTransfer.files;
       
@@ -280,28 +282,31 @@
         var imagefile = document.querySelector('#file');
         formData.append("file", imagefile.files[0]);
       
-
-
         axios.post('http://localhost:3000/api/messages/upload', formData, {
           headers: {
             'Authorization': token,
             'Content-Type': 'multipart/form-data' 
           }
       })   
-     .then(response => {
-          IDURL,
-          response.status(200).json(file,)
-          })
-     .catch(error => {
-        error.status(503).json({ 'error': 'upload because they are errors'});
-       })
-      },
+     .then(function(res){
+          console.log(res.data.IDURL);
+          return res.data.IDURL;
+     })
+     .then(function(idImage){
+       console.log(idImage);
 
-    removeImage: function (e) {
+     })
+          response.status(200).json({file})
+     .catch(function(error) {
+          console.log(error);
+        // error.status(500).json({ 'error': 'upload because they are errors'});
+       })
+  },
+    removeImage: function(e) {
       this.image = '';
       e.preventDefault();
-    },  
-      doDelete: function (id) {
+    },
+    doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
@@ -312,9 +317,9 @@
           })
               .then(response => this.messages = response.data)
               .catch(error => console.log(error()))
-      },
-    }
-    }
+      }
+  }
+  }
 </script>
 
 <style scoped>

@@ -18,6 +18,7 @@ const ITEMS_LIMIT = 50;
 module.exports = {
     createMessage: function(req, res) {
         // Getting auth header
+        console.log(req);
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
 
