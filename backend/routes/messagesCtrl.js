@@ -182,6 +182,8 @@ module.exports = {
         // console.log(JSON.stringify(req).files)
         var file = req.files.file;
         var fileName = file.name;
+        console.log('UN YANKEE');
+        console.log('fileName :', fileName);
         var size = file.data.length;
         var extension = path.extname(fileName);
 

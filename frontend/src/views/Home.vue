@@ -112,6 +112,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
 <script>
   import Vue from 'vue'
+  import fs from 'fs'
   import axios from 'axios';
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
@@ -274,7 +275,6 @@
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
 
-        const path = require("path");
         const util = require('util');
         var fileName = fileName;
 
@@ -294,17 +294,28 @@
      })
      .then(function(idImage){
        console.log(idImage);
-
+          response.status(200).json({idImage})
      })
-          response.status(200).json({file})
-     .catch(function(error) {
-          console.log(error);
-        // error.status(500).json({ 'error': 'upload because they are errors'});
-       })
+    .catch(function(err) {
+     err.statusCode = 401;
+                    });
   },
     removeImage: function(e) {
       this.image = '';
       e.preventDefault();
+      const path = require("path");
+      const fs = require('fs')
+
+      console.log(path);
+
+      // const path = './file.txt'
+
+      // try {
+      //   fs.unlink(path)
+      //   //file removed
+      // } catch(err) {
+      //   console.error(err)
+      // }
     },
     doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
