@@ -74,6 +74,12 @@
                             name="content"
                             placeholder="Contenu"
                     > 
+                    <input
+                            id="attachment"
+                            v-model="message.attachment"
+                            type="text"
+                            name="attachment"
+                    > 
                     <br> 
                         <div>
                           <div v-if="!image">
@@ -87,7 +93,6 @@
                             type="file" 
                             @change="onFileSelected"
                             name="attachment"
-                            value="uploads/dp.png"
                             alt="example"
                             >
                           </div>
@@ -137,7 +142,7 @@
        message: {
          title: null,
          content: null,
-         attachment: null,
+         attachment:'uploads/dp.jpeg',
        },
         image:'',
         selectedFile: null,
@@ -147,7 +152,7 @@
         posts: {
           title: null,
           content: null,
-          attachment:null
+          attachment:''
           },
       }
     },
@@ -218,7 +223,13 @@
         } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
           this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
         }
+        //   if (!this.message.attachment) {
+        //   this.errors.push('Veillez saisir l\'attachment');
+        // } else if (this.message.attachment.length >= 150 || this.message.attachment.length <= 3){
+        //   this.errors.push('Votre attachment doit contenir entre 4 et 150 caractères.');
+        // }
         if (!this.errors.length) {
+          console.log('Vérification des inputs --> OK')
           return this.post(this.message);
         }
         // else return this.put(this.message);
@@ -289,11 +300,18 @@
           }
       })   
      .then(function(res){
-          console.log(res.data.IDURL);
-          return res.data.IDURL;
+       console.log('valeure reçu par le back:',res.data);
+       console.log('valeure reçu par le back:',res.data.idImage);
+
+          return res.data.idImage;
      })
      .then(function(idImage){
-       console.log(idImage);
+      //  document.querySelector('#this.attachment').innerHTML = idImage
+
+       const attachment = document.querySelector("#attachment");
+          attachment.value = idImage;
+          attachment.dispatchEvent(new Event('input'));
+
           response.status(200).json({idImage})
      })
     .catch(function(err) {

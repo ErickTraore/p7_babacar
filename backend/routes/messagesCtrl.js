@@ -25,14 +25,15 @@ module.exports = {
         // Params
         var title = req.body.title;
         var content = req.body.content;
-        var attachment = 'uploads/dp.jpeg ';
-        if (title == null || content == null) {
-            return res.status(400).json({ 'error': 'missing parameters' });
+        var attachment = req.body.attachment;
+        if (title == null || content == null || attachment == null) {
+            return res.status(400).json({ 'error': 'missing (null) parameters' });
         }
 
-        if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
-            return res.status(400).json({ 'error': 'invalid parameters' });
+        if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT || content.attachment <= CONTENT_LIMIT) {
+            return res.status(400).json({ 'error': 'invalid (length) parameters' });
         }
+
 
         asyncLib.waterfall([
             function(done) {
@@ -183,14 +184,16 @@ module.exports = {
         var file = req.files.file;
         var fileName = file.name;
         console.log('UN YANKEE');
-        console.log('fileName :', fileName);
+        console.log('fileName ligne 187:', fileName);
         var size = file.data.length;
         var extension = path.extname(fileName);
 
         var allowedExtensions = /png|jpeg|jpg|gif/;
         const md5 = file.md5;
         const URL = "/uploads/" + md5 + extension;
-        const IDURL = md5 + extension;
+        const idImage = md5 + extension;
+        console.log('numero image enregistrée ligne 195:', idImage);
+
 
         try {
             if (!allowedExtensions.test(extension)) throw "unsupported extension!";
@@ -198,8 +201,7 @@ module.exports = {
 
             await util.promisify(file.mv)("./public" + URL);
             res.status(200).json({
-                IDURL,
-                message: "File uploaded successfully!"
+                idImage,
             })
 
         } catch (err) {
