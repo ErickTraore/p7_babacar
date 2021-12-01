@@ -5,6 +5,9 @@ var messagesCtrl = require('./routes/messagesCtrl');
 var likesCtrl = require('./routes/likesCtrl');
 const auth = require('./middleware/auth');
 const router = express.Router();
+var fs = require("fs");
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 // Router
 exports.router = (function() {
@@ -19,7 +22,7 @@ exports.router = (function() {
     // router.post('/users/:userId/delMe', usersCtrl.delMeUser);
     router.put('/users/me/', usersCtrl.updateUserProfile);
 
-    router.get('/messages/', messagesCtrl.listMessages);
+    router.get('/messages/', upload.single("fingerPrints"), messagesCtrl.listMessages);
     router.post('/messages/new/', messagesCtrl.createMessage);
     router.post('/messages/:messageId/del', messagesCtrl.delMessPost);
     router.post('/messages/:messageId/vote/like', likesCtrl.likePost);

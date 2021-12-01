@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         attachment: DataTypes.STRING,
         likes: DataTypes.INTEGER,
         dislikes: DataTypes.INTEGER,
+        fingerPrint: DataTypes.STRING,
     }, {
         sequelize,
         modelName: 'Message',

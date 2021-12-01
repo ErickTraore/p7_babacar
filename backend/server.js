@@ -3,6 +3,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var apiRouter = require('./apiRouter').router;
 var server = express();
+var express = require("express");
+var fs = require("fs");
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 //instantiation
 server.use((req, res, next) => {
@@ -16,6 +20,8 @@ server.use((req, res, next) => {
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
+server.use(express.static(__dirname + '/public'));
+server.use('/uploads', express.static('uploads'));
 //Configure routes
 server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');

@@ -14,13 +14,14 @@ const ITEMS_LIMIT = 50;
 // Routes
 module.exports = {
     createMessage: function(req, res) {
-        // Getting auth header
+        var codeGenerate = Math.random().toString(36).substring(2, 7);
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
 
         // Params
         var title = req.body.title;
         var content = req.body.content;
+        var fingerPrint = req.body.fingerPrint;
         if (title == null || content == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
@@ -44,14 +45,23 @@ module.exports = {
             function(userFound, done) {
                 if (userFound) {
                     models.Message.create({
+                            code: codeGenerate,
                             title: title,
                             content: content,
                             likes: 0,
                             dislikes: 0,
-                            UserId: userFound.id
+                            UserId: userFound.id,
+                            fingerPrint: fingerPrint
+
                         })
                         .then(function(newMessage) {
                             done(newMessage);
+                            return newMessage
+
+                        }).then(myMessage => {
+                            res.send({ message: `Message Created With Code ${message.code}` });
+                        }).catch(err => {
+                            res.status(404).json({ 'error': 'unable set a message' });
                         });
                 } else {
                     res.status(404).json({ 'error': 'user not found' });
