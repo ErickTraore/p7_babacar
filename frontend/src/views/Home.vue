@@ -50,7 +50,7 @@
             </div>
         
             <div class='group__header__body'>
-                <form @submit="postData" method="post">
+                <form @submit="postData" method="post" enctype="multipart/form-data" action="upload.js">
                     <label class="labelForm">Nouveau message</label> <br> <br>
                     <input
                             id="title"
@@ -67,6 +67,13 @@
                             name="content"
                             placeholder="Contenu"
                     > <br> <br>
+                    <input 
+                    id="file" 
+                    type="file" 
+                    name="fingerPrint"
+                    alt="example" 
+                    size="50" />
+
 
                     <button type="submit">Envoyer</button>
                 </form>
@@ -164,9 +171,13 @@
             axios
               .get('http://localhost:3000/api/messages/')
               .then(response => this.messages = response.data)
-              .catch(error => console.log(error()))
+              .catch(function(err) {
+                            err.statusCode = 400;
+                        })
           })
-          .catch(error => console.log(error()))
+          .catch(function(err) {
+                            err.statusCode = 400;
+                        })
 
         e.preventDefault();
       },  
