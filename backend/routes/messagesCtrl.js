@@ -21,7 +21,7 @@ module.exports = {
         // Params
         var title = req.body.title;
         var content = req.body.content;
-        var fingerPrint = req.body.fingerPrint;
+        var fingerPrint = req.body.fingerPrints;
         if (title == null || content == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
         }
@@ -60,9 +60,9 @@ module.exports = {
 
                         }).then(myMessage => {
                             res.send({ message: `Message Created With Code ${message.code}` });
-                        }).catch(err => {
-                            res.status(404).json({ 'error': 'unable set a message' });
-                        });
+                        }).catch(function(err) {
+                            err.statusCode = 400;
+                        })
                 } else {
                     res.status(404).json({ 'error': 'user not found' });
                 }
