@@ -85,7 +85,8 @@
                           <div v-if="!image">
                             <h2>Select an image</h2>
                             <div id="list">
-                                <img src="uploads/dp.png">
+                                <img :src="'../../../../images/chat.png'">
+                               
                             </div>
 
                             <input 
