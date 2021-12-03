@@ -3,28 +3,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var apiRouter = require('./apiRouter').router;
 var server = express();
-var multer = require('multer')
-
-const MIME_TYPES = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
-};
-const storage = multer.diskStorage({
-
-    destination: (req, file, callback) => {
-        callback(null, 'images');
-    },
-    filename: (req, file, callback) => {
-        const name = file.originalname.split(' ').join('_');
-        const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now() + '.' + extension);
-    }
-});
-var upload = multer({ storage: storage });
-
-var app = express()
-
 
 //instantiation
 server.use((req, res, next) => {
@@ -50,10 +28,51 @@ server.use(fileUpload());
 
 // Configure routes
 server.get('/', function(req, res) {
+    // let parsedURL = url.parse(req.url, true);
+    // let path = parsedURL.path.replace(/^\/+|\/+$/g, "");
+    // /**
+
+    // if (path == "") {
+    //     path = "index.html";
+    // }
+    // console.log(`Requested path ${path}`);
+    // let file = __dirname + "/public/" + path;
+    // fs.readFile(file, function(err, content) {
+    //     if (err) {
+    //         console.log(`File Not Found ${file}`);
+    //         res.writeHead(404);
+    //         res.end();
+
+    //     } else {
+    //         console.log(`Returning ${path}`);
+    //         res.setHeader("X-Content-Type-Options", "nosniff");
+    //         switch (path) {
+    //             case "main.css":
+    //                 res.writeHead(200, {
+    //                     "Content-type": "test/css"
+    //                 });
+    //                 break;
+    //             case "main.js":
+
+    //                 res.writeHead(200, {
+    //                     "Content-type": "application/javascript"
+    //                 });
+    //                 break;
+    //             case "index.html":
+    //                 res.writeHead(200, {
+    //                     "Content-type": "text/html"
+    //                 });
+    //         }
+    //         res.end(content);
+    //     }
+    // });
+
+
     res.setHeader('Content-Type', 'text/html');
     res.status(200).send('<h1>Bonjour sur notre super server</h1>');
 
 });
+// server.use(express.static('public'));
 
 server.use('/api/', apiRouter);
 

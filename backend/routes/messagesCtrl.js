@@ -190,7 +190,7 @@ module.exports = {
 
         var allowedExtensions = /png|jpeg|jpg|gif/;
         const md5 = file.md5;
-        const URL = "/uploads/" + md5 + extension;
+        const URL = "/images/" + md5 + extension;
         const idImage = md5 + extension;
         console.log('numero image enregistrée ligne 195:', idImage);
 

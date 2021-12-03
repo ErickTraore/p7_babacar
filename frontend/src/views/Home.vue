@@ -6,6 +6,7 @@
             
                 <div class="group__header__body__first"> 
                    <div class="group__header__body__first__in"> 
+                      <img src="http://localhost:3000/images/d2dbb4705989d5b1ca1d0b56a9ff06f5.jpeg" /> à écrit le
                       <b>{{ item .User.username }}</b> à écrit le
                       {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
@@ -85,7 +86,8 @@
                           <div v-if="!image">
                             <h2>Select an image</h2>
                             <div id="list">
-                                <img :src="'../../../../images/chat.png'">
+                                <!-- <img :src="'../../../../images/chat.png'"> -->
+                                <img src="">
                                
                             </div>
 
@@ -310,7 +312,8 @@
       //  document.querySelector('#this.attachment').innerHTML = idImage
 
        const attachment = document.querySelector("#attachment");
-          attachment.value = idImage;
+          attachment.value = "http://localhost:3000/images/"+idImage;
+
           attachment.dispatchEvent(new Event('input'));
 
           response.status(200).json({idImage})
