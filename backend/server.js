@@ -1,8 +1,10 @@
 //imports
+var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var apiRouter = require('./apiRouter').router;
 var server = express();
+var req = require('request');
 
 //instantiation
 server.use((req, res, next) => {
@@ -76,7 +78,7 @@ server.get('/', function(req, res) {
 
 server.use('/api/', apiRouter);
 
-// Launch server
+
 server.listen(3000, function() {
     console.log('Server en écoute :');
 });

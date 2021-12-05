@@ -6,7 +6,9 @@
             
                 <div class="group__header__body__first"> 
                    <div class="group__header__body__first__in"> 
-                      <img src="http://localhost:3000/images/d2dbb4705989d5b1ca1d0b56a9ff06f5.jpeg" /> à écrit le
+                     <figure>
+                      <img :src="item.attachment" />
+                      </figure>
                       <b>{{ item .User.username }}</b> à écrit le
                       {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
@@ -53,7 +55,7 @@
                 <form @submit="postData" method="post" enctype="multipart/form-data">
                     
                     
-                    <label class="labelForm">Nouveau message</label> <br> <br>
+                    <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
                         <p v-if="errors.length">
                         <b>Merci de corriger les erreurs suivantes : </b>
                       <ul>
@@ -87,7 +89,6 @@
                             <h2>Select an image</h2>
                             <div id="list">
                                 <!-- <img :src="'../../../../images/chat.png'"> -->
-                                <img src="">
                                
                             </div>
 
@@ -119,14 +120,25 @@
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
 <script>
+  const path = require("path");
+  const isLocal = typeof process.pkg === "undefined";
+  const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+  const baseUri = "ipfs://NewUriToReplace";
+  
+  
+  
+  
+  const http = require("http");
+  var req = require('request');
+
   import Vue from 'vue'
-  import fs from 'fs'
+  import HTTP from 'http'
   import axios from 'axios';
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
   import FormData from 'form-data'
-  import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
+
   // const path = require('path').
    Vue.use(VueFilterDateFormat);
    Vue.use(VueAxios, axios);
@@ -138,14 +150,14 @@
    
     data() {
       return {
-      infoImage: null,
+      idImage: '',
         testName:Boolean,
         file:Blob,
           errors: [],
        message: {
          title: null,
          content: null,
-         attachment:'uploads/dp.jpeg',
+         attachment: null,
        },
         image:'',
         selectedFile: null,
@@ -294,6 +306,7 @@
 
         var formData = new FormData();
         var imagefile = document.querySelector('#file');
+        console.log('Mon imageFile[0] :',imagefile.files[0]);
         formData.append("file", imagefile.files[0]);
       
         axios.post('http://localhost:3000/api/messages/upload', formData, {
@@ -302,9 +315,9 @@
             'Content-Type': 'multipart/form-data' 
           }
       })   
-     .then(function(res){
+     .then((res) => {
        console.log('valeure reçu par le back:',res.data);
-       console.log('valeure reçu par le back:',res.data.idImage);
+       console.log('valeure res.data.idImage:',res.data.idImage);
 
           return res.data.idImage;
      })
@@ -323,14 +336,25 @@
                     });
   },
     removeImage: function(e) {
+        let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let token = myStorageToken.myToken;
+        var fileName = this.selectedFile.name;
+        
+        console.log('Envoie dufichier pour écrasement',fileName);
+        var formData = new FormData();
+        formData.append("file", this.selectedFile);
+      
+        axios.post('http://localhost:3000/api/messages/delLienImage', formData, {
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'multipart/form-data' 
+          }
+      })   
+
       this.image = '';
+      console.log('Le fichier vient d\'être effacé du navigateur');
       e.preventDefault();
-      const path = require("path");
-      const fs = require('fs')
-
-      console.log(path);
-
-      // const path = './file.txt'
 
       // try {
       //   fs.unlink(path)

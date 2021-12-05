@@ -14,6 +14,7 @@
         "http": "^0.0.1-security",
         "path": "^0.12.7",
         "request": "^2.88.2",
+        "unlink": "^0.0.2",
         "url": "^0.11.0"
       }
     },
@@ -1029,6 +1030,12 @@
         "node": ">= 0.6"
       }
     },
+    "node_modules/unlink": {
+      "version": "0.0.2",
+      "resolved": "https://registry.npmjs.org/unlink/-/unlink-0.0.2.tgz",
+      "integrity": "sha1-hui04K+FJALV17XkPdMxO+Ofb1k=",
+      "deprecated": "deprecated"
+    },
     "node_modules/unpipe": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz",
@@ -1896,6 +1903,11 @@
         "media-typer": "0.3.0",
         "mime-types": "~2.1.24"
       }
+    },
+    "unlink": {
+      "version": "0.0.2",
+      "resolved": "https://registry.npmjs.org/unlink/-/unlink-0.0.2.tgz",
+      "integrity": "sha1-hui04K+FJALV17XkPdMxO+Ofb1k="
     },
     "unpipe": {
       "version": "1.0.0",

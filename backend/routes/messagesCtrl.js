@@ -1,4 +1,5 @@
 // Imports
+const fs = require('fs')
 var models = require('../models');
 var asyncLib = require('async');
 var jwtUtils = require('../utils/jwt.utils');
@@ -26,11 +27,11 @@ module.exports = {
         var title = req.body.title;
         var content = req.body.content;
         var attachment = req.body.attachment;
-        if (title == null || content == null || attachment == null) {
+        if (title == null || content == null) {
             return res.status(400).json({ 'error': 'missing (null) parameters' });
         }
 
-        if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT || content.attachment <= CONTENT_LIMIT) {
+        if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
             return res.status(400).json({ 'error': 'invalid (length) parameters' });
         }
 
@@ -120,62 +121,67 @@ module.exports = {
         }
 
         asyncLib.waterfall([
-            // on charge le message concerné dans la variable messageFound..
-            function(done) {
-                models.User.findOne({
-                        where: {
-                            id: userId
-                        }
-                    })
-                    .then(function(userLive) {
-                        done(null, userLive);
-                    })
-                    .catch(function(error) {
-                        return res.status(500).json({ 'error': 'unable to load user' });
-                    });
-            },
-            function(userLive, done) {
-                if (userLive) {
-
-                    models.Message.findOne({
+                // on charge le message concerné dans la variable messageFound..
+                function(done) {
+                    models.User.findOne({
                             where: {
-                                id: messageId,
+                                id: userId
                             }
                         })
-                        .then(function(messageLive) {
-                            done(null, messageLive, userLive);
+                        .then(function(userLive) {
+                            done(null, userLive);
                         })
                         .catch(function(error) {
-                            return res.status(502).json({ 'error': 'is not the owner message' });
+                            return res.status(500).json({ 'error': 'unable to load user' });
                         });
+                },
+                function(userLive, done) {
+                    if (userLive) {
+
+                        models.Message.findOne({
+                                where: {
+                                    id: messageId,
+                                }
+                            })
+                            .then(function(messageLive) {
+                                done(null, messageLive, userLive);
+                            })
+                            .catch(function(error) {
+                                return res.status(502).json({ 'error': 'is not the owner message' });
+                            });
+                    } else {
+                        return res.status(201).json({ 'error': 'You are not the owner message' });
+                    }
+                },
+                function(messageLive, userLive, done) {
+                    console.log('valeur->messageLiveId:', messageLiverId);
+                    console.log('valeur->userId:', userId);
+                    if (messageLive.userId == userId) {
+                        models.Message.destroy({
+                                where: {
+                                    messageId: messageId,
+                                    userId: userId
+                                }
+                            })
+                            .then(function() {
+                                done(delMessage);
+                            })
+                            .catch(function(err) {
+                                return res.status(404).json({ 'error': 'unable to destroy message' });
+                            });
+                    } else {
+                        res.status(404).json({ 'error': 'unable to load message found' });
+                    }
+                },
+            ], function(delMessage) {
+                if (delMessage) {
+                    return res.status(201).json('message delete');
                 } else {
-                    return res.status(201).json({ 'error': 'You are not the owner message' });
+                    return res.status(500).json({ 'error': 'cannot delete message' });
                 }
-            },
-            function(messageLive, userLive, done) {
-                if (messageLive.userId == userLive.id) {
-                    models.Message.destroy({
-                            where: {
-                                id: messageId,
-                            }
-                        })
-                        .then(function() {
-                            done(delMessage);
-                        })
-                        .catch(function(err) {
-                            return res.status(404).json({ 'error': 'unable to destroy message' });
-                        });
-                } else {
-                    res.status(404).json({ 'error': 'unable to load message found' });
-                }
-            },
-        ], function(delMessage) {
-            if (delMessage) {
-                return res.status(201).json('message delete');
-            } else {
-                return res.status(500).json({ 'error': 'cannot delete message' });
             }
-        });
+
+        );
     },
     uploadImage: async function(req, res) {
         // return Promise.resolve('traore erick');
@@ -211,5 +217,30 @@ module.exports = {
             });
         };
 
+    },
+    delLienImage: function(req, res) {
+        var file = req.files.file;
+        var fileName = file.name;
+        console.log('UN YANKEE');
+        console.log('fileName ligne 187:', fileName);
+        var size = file.data.length;
+        var extension = path.extname(fileName);
+
+        var allowedExtensions = /png|jpeg|jpg|gif/;
+        const md5 = file.md5;
+        const URL = "/images/" + md5 + extension;
+        const idImage = md5 + extension;
+        console.log(URL);
+        console.log(idImage);
+        const chemin = idImage;
+        console.log('chemin', chemin);
+        fs.unlink("./public/images/" + idImage, (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+
+
+        });
     }
 }
