@@ -1,8 +1,15 @@
 <template>
+
     <div id="app">
         <div class='group__header__body'>
 
-            <div v-for="item  in users" :key="item .id">
+          <div>
+ 
+          </div>
+
+       
+<h2>Page Admin</h2>            
+<div v-for="item  in users" :key="item .id">
             <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
               <!-- <tr v-for="item in items | paginate"> -->
                 <div  _ngcontent-cpa-c6="">

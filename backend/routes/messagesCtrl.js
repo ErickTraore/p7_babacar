@@ -152,29 +152,30 @@ module.exports = {
                     } else {
                         return res.status(201).json({ 'error': 'You are not the owner message' });
                     }
+
                 },
                 function(messageLive, userLive, done) {
-                    console.log('valeur->messageLiveId:', messageLiverId);
-                    console.log('valeur->userId:', userId);
-                    if (messageLive.userId == userId) {
+                    if (messageLive) {
                         models.Message.destroy({
                                 where: {
-                                    messageId: messageId,
-                                    userId: userId
+                                    id: messageId,
+                                    UserId: userId
                                 }
                             })
-                            .then(function() {
-                                done(delMessage);
+                            .then(function(destroyMessage) {
+                                // return res.status(200).json({ deleteLikeLive });
+                                done(destroyMessage)
                             })
-                            .catch(function(err) {
+                            .catch(function(error) {
                                 return res.status(404).json({ 'error': 'unable to destroy message' });
                             });
                     } else {
                         res.status(404).json({ 'error': 'unable to load message found' });
                     }
                 },
-            ], function(delMessage) {
-                if (delMessage) {
+            ],
+            function(destroyMessage) {
+                if (destroyMessage) {
                     return res.status(201).json('message delete');
                 } else {
                     return res.status(500).json({ 'error': 'cannot delete message' });

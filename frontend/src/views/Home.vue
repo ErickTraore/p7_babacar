@@ -9,6 +9,8 @@
                      <figure>
                       <img :src="item.attachment" />
                       </figure>
+                      <b>Mon id: {{ myId }}</b> <br>
+                      <b>Mon messageUserId: {{ item.UserId}}</b> <br>
                       <b>{{ item .User.username }}</b> à écrit le
                       {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
@@ -39,8 +41,10 @@
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button class="colorRed"
-                                v-on:click="doDelete(item .id)">
+                        <button 
+                        v-if="myId == item.UserId" 
+                        class="colorRed"
+                        v-on:click="doDelete(item .id)">
                            Supprimer votre message
                         </button>
                     </div>
@@ -150,6 +154,7 @@
    
     data() {
       return {
+        myId:Number,
       idImage: '',
         testName:Boolean,
         file:Blob,
@@ -172,9 +177,13 @@
       }
     },
     created() {
+       let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let myId = myStorageToken.myId;
       axios
         .get('http://localhost:3000/api/messages/')
         .then(response => {
+          this.myId = myId
           this.messages = response.data
 
           })
