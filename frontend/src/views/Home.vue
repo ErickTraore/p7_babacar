@@ -56,7 +56,7 @@
             </div>
         
             <div class='group__header__body'>
-                <form @submit="postData" method="post" enctype="multipart/form-data" name="message">
+                <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
                     
                     
                     <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
@@ -152,28 +152,28 @@
    
     data() {
       return {
-        myId:Number,
-      idImage: '',
-        testName:Boolean,
-        file:Blob,
-          errors: [],
-       message: {
-         title: '',
-         content: '',
-         attachment: '',
-       },
-        image:'',
-        selectedFile: null,
-        messages: [],
-        likes: 0,
-        dislikes:0,
-        posts: {
-           title:'',
-            content: '',
-            attachment:'' ,
-          loading: false
+        
+              myId:Number,
+              idImage: '',
+              testName:Boolean,
+              file:Blob,
+              errors: [],
+              message: {
+                title: '',
+                content: '',
+                attachment: '',
+              },
+              image:'',
+              selectedFile: null,
+              messages: [],
+              likes: 0,
+              dislikes:0,
+              posts: {
+                  title:'',
+                  content: '',
+                  attachment:'' ,
+                  loading: false
           },
-     
       }
     },
     created() {
@@ -185,13 +185,21 @@
         .then(response => {
           this.myId = myId
           this.messages = response.data
-          document.forms['contact'].reset();
           })
         
         .catch(error => console.log(error()))
     },
 
   methods: {
+    resetForm() {
+        console.log('Reseting the form')
+        var self = this; //you need this because *this* will refer to Object.keys below`
+
+        //Iterate through each object field, key is name of the object field`
+        Object.keys(this.message).forEach(function(key,index) {
+          self.message[key] = '';
+        });
+      },
     
       doLike: function (id) {
         let objMySession = localStorage.getItem("obj")
@@ -230,9 +238,10 @@
           })
           .catch(error => console.log(error()))
       },
-    postData(e) {
-
+    onPostData(e) {
+      
       e.preventDefault();
+
 
         this.errors = [];
 
@@ -247,19 +256,17 @@
         } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
           this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
         }
-        //   if (!this.message.attachment) {
-        //   this.errors.push('Veillez saisir l\'attachment');
-        // } else if (this.message.attachment.length >= 150 || this.message.attachment.length <= 3){
-        //   this.errors.push('Votre attachment doit contenir entre 4 et 150 caractères.');
-        // }
+       
         if (!this.errors.length) {
 
           console.log('Vérification des inputs --> OK')
           return this.post(this.message);
         }
+
         // else return this.put(this.message);
 },
-        post: function (message) {
+        post: function (message, e) {
+
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
@@ -269,18 +276,25 @@
               'Authorization': token
             }
           }
+
         )
 
          .then(reponse => {
+
             this.message = reponse.data
             axios
               .get('http://localhost:3000/api/messages/')
               .then(response => {
+
                 this.messages = response.data
-                this.$router.push({path: '/'});
+                this.resetForm()
                 })
-              .catch(error => console.log(error()))
+              .catch(error => {
+
+                console.log(error())
+              })
           })
+      e.preventDefault();
 
       },
 

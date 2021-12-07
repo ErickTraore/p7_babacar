@@ -28,7 +28,7 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import ( /* webpackChunkName: "login" */ '../views/Logout.vue')
+            import ( /* webpackChunkName: "logout" */ '../views/Logout.vue')
     },
     {
         path: '/signup',
@@ -38,7 +38,7 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import ( /* webpackChunkName: "signÌn" */ '../views/Signup.vue')
+            import ( /* webpackChunkName: "signup" */ '../views/Signup.vue')
     },
     {
         path: '/profile',
