@@ -1,16 +1,17 @@
 <template>
+     <div>
+         <button>Page Admin Users </button>           
 
-    <div id="app">
+            
+
+       <div id="app">
         <div class='group__header__body'>
 
-          <div>
- 
-          </div>
+          
 
-       
-<h2>Page Admin</h2>            
-<div v-for="item  in users" :key="item .id">
-            <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
+        
+        <div v-for="item  in users" :key="item .id">
+              <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
               <!-- <tr v-for="item in items | paginate"> -->
                 <div  _ngcontent-cpa-c6="">
                     Compte crée le:{{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
@@ -27,6 +28,7 @@
         
             </div>
         </div>
+      </div>
     </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>

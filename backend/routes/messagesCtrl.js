@@ -105,6 +105,38 @@ module.exports = {
             res.status(500).json({ "error": "invalid fields" });
         });
     },
+    listMessagesAdmin: function(req, res) {
+        var fields = req.query.fields;
+        var limit = parseInt(req.query.limit);
+        var offset = parseInt(req.query.offset);
+        var order = req.query.order;
+
+        if (limit > ITEMS_LIMIT) {
+            limit = ITEMS_LIMIT;
+        }
+
+        models.Message.findAll({
+            order: [(order != null) ? order.split(':') : ['title', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null,
+            include: [{
+                model: models.User,
+                attributes: ['username', 'email']
+            }],
+            order: [
+                ['id', 'DESC']
+            ],
+        }).then(function(messages) {
+            if (messages) {
+                res.status(200).json(messages);
+            } else {
+                res.status(404).json({ "error": "no messages found" });
+            }
+        }).catch(function(err) {
+            res.status(500).json({ "error": "invalid fields" });
+        });
+    },
     delMessPost: function(req, res) {
         // Getting auth header
         var headerAuth = req.headers['authorization'];
@@ -160,6 +192,84 @@ module.exports = {
                                 where: {
                                     id: messageId,
                                     UserId: userId
+                                }
+                            })
+                            .then(function(destroyMessage) {
+                                // return res.status(200).json({ deleteLikeLive });
+                                done(destroyMessage)
+                            })
+                            .catch(function(error) {
+                                return res.status(404).json({ 'error': 'unable to destroy message' });
+                            });
+                    } else {
+                        res.status(404).json({ 'error': 'unable to load message found' });
+                    }
+                },
+            ],
+            function(destroyMessage) {
+                if (destroyMessage) {
+                    return res.status(201).json('message delete');
+                } else {
+                    return res.status(500).json({ 'error': 'cannot delete message' });
+                }
+            }
+
+        );
+    },
+    delMessPostAdmin: function(req, res) {
+        // Getting auth header
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        console.log('Utilisateur', userId);
+        console.log(headerAuth);
+
+        // Params
+        var messageId = parseInt(req.params.messageId);
+        console.log('message.id', messageId);
+
+        if (messageId <= 0) {
+            return res.status(400).json({ 'error': 'invalid parameters' });
+        }
+
+        asyncLib.waterfall([
+                // on charge le message concerné dans la variable messageFound..
+                function(done) {
+                    models.User.findOne({
+                            where: {
+                                id: userId
+                            }
+                        })
+                        .then(function(userLive) {
+                            done(null, userLive);
+                        })
+                        .catch(function(error) {
+                            return res.status(500).json({ 'error': 'unable to load user' });
+                        });
+                },
+                function(userLive, done) {
+                    if (userLive) {
+
+                        models.Message.findOne({
+                                where: {
+                                    id: messageId,
+                                }
+                            })
+                            .then(function(messageLive) {
+                                done(null, messageLive, userLive);
+                            })
+                            .catch(function(error) {
+                                return res.status(502).json({ 'error': 'is not the owner message' });
+                            });
+                    } else {
+                        return res.status(201).json({ 'error': 'You are not the owner message' });
+                    }
+
+                },
+                function(messageLive, userLive, done) {
+                    if (messageLive) {
+                        models.Message.destroy({
+                                where: {
+                                    id: messageId,
                                 }
                             })
                             .then(function(destroyMessage) {

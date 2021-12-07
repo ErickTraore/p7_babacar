@@ -42,7 +42,6 @@
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
                         <button 
-                        v-if="myId == item.UserId" 
                         class="colorRed"
                         v-on:click="doDelete(item .id)">
                            Supprimer votre message
@@ -55,68 +54,7 @@
   </ul>
             </div>
         
-            <div class='group__header__body'>
-                <form @submit="postData" method="post" enctype="multipart/form-data" name="message">
-                    
-                    
-                    <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
-                        <p v-if="errors.length">
-                        <b>Merci de corriger les erreurs suivantes : </b>
-                      <ul>
-                          <li v-for="error in errors" :key="error">{{ error }}</li>
-                      </ul>
-                </p>
-                    <input
-                            id="title"
-                            v-model="message.title"
-                            type="text"
-                            name="title"
-                            placeholder="Titre"
-                    > <br> <br>
-
-                    <input
-                            id="content"
-                            v-model="message.content"
-                            type="text"
-                            name="content"
-                            placeholder="Contenu"
-                    > 
-                    <input
-                            id="attachment"
-                            v-model="message.attachment"
-                            type="text"
-                            name="attachment"
-                    > 
-                    <br> 
-                        <div>
-                          <div v-if="!image">
-                            <h2>Select an image</h2>
-                            <div id="list">
-                            </div>
-
-                            <input 
-                            id="file" 
-                            type="file" 
-                            @change="onFileSelected"
-                            name="attachment"
-                            alt="example"
-                            >
-                          </div>
-                          <div v-else>
-                            <img :src="image" />
-                            <button @click="removeImage">Remove image</button>
-                          </div>
-                        </div><br><br>
-                        <div>
-                        </div>
-                      <button 
-                      type="submit"
-                      value="val"
-
-                      >
-                      Envoyer</button>
-                </form>
-            </div>
+           
         </div>
     </div>
 </template>
@@ -158,9 +96,9 @@
         file:Blob,
           errors: [],
        message: {
-         title: '',
-         content: '',
-         attachment: '',
+         title: null,
+         content: null,
+         attachment: null,
        },
         image:'',
         selectedFile: null,
@@ -168,12 +106,10 @@
         likes: 0,
         dislikes:0,
         posts: {
-           title:'',
-            content: '',
-            attachment:'' ,
-          loading: false
+          title: null,
+          content: null,
+          attachment:''
           },
-     
       }
     },
     created() {
@@ -181,84 +117,18 @@
         let myStorageToken = JSON.parse(objMySession)
         let myId = myStorageToken.myId;
       axios
-        .get('http://localhost:3000/api/messages/')
+        .get('http://localhost:3000/api/messagesAdmin/')
         .then(response => {
           this.myId = myId
           this.messages = response.data
-          document.forms['contact'].reset();
+
           })
         
         .catch(error => console.log(error()))
     },
 
   methods: {
-    
-      doLike: function (id) {
-        let objMySession = localStorage.getItem("obj")
-        let myStorageToken = JSON.parse(objMySession)
-        let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:3000/api/messages/' + id + '/vote/like', null, {
-            headers: {
-              'Authorization': token
-            }
-          }
-        )
-          .then(() => {
-            axios
-              .get('http://localhost:3000/api/messages/')
-              .then(response => this.messages = response.data)
-              .catch(error => console.log(error()))
-
-          })
-          .catch(error => console.log(error()))
-      },
-      doDislike: function (id) {
-        let objMySession = localStorage.getItem("obj")
-        let myStorageToken = JSON.parse(objMySession)
-        let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:3000/api/messages/' + id + '/vote/dislike', null, {
-            headers: {
-              'Authorization': token
-            }
-          }
-        )
-          .then(() => {
-            axios
-              .get('http://localhost:3000/api/messages/')
-              .then(response => this.messages = response.data)
-              .catch(error => console.log(error()))
-          })
-          .catch(error => console.log(error()))
-      },
-    postData(e) {
-
-      e.preventDefault();
-
-        this.errors = [];
-
-        if (!this.message.title) {
-          this.errors.push('Veillez saisir le titre');
-          }
-         else if (this.message.title.length >= 30 || this.message.title.length <= 3){
-          this.errors.push('Votre titre doit comprendre entre 4 et 30 caractères.');
-        }
-        if (!this.message.content) {
-          this.errors.push('Veillez saisir le message');
-        } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
-          this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
-        }
-        //   if (!this.message.attachment) {
-        //   this.errors.push('Veillez saisir l\'attachment');
-        // } else if (this.message.attachment.length >= 150 || this.message.attachment.length <= 3){
-        //   this.errors.push('Votre attachment doit contenir entre 4 et 150 caractères.');
-        // }
-        if (!this.errors.length) {
-
-          console.log('Vérification des inputs --> OK')
-          return this.post(this.message);
-        }
-        // else return this.put(this.message);
-},
+  
         post: function (message) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
@@ -277,7 +147,6 @@
               .get('http://localhost:3000/api/messages/')
               .then(response => {
                 this.messages = response.data
-                this.$router.push({path: '/'});
                 })
               .catch(error => console.log(error()))
           })
@@ -346,39 +215,12 @@
      err.statusCode = 401;
                     });
   },
-    removeImage: function(e) {
-        let objMySession = localStorage.getItem("obj")
-        let myStorageToken = JSON.parse(objMySession)
-        let token = myStorageToken.myToken;
-        var fileName = this.selectedFile.name;
-        
-        console.log('Envoie dufichier pour écrasement',fileName);
-        var formData = new FormData();
-        formData.append("file", this.selectedFile);
-      
-        axios.post('http://localhost:3000/api/messages/delLienImage', formData, {
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'multipart/form-data' 
-          }
-      })   
 
-      this.image = '';
-      console.log('Le fichier vient d\'être effacé du navigateur');
-      e.preventDefault();
-
-      // try {
-      //   fs.unlink(path)
-      //   //file removed
-      // } catch(err) {
-      //   console.error(err)
-      // }
-    },
     doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:3000/api/messages/' + id + '/del', null, {
+        this.axios.post('http://localhost:3000/api/messages/' + id + '/delete', null, {
             headers: {
               'Authorization': token
             }
