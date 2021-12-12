@@ -141,6 +141,7 @@ module.exports = {
         // Getting auth header
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
+        var recepteur = userId
         console.log('Utilisateur', userId);
         console.log(headerAuth);
 
@@ -187,20 +188,47 @@ module.exports = {
 
                 },
                 function(messageLive, userLive, done) {
-                    if (messageLive) {
+                    console.log('messageLive.UserId :', messageLive)
+                    console.log('userId', userId)
+                    console.log('messageLive.UserId :', messageLive.UserId)
+                    console.log('messageLive.Likes :', messageLive.likes)
+                    console.log('messageLive.Dislikes :', messageLive.dislikes)
+                    console.log('messageLive.id :', messageId)
+                    if (messageLive.UserId = userId) {
+                        messageLive.update({
+                            likes: messageLive.likes * 0,
+                            dislikes: messageLive.dislike * 0,
+                        }).then(function() {
+                            done(messageLive);
+                        }).catch(function(err) {
+                            res.status(500).json({ 'error': 'cannot update likes=0 and dislike=0' });
+                        });
+                        models.Like.destroy({
+                                where: {
+                                    messageId: messageId,
+                                }
+                            })
+                            .then(function(newLike) {
+                                // return res.status(200).json({ deleteLikeLive });
+                                done(newLike)
+                            })
+                            .catch(function(error) {
+                                return res.status(502).json({ 'error': 'unable to delete like' });
+                            });
                         models.Message.destroy({
                                 where: {
                                     id: messageId,
-                                    UserId: userId
                                 }
                             })
-                            .then(function(destroyMessage) {
+                            .then(function(newLike) {
                                 // return res.status(200).json({ deleteLikeLive });
-                                done(destroyMessage)
+                                done(newLike)
                             })
                             .catch(function(error) {
-                                return res.status(404).json({ 'error': 'unable to destroy message' });
+                                return res.status(502).json({ 'error': 'unable to delete like' });
                             });
+
+
                     } else {
                         res.status(404).json({ 'error': 'unable to load message found' });
                     }
