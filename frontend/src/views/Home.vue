@@ -191,16 +191,6 @@
     },
 
   methods: {
-    resetForm() {
-        console.log('Reseting the form')
-        var self = this; //you need this because *this* will refer to Object.keys below`
-
-        //Iterate through each object field, key is name of the object field`
-        Object.keys(this.message).forEach(function(key,index) {
-          self.message[key] = '';
-        });
-      },
-    
       doLike: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
@@ -239,12 +229,8 @@
           .catch(error => console.log(error()))
       },
     onPostData(e) {
-      
       e.preventDefault();
-
-
         this.errors = [];
-
         if (!this.message.title) {
           this.errors.push('Veillez saisir le titre');
           }
@@ -256,53 +242,43 @@
         } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
           this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
         }
-       
         if (!this.errors.length) {
-
           console.log('Vérification des inputs --> OK')
           return this.post(this.message);
         }
-
-        // else return this.put(this.message);
-},
+      },
         post: function (message, e) {
-
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-      
         this.axios.post('http://localhost:3000/api/messages/new/', message, {
             headers: {
               'Authorization': token
             }
           }
-
         )
-
          .then(reponse => {
-
             this.message = reponse.data
+            console.log('message crée ok')
             axios
               .get('http://localhost:3000/api/messages/')
               .then(response => {
-
                 this.messages = response.data
                 this.resetForm()
+                this.image = '';
+                res.status(200).json(this.messages);
                 })
-              .catch(error => {
-
-                console.log(error())
-              })
+              .catch(function(err) {
+                err.statusCode = 401;
+              });
           })
-      e.preventDefault();
-
+          .catch(function(err) {
+                err.statusCode = 401;
+              });
       },
-
       onFileSelected(e) {
-
-         this.selectedFile = e.target.files[0];
+      this.selectedFile = e.target.files[0];
       var files = e.target.files || e.dataTransfer.files;
-      
       if (!files.length)
         return;
       this.createImage(files[0]);
@@ -311,11 +287,9 @@
       var image = new Image();
       var reader = new FileReader();
       var vm = this;
-
       reader.onload = (e) => {
         vm.image = e.target.result;
       };
-      
       reader.readAsDataURL(file);
       if(this.image)
         return; 
@@ -325,15 +299,12 @@
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-
         const util = require('util');
         var fileName = fileName;
-
         var formData = new FormData();
         var imagefile = document.querySelector('#file');
         console.log('Mon imageFile[0] :',imagefile.files[0]);
         formData.append("file", imagefile.files[0]);
-      
         axios.post('http://localhost:3000/api/messages/upload', formData, {
           headers: {
             'Authorization': token,
@@ -380,13 +351,6 @@
       this.image = '';
       console.log('Le fichier vient d\'être effacé du navigateur');
       e.preventDefault();
-
-      // try {
-      //   fs.unlink(path)
-      //   //file removed
-      // } catch(err) {
-      //   console.error(err)
-      // }
     },
     doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
@@ -397,8 +361,23 @@
               'Authorization': token
             }
           })
-              .then(response => this.messages = response.data)
-              .catch(error => console.log(error()))
+        .then(reponse => {
+            console.log('Deleting message-1')
+            axios
+              .get('http://localhost:3000/api/messages/')
+              .then(response => {
+                console.log('Deleting message')
+                this.messages = response.data
+                this.resetForm()
+                res.status(200).json(this.messages);
+                })
+               .catch(function(err) {
+                err.statusCode = 401;
+                });
+          })
+        .catch(function(err) {
+              err.statusCode = 401;
+              });
       }
   }
   }

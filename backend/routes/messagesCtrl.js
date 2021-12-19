@@ -220,9 +220,9 @@ module.exports = {
                                     id: messageId,
                                 }
                             })
-                            .then(function(newLike) {
+                            .then(function(destroyMessage) {
                                 // return res.status(200).json({ deleteLikeLive });
-                                done(newLike)
+                                done(destroyMessage)
                             })
                             .catch(function(error) {
                                 return res.status(502).json({ 'error': 'unable to delete like' });
@@ -235,7 +235,7 @@ module.exports = {
                 },
             ],
             function(destroyMessage) {
-                if (destroyMessage) {
+                if (!destroyMessage) {
                     return res.status(201).json('message delete');
                 } else {
                     return res.status(500).json({ 'error': 'cannot delete message' });
