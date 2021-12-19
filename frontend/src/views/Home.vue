@@ -191,6 +191,15 @@
     },
 
   methods: {
+      resetForm() {
+        console.log('Reseting the form')
+        var self = this; //you need this because *this* will refer to Object.keys below`
+
+        //Iterate through each object field, key is name of the object field`
+        Object.keys(this.message).forEach(function(key,index) {
+          self.message[key] = '';
+        });
+      },
       doLike: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
@@ -350,6 +359,8 @@
 
       this.image = '';
       console.log('Le fichier vient d\'être effacé du navigateur');
+      this.message.attachment = '';
+      console.log('L\'url du fichier vient d\'être effacé du formulaire');
       e.preventDefault();
     },
     doDelete: function (id) {
