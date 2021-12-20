@@ -216,17 +216,32 @@
                     });
   },
 
-    doDelete: function (id) {
+     doDelete: function (id) {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-        this.axios.post('http://localhost:3000/api/messages/' + id + '/delete', null, {
+        this.axios.post('http://localhost:3000/api/messages/' + id + '/del', null, {
             headers: {
               'Authorization': token
             }
           })
-              .then(response => this.messages = response.data)
-              .catch(error => console.log(error()))
+        .then(reponse => {
+            console.log('Deleting message-1')
+            axios
+              .get('http://localhost:3000/api/messages/')
+              .then(response => {
+                console.log('Deleting message')
+                this.messages = response.data
+                this.resetForm()
+                res.status(200).json(this.messages);
+                })
+               .catch(function(err) {
+                err.statusCode = 401;
+                });
+          })
+        .catch(function(err) {
+              err.statusCode = 401;
+              });
       }
   }
   }

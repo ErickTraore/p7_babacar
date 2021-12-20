@@ -65,8 +65,12 @@
             }
           })
               .then(response => this.users = response.data)
-              .catch(error => console.log(error()))
-
+                    axios
+                  .get('http://localhost:3000/api/users/')
+                  .then(response => {
+                    this.users = response.data
+                    })
+                  .catch(error => console.log(error()))
           .catch(error => console.log(error()))
       }
    }
