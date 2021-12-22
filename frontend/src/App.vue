@@ -1,5 +1,17 @@
 <template>
    <div class="nav">
+     <div class="chargement"> </div>
+        <div>
+            <button class="btn btn-danger" type="button" disabled>
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+              Loading...
+            </button>   
+        </div>
+
+        <div>
+        <p>Je suis un vrai YANKEE</p>
+        <button class="btn"> Moi je clique</button>
+        </div>
         <div class="nav__in" id="app">   
                   <img alt="Vue logo" src="./assets/logo4.png"> 
         </div>
@@ -58,7 +70,11 @@ export default {
  
 };
 </script>
-<style>
+<style lang="scss">
+    @import 'sass/main.scss';
+
+
+
 .nav{
   padding: 20px;
 }
@@ -95,6 +111,28 @@ img {
   height: 100%;
   border-radius: 30px;
   margin:  auto;
+}
+.chargement {
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #99E2D0;
+    border-bottom: 10px solid #FF79DA;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    animation: spin 3s;
+    opacity: 0;
+    margin: auto;
+    position: absolute;
+    z-index: 2;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+    -webkit-animation: spin 3s;
 }
 </style>
 

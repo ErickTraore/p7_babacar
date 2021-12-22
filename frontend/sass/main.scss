@@ -1,0 +1,19 @@
+$cd-btn-bad: #c80000;
+$cd-btn-good: #15DEA5;
+$cd-txt: #071b46;
+.btn {
+    width: 3àpx;
+    background: $cd-btn-bad;
+    color: $cd-txt;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 10rem;
+    transform: scale(1);
+    transition-property: transform;
+    transition-duration: 1000ms;
+    &:hover {
+        transform: scale(1.15);
+    }
+}

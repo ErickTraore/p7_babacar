@@ -1,1 +1,19 @@
-/* # sourceMappingURL=style.css.map */
+@charset "UTF-8";
+.btn {
+  width: 3àpx;
+  background: #c80000;
+  color: #071b46;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 10rem;
+  transform: scale(1);
+  transition-property: transform;
+  transition-duration: 1000ms;
+}
+.btn:hover {
+  transform: scale(1.15);
+}
+
+/*# sourceMappingURL=style.css.map */

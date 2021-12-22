@@ -18,7 +18,7 @@
                   </div>
                  
                    <div class="group__header__body__first__down"> 
-                     {{ item .content }}<br> 
+                       {{ item .content }}<br> 
                     </div>             <!-- <u>Nombre de like:</u> {{ message.likes }} -->
                 </div>
                 <div _ngcontent-cpa-c6="" class="position like-buttons group__header__body__second">
@@ -41,11 +41,11 @@
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button 
+                        <button id="flashBtn"
                         v-if="myId == item.UserId" 
-                        class="colorRed"
+                        class="btn"
                         v-on:click="doDelete(item .id)">
-                           Supprimer votre message
+                        Supprimez message
                         </button>
                     </div>
                   </div>
@@ -177,6 +177,7 @@
       }
     },
     created() {
+
        let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let myId = myStorageToken.myId;
@@ -184,12 +185,16 @@
         .get('http://localhost:3000/api/messages/')
         .then(response => {
           this.myId = myId
+
           this.messages = response.data
+
+
           })
         
         .catch(error => console.log(error()))
 
     },
+  
 
   methods: {
       resetForm() {
@@ -396,6 +401,7 @@
 </script>
 
 <style scoped>
+ 
     .group {
         height: 100%;
         display: flex;
@@ -461,10 +467,6 @@ padding: 0px 7px 0px 7px;
 background: rgb(230, 122, 122);
 border: solid 1px black;
  }
- .colorRed{
-   color: red;
-   font-size: 8px;
-   }
    .container{
     border: solid 5px rgb(189, 182, 182);
     background: rgba(248, 247, 247, 0.801);
