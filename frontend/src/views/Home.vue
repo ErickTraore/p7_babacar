@@ -41,11 +41,12 @@
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button id="flashBtn"
-                        v-if="myId == item.UserId" 
+                        <button
                         class="btn"
-                        v-on:click="doDelete(item .id)">
-                        Supprimez message
+                        v-if="myId == item.UserId" 
+                        v-on:click="doDelete(item .id)"
+                        >
+                        Suppression !
                         </button>
                     </div>
                   </div>

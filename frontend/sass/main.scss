@@ -1,19 +1,128 @@
-$cd-btn-bad: #c80000;
+$cd-btn-gr_rose: #e04151;
 $cd-btn-good: #15DEA5;
-$cd-txt: #071b46;
+$cd-txt-black: #071b46;
+$cd-txt-white: white;
+$border-rad: 2rem;
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: "Arial Black", Arial, Verdana, Impact, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .btn {
-    width: 3àpx;
-    background: $cd-btn-bad;
-    color: $cd-txt;
+    width: 120px;
+    background: $cd-btn-gr-rose;
+    color: $cd-txt-white;
     font-size: 0.8rem;
     font-weight: bold;
     cursor: pointer;
     padding: 0.3rem;
-    border-radius: 10rem;
+    border-radius: $border-rad;
     transform: scale(1);
     transition-property: transform;
-    transition-duration: 1000ms;
+    transition-duration: 200ms;
+    position: relative;
+    z-index: 1;
     &:hover {
-        transform: scale(1.15);
+        border: solid 3px $cd-txt-black;
+        &::after {
+            opacity: 1;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: radial-gradient(circle, lighten($cd-btn-gr_rose, 5) 0%, darken($cd-btn-gr_rose, 10) 100%);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 250ms;
+            border-radius: $border-rad;
+        }
     }
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.proj-prev {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #071b46;
+    padding: 2%;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    flex-direction: row;
+    color: #fff;
+    .proj-prev__groupo {
+        width: 80%;
+        height: 100%;
+        padding: 2%;
+        display: flex;
+        margin: 0 auto;
+        .proj-prev__groupo__img {
+            display: flex;
+            width: 20%;
+            height: 100%;
+            filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(103deg) brightness(106%) contrast(100%);
+        }
+        .proj-prev__pic {
+            display: flex;
+            width: 80%;
+            height: 100%;
+            align-self: center;
+            font-size: 7.5vw;
+            font-weight: regular;
+        }
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes rotating {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    -webkit-animation: rotating 20s linear infinite;
+    -moz-animation: rotating 20s linear infinite;
+    -ms-animation: rotating 20s linear infinite;
+    -o-animation: rotating 20s linear infinite;
+    animation: rotating 20s linear infinite;
 }
