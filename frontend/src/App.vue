@@ -10,18 +10,18 @@
           </div>
           <div class="nav">
               
-                        <div class="nav__down">
-                          <router-link class="nav__down__first" to="/">Home</router-link> 
-                          <router-link class="nav__down__first" to="/profile">Profile</router-link>  
-                          <router-link class="nav__down__first" v-if=logged to="/login">Login</router-link>  
-                          <router-link class="nav__down__first" v-else  to="/logout">Logout</router-link> 
-                          <router-link class="nav__down__first" v-if= testBool  to="/compte">Admin</router-link> 
-                        </div>
+           <div class="nav__down">
+                  <router-link class="nav__down__first" to="/">Home</router-link> 
+                  <router-link class="nav__down__first" to="/profile">Profile</router-link>  
+                  <router-link class="nav__down__first" v-if=logged to="/login">Login</router-link>  
+                  <router-link class="nav__down__first" v-else  to="/logout">Logout</router-link> 
+                  <router-link class="nav__down__first" v-if= testBool  to="/compte">Admin-users</router-link> 
+                  <router-link class="nav__down__first" v-if= testBool  to="/comptemessages">Admin-messages</router-link> 
+           </div>
                         <router-view/>
           </div>
   </div>
 </template>
-
 <script>
 import Vue from 'vue'
 import axios from 'axios';

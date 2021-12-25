@@ -9,8 +9,6 @@
                     <li v-for="error in errors" :key="error">{{ error }}</li>
                 </ul>
                 </p>
-
-              
                 <p>
                     <label for="email">Email* </label>
                     <input
@@ -29,7 +27,6 @@
                             name="password"
                     >
                 </p>
-              
                 <button class="btn">Conexion</button>
             </div>
         </form>
