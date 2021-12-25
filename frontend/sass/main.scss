@@ -1,0 +1,93 @@
+$cd-btn-gr_rose: #e04151;
+$cd-btn-good: #15DEA5;
+$cd-txt-black: #071b46;
+$cd-txt-white: white;
+$border-rad: 2rem;
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: "Arial Black", Arial, Verdana, Impact, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.proj-prev {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #071b46;
+    padding: 2%;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    flex-direction: row;
+    color: #fff;
+    .proj-prev__groupo {
+        width: 80%;
+        height: 100%;
+        padding: 2%;
+        display: flex;
+        margin: 0 auto;
+        .proj-prev__groupo__img {
+            display: flex;
+            width: 20%;
+            height: 100%;
+            filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(103deg) brightness(106%) contrast(100%);
+        }
+        .proj-prev__pic {
+            display: flex;
+            width: 80%;
+            height: 100%;
+            align-self: center;
+            font-size: 7.5vw;
+            font-weight: regular;
+        }
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes rotating {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    -webkit-animation: rotating 20s linear infinite;
+    -moz-animation: rotating 20s linear infinite;
+    -ms-animation: rotating 20s linear infinite;
+    -o-animation: rotating 20s linear infinite;
+    animation: rotating 20s linear infinite;
+}
