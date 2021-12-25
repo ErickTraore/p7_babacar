@@ -47,6 +47,9 @@
       }
     },
     created() {
+        let objMySession = localStorage.getItem("obj")
+        let myStorageToken = JSON.parse(objMySession)
+        let myId = myStorageToken.myId;
       axios
         .get('http://localhost:3000/api/users/')
         .then(response => {

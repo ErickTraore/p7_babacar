@@ -18,9 +18,15 @@ Vue.use(Vuex)
 export default {
    methods: {
       logoutClick () {
-        this.$store.dispatch('beforeLogged')
+        //  window.location.reload()
+
          window.localStorage.clear()
-         window.location.reload();
+
+        this.$store.dispatch('beforeLogged')
+         this.$router.push({name: 'Login'}) 
+
+
+
 
         //  <a href = "/login"> page d'acceuil </a> 
 

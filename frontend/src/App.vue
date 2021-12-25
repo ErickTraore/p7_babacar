@@ -11,7 +11,9 @@
                   <router-link class="nav__down__first" v-if= testBool  to="/compte">Admin-users</router-link> 
                   <router-link class="nav__down__first" v-if= testBool  to="/comptemessages">Admin-messages</router-link> 
                 </div>
-        <router-view/>
+        <router-view
+          :key="$route.fullPath"
+        />
   </div>
 </template>
 
