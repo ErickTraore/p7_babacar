@@ -409,6 +409,13 @@
         align-items: center;
         justify-content: space-evenly;
     }
+      .group__header {
+        font-size: 1.2rem;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 2rem;
+          background-color: rgb(35, 49, 82);
+    }
     .group__header__body {
         padding: 1rem;
         border-radius: 2rem;
@@ -454,7 +461,7 @@
 
   }
   .right{
-        display: flex;
+display: flex;
 
   }
  .spanLikes{
@@ -468,20 +475,20 @@ padding: 0px 7px 0px 7px;
 background: rgb(230, 122, 122);
 border: solid 1px black;
  }
-   .container{
-    border: solid 5px rgb(189, 182, 182);
-    background: rgba(248, 247, 247, 0.801);
-    border-radius: 20px;
-    margin: 5px;
+  .container{
+border: solid 5px rgb(189, 182, 182);
+background: rgba(248, 247, 247, 0.801);
+border-radius: 20px;
+margin: 5px;
    }
    .labelForm {
-     color:white;
+color:white;
    }
 img {
-  width: 30%;
-  margin: auto;
-  display: block;
-  margin-bottom: 10px;
+width: 30%;
+margin: auto;
+display: block;
+margin-bottom: 10px;
 }
 
 </style>

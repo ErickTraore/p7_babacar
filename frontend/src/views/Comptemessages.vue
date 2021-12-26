@@ -113,11 +113,17 @@
       }
     },
     created() {
+
        let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
+        let token = myStorageToken.myToken;
         let myId = myStorageToken.myId;
       axios
-        .get('http://localhost:3000/api/messagesAdmin/')
+        .get('http://localhost:3000/api/messagesAdmin/',{
+            headers: {
+              'Authorization': token
+            }
+          })
         .then(response => {
           this.myId = myId
           this.messages = response.data
