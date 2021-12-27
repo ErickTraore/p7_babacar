@@ -31,7 +31,6 @@
 
                     >
                 </p>
-              
                 <button class="btn">Conexion</button>
             </div>
         </form>

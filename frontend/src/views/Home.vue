@@ -2,7 +2,6 @@
     <div class="group">
     <div id="app" class="group__header">
         <div class="group__header__body">
-
             <div class="container" v-for="item  in messages" :key="item .id">
             
                 <div class="group__header__body__first"> 
@@ -113,8 +112,7 @@
                       <button 
                       type="submit"
                       value="val"
-
-                      >
+                    >
                       Envoyer</button>
                 </form>
             </div>
@@ -335,7 +333,7 @@
           return res.data.idImage;
      })
      .then(function(idImage){
-      //  document.querySelector('#this.attachment').innerHTML = idImage
+
 
        const attachment = document.querySelector("#attachment");
           attachment.value = "http://localhost:3000/images/"+idImage;
@@ -483,7 +481,7 @@ background: rgba(248, 247, 247, 0.801);
 border-radius: 10px;
 margin-bottom: 1rem;
 
-   }
+  }
    .labelForm {
 color:white;
    }
