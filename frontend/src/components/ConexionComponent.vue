@@ -9,24 +9,26 @@
                     <li v-for="error in errors" :key="error">{{ error }}</li>
                 </ul>
                 </p>
-
-              
                 <p>
                     <label for="email">Email* </label>
                     <input
-                            id="email"
-                            v-model="user.email"
-                            type="email"
-                            name="email"
-                    >
+                          id="email"
+                          v-model="user.email"
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+
+                    ><br> <br>
                 </p>
                 <p>
                     <label for="password">Mot de passe* </label>
                     <input
-                            id="password"
-                            v-model="user.password"
-                            type="password"
-                            name="password"
+                          id="password"
+                          v-model="user.password"
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+
                     >
                 </p>
               
@@ -95,8 +97,10 @@
                       }
                     let sessionStore = JSON.stringify(objMySession);
                     localStorage.setItem("obj",sessionStore);
-                    this.$store.dispatch("nowLogged")
+                    this.$store.dispatch("nowLogged");
                     this.$router.push({path: '/'});
+                    window.location.reload();
+
                     })
 
           .catch(error => console.log(error()))
@@ -117,8 +121,12 @@
 
 </script>
 <style scoped>
-    * {
-        box-sizing: border-box;
+   
+   .group {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
     }
 
     .group__header {
@@ -126,11 +134,7 @@
         align-items: center;
         padding: 1rem;
         border-radius: 2rem;
-        color: white;
           background-color: rgb(35, 49, 82);
-
-
-
     }
 
     .group__header__body {
@@ -141,7 +145,5 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
-     .labelForm {
-     color:white;
-   }
+  
 </style>

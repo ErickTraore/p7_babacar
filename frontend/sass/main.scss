@@ -11,11 +11,11 @@ html,
 body {
     font-family: "Arial Black", Arial, Verdana, Impact, sans-serif;
     height: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0.5rem;
+    padding: 0.5rem;
 }
 
-.container {
+.conteneur {
     width: 100%;
     height: 100%;
     display: flex;
@@ -71,6 +71,22 @@ body {
         -moz-transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
     }
+}
+
+li {
+    margin: 0.5rem;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: black;
+    // color: #071b46;
+    font-weight: 900;
+    font-size: 1.2em;
+    padding: 0.5rem;
+}
+
+.navbar-dark {
+    background-color: #4b5053;
 }
 
 @-webkit-keyframes rotating {

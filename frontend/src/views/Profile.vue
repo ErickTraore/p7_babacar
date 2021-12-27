@@ -111,7 +111,6 @@
         align-items: center;
         padding: 1rem;
         border-radius: 2rem;
-        color: white;
           background-color: rgb(35, 49, 82);
 
 

@@ -1,25 +1,49 @@
 <template>
 <div>
-          <div id="container" class="proj-prev"> 
-                  <div class="proj-prev__groupo rotateLogo">
-                    <img  alt="Logo-groupomania" src="./assets/plus/logo-transp.png" class="rotating proj-prev__groupo__img"> 
-                  <div class="proj-prev__pic">
-                    Groupomania
-                  </div>
-                  </div>
-          </div>
-          <div class="nav">
-              
-                        <div class="nav__down">
-                          <router-link class="nav__down__first" to="/">Home</router-link> 
-                          <router-link class="nav__down__first" to="/profile">Profile</router-link>  
-                          <router-link class="nav__down__first" v-if=logged to="/login">Login</router-link>  
-                          <router-link class="nav__down__first" v-else  to="/logout">Logout</router-link> 
-                          <router-link class="nav__down__first" v-if= testBool  to="/compte">Admin</router-link> 
-                        </div>
-                        <router-view/>
-          </div>
+  <div id="conteneur" class="proj-prev"> 
+           <div class="proj-prev__groupo rotateLogo">
+             <img  alt="Logo-groupomania" src="./assets/plus/logo-transp.png" class="rotating proj-prev__groupo__img"> 
+           <div class="proj-prev__pic">
+             Groupomania
+           </div>
+           </div>
   </div>
+<nav class="navbar navbar-expand-sm navbar-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <router-link class="nav-link" to="/">Home</router-link> 
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" to="/profile">Profile</router-link>  
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
+          <router-link class="nav-link" v-else  to="/logout">Logout</router-link> 
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-if= testBool  to="/compte">Admin-users</router-link> 
+        </li>
+         <li class="nav-item">
+          <router-link class="nav-link" v-if= testBool  to="/comptemessages">Admin-messages</router-link> 
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="text" placeholder="Search">
+        <button class="btn btn-primary" type="button">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+  <router-view/>
+
+</div>
+        
+
 </template>
 
 <script>
@@ -39,7 +63,6 @@ export default {
     data() {
     return {
       item:''
-   
     };
   },
    created() {
@@ -54,56 +77,20 @@ export default {
           })
         .then(response => {
           this.item = response.data
-
           })
-        
         .catch(error => console.log(error()))
   },
 
   props: {},
-  methods: {},
- 
+  methods: {
+  },
 };
 </script>
 <style lang="scss">
     @import 'sass/main.scss';
-.nav{
-  padding: 20px;
-}
-.nav__in{
-  display:flex;
- margin: 0 auto;
-border: 3px solid black;
- width: 320px;
-height: 50px;
-border-radius: 30px;
-}
-.nav__down{
-  padding: 20px;
 
 
-}
-.nav__down__first{
-border: 3px solid black;
-width: auto;
-height: auto;
-border-radius: 30px;
-border: 3px solid rgb(230, 122, 122);
-margin: 5px;
-padding: 5px;
-font-size: 10px;
-font-weight: bold;
-background: rgb(231, 216, 216);
-text-decoration:none;
-}
 
-
-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  margin:  auto;
-}
 </style>
 
 
