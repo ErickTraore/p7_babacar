@@ -78,7 +78,9 @@ export default {
         .then(response => {
           this.item = response.data
           })
-        .catch(error => console.log(error()))
+         .catch(function(err) {
+                err.statusCode = 401;
+              });
   },
 
   props: {},

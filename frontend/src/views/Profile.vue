@@ -53,7 +53,14 @@
             'Authorization': token
           }
         })
-        .then(response => this.profile = response.data)
+        .then(response => {
+          this.profile = response.data
+          this.testUser = this.profile.testUser
+          console.log(this.testUser) // this.$store.dispatch("beforeLogged")
+      if(this.testUser == 'testOk'){
+       this.$store.dispatch("beforeLogged")
+      }
+        })
         .catch(error => console.log(error()))
     },
     methods: {

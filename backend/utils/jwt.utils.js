@@ -11,7 +11,7 @@ module.exports = {
                 isAdmin: userData.isAdmin
             },
             JWT_SIGN_SECRET, {
-                expiresIn: '10m'
+                expiresIn: '2m'
             })
     },
     parseAuthorization: function(authorization) {

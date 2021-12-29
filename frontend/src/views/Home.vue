@@ -1,14 +1,22 @@
 <template>
     <div class="group">
+     <!-- <div v-if="loading" class="progress">
+        <div class="value v-80 striped animate s-10">Chargement...</div>
+     </div> -->
+    <!-- <div v-else> -->
     <div id="app" class="group__header">
         <div class="group__header__body">
             <div class="container" v-for="item  in messages" :key="item .id">
             
                 <div class="group__header__body__first"> 
                    <div class="group__header__body__first__in"> 
-                     <figure>
+             
+              
+             
                       <img :src="item.attachment" />
-                      </figure>
+                       <div id="progress-bar">
+                          <div></div>
+                        </div>
                       <b>Mon id: {{ myId }}</b> <br>
                       <b>Mon messageUserId: {{ item.UserId}}</b> <br>
                       <b>{{ item .User.username }}</b> à écrit le
@@ -55,7 +63,11 @@
                  <ul>
   </ul>
             </div>
-        
+        <!-- <div v-if="loading" class="progress">
+            <div class="value v-42 striped animate s-10">Chargement...</div>
+        </div> -->
+       
+        </div>
             <div class='group__header__body'>
                 <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
                     
@@ -85,27 +97,28 @@
                     <input
                             id="attachment"
                             v-model="message.attachment"
-                            type="text"
+                            type="hidden"
                             name="attachment"
                     > 
                     <br> 
-                        <div>
+                          <div>
                             <div v-if="!image">
                             <h2>Select an image</h2>
                             <div id="list">
                             </div>
-                            <input 
+                    <input 
                             id="file" 
                             type="file" 
                             @change="onFileSelected"
                             name="attachment"
                             alt="example"
-                            >
+                    >
                           </div>
                           <div v-else>
                             <img :src="image" />
                             <button @click="removeImage">Remove image</button>
                           </div>
+                         
                         </div><br><br>
                         <div>
                         </div>
@@ -117,7 +130,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
@@ -126,9 +139,6 @@
   const isLocal = typeof process.pkg === "undefined";
   const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
   const baseUri = "ipfs://NewUriToReplace";
-  
-  
-  
   
   const http = require("http");
   var req = require('request');
@@ -141,7 +151,6 @@
   import FormData from 'form-data'
   import { mapGetters } from 'vuex'
 
-  // const path = require('path').
    Vue.use(VueFilterDateFormat);
    Vue.use(VueAxios, axios);
   export default {
@@ -152,7 +161,8 @@
    
     data() {
       return {
-        
+        // loading: false,
+        loading: true,
               myId:Number,
               idImage: '',
               testName:Boolean,
@@ -181,20 +191,19 @@
        let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let myId = myStorageToken.myId;
+        setTimeout(() => {
       axios
         .get('http://localhost:3000/api/messages/')
         .then(response => {
           this.myId = myId
-
           this.messages = response.data
-
-
           })
-        
         .catch(error => console.log(error()))
-
+        .finally(() => 
+          this.loading = false
+        )
+    }, 0)
     },
-  
 
   methods: {
       resetForm() {
@@ -254,8 +263,8 @@
         }
         if (!this.message.content) {
           this.errors.push('Veillez saisir le message');
-        } else if (this.message.content.length >= 150 || this.message.content.length <= 3){
-          this.errors.push('Votre message doit contenir entre 4 et 150 caractères.');
+        } else if (this.message.content.length >= 550 || this.message.content.length <= 3){
+          this.errors.push('Votre message doit contenir entre 4 et 550 caractères.');
         }
         if (!this.errors.length) {
           console.log('Vérification des inputs --> OK')
@@ -486,10 +495,11 @@ margin-bottom: 1rem;
 color:white;
    }
 img {
-width: 30%;
+width: 80%;
 margin: auto;
 display: block;
 margin-bottom: 10px;
+
 }
 
 </style>
