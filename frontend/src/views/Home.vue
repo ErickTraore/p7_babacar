@@ -1,18 +1,18 @@
 <template>
     <div class="group">
-     <!-- <div v-if="loading" class="progress">
-        <div class="value v-80 striped animate s-10">Chargement...</div>
-     </div> -->
-    <!-- <div v-else> -->
+     <div v-if="loadingTemplate" class="progress conteneur">
+           <pulse-loader :loading="loading" :color="color" :size="size"></pulse-loader>
+
+       <!-- <div class="spinner-border"></div> -->
+        <!-- <div class="value v-80 striped animate s-10">Chargement...</div> -->
+     </div>
+    <div v-else>
     <div id="app" class="group__header">
         <div class="group__header__body">
             <div class="container" v-for="item  in messages" :key="item .id">
             
                 <div class="group__header__body__first"> 
                    <div class="group__header__body__first__in"> 
-             
-              
-             
                       <img :src="item.attachment" />
                        <div id="progress-bar">
                           <div></div>
@@ -115,7 +115,12 @@
                     >
                           </div>
                           <div v-else>
+                            <div v-if="loadingImage" class="progress">
+                            <div class="value v-80 striped animate s-10">Chargement...</div>
+                            </div>
+                            <div v-else>
                             <img :src="image" />
+                            </div>
                             <button @click="removeImage">Remove image</button>
                           </div>
                          
@@ -130,7 +135,7 @@
                 </form>
             </div>
         </div>
-    <!-- </div> -->
+    </div>
     </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
@@ -146,6 +151,7 @@
   import Vue from 'vue'
   import HTTP from 'http'
   import axios from 'axios';
+  import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
   import VueAxios from 'vue-axios'
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
   import FormData from 'form-data'
@@ -162,11 +168,12 @@
     data() {
       return {
         // loading: false,
-        loading: true,
-              myId:Number,
+        loadingTemplate: true,
+        loadingImage: true,
+              myId: Number,
               idImage: '',
-              testName:Boolean,
-              file:Blob,
+              testName: Boolean,
+              file: Blob,
               errors: [],
               message: {
                 title: '',
@@ -184,7 +191,15 @@
                   attachment:'' ,
                   loading: false
           },
+          color: '#071b46',
+          color1: 'red',
+          size: '45px',
+          margin: '2px',
+          radius: '2px'
       }
+    },
+     components: {
+    PulseLoader
     },
     created() {
 
@@ -200,9 +215,9 @@
           })
         .catch(error => console.log(error()))
         .finally(() => 
-          this.loading = false
+          this.loadingTemplate = false
         )
-    }, 0)
+    }, 1000)
     },
 
   methods: {
@@ -329,7 +344,9 @@
         var imagefile = document.querySelector('#file');
         console.log('Mon imageFile[0] :',imagefile.files[0]);
         formData.append("file", imagefile.files[0]);
-        axios.post('http://localhost:3000/api/messages/upload', formData, {
+        setTimeout(() => {
+        axios
+        .post('http://localhost:3000/api/messages/upload', formData, {
           headers: {
             'Authorization': token,
             'Content-Type': 'multipart/form-data' 
@@ -353,7 +370,11 @@
      })
     .catch(function(err) {
      err.statusCode = 401;
-                    });
+                    })
+    .finally(() => 
+          this.loadingImage = false
+        )
+          }, 1000)
   },
     removeImage: function(e) {
         let objMySession = localStorage.getItem("obj")
@@ -409,7 +430,8 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss">
+    @import 'sass/main.scss';
  
     .group {
         height: 100%;
