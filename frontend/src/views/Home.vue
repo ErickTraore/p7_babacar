@@ -17,12 +17,14 @@
                        <div id="progress-bar">
                           <div></div>
                         </div>
-                      <b>Mon id: {{ myId }}</b> <br>
-                      <b>Mon messageUserId: {{ item.UserId}}</b> <br>
+                      <!-- <b>Mon id: {{ myId }}</b> <br> -->
+                      <!-- <b>Mon messageUserId: {{ item.UserId}}</b> <br> -->
                       <b>{{ item .User.username }}</b> à écrit le
                       {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
-                      <b>{{ item .title }}</b><br>
+                  <div class="group__header__body__first__title"> 
+                    Titre: {{ item .title }}
+                  </div>
                   </div>
                  
                    <div class="group__header__body__first__down"> 
@@ -50,7 +52,7 @@
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
                         <button
-                        class="btn"
+                        class="btn-1"
                         v-if="myId == item.UserId" 
                         v-on:click="doDelete(item .id)"
                         >
@@ -63,10 +65,7 @@
                  <ul>
   </ul>
             </div>
-        <!-- <div v-if="loading" class="progress">
-            <div class="value v-42 striped animate s-10">Chargement...</div>
-        </div> -->
-       
+      
         </div>
             <div class='group__header__body'>
                 <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
@@ -433,7 +432,8 @@
 <style lang="scss">
     @import 'sass/main.scss';
  
-    .group {
+ 
+ .group {
         height: 100%;
         display: flex;
         align-items: center;
@@ -459,14 +459,18 @@
     }
     .group__header__body__first__in {
         font-size: 10px;
-
-
+     }
+    .group__header__body__first__title {
+        height: 100%;
+        font-size: 1.2rem;
+        background-color:white;
+        border-top: solid 3px grey;
      }
     .group__header__body__first__down {
+        height: 5rem;
         font-size: 10px;
         background-color:white;
-
-
+        border: solid 3px grey;
      }
      .group__header__body__second {
         height: 100%;
@@ -488,6 +492,7 @@
   }
   .left{
         display: flex;
+
         
 
   }
@@ -496,13 +501,15 @@ display: flex;
 
   }
  .spanLikes{
-padding: 0px 7px 0px 7px;
+padding: 2px 10px 3px 10px;
+
 background: rgb(134, 228, 139);
 border: solid 1px black;
 
  }
   .spanDislikes{
-padding: 0px 7px 0px 7px;
+padding: 2px 10px 3px 10px;
+
 background: rgb(230, 122, 122);
 border: solid 1px black;
  }

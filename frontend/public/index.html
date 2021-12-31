@@ -23,8 +23,27 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
 </body>
-<footer class="bg-light text-center text-white">
+<footer class="bg-light text-center ">
+
     <div class="container p-4 pb-0">
+        <div id="section"></div>
+        <div class="footer">
+            <div class="footer__propos">
+                <p class="p2left">A propos </p>
+                <p class="p2left-word">Fonctionnement du site </p>
+                <p class="p2left-word">Conditions générales de vente</p>
+            </div>
+            <div class="footer__hebergement">
+                <p class="p2left">Nos hébergements</p>
+                <p class="p2left-word">Charte qualité</p>
+                <p class="p2left-word">Charte partenariat</p>
+            </div>
+            <div class="footer__assistance">
+                <p class="p2left">Assitance </p>
+                <p class="p2left-word">Centre d'aide</p>
+                <p class="p2left-word">Nous contacter</p>
+            </div>
+        </div>
         <section class="mb-4">
             <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
             <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee;" href="#!" role="button"><i class="fab fa-twitter"></i></a>
@@ -34,39 +53,11 @@
         </section>
     </div>
     <div class="text-center p-3">
-        © 2021 Copyright: Goupomania
+        © 2022 Copyright: Goupomania
     </div>
 </footer>
 
 </html>
-<style>
-    .bg-light text-center text-white {
-        padding: 20px;
-        display: flex;
-        justify-content: flex-start;
-    }
-    
-    .container p-4 pb-0 {
-        display: flex;
-        padding: 10px;
-    }
-    
-    .mb-4 {
-        display: flex;
-        width: 100%;
-        padding: 20px;
-        justify-content: center;
-    }
-    
-    .m-1 {
-        padding: 9px;
-        margin: 5px;
-        border-radius: 80%;
-    }
-    
-    .p-3 {
-        border-radius: 20px;
-        text-align: center;
-        background: rgba(248, 247, 247, 0.801);
-    }
+<style lang="scss">
+    @import 'sass/main.scss';
 </style>

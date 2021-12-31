@@ -1,44 +1,42 @@
 <template>
-    <div class='group__header'>
-       <div>CONEXION</div>
-        <form @submit="postData" method="post">
-            <div class='group__header__body'>
-                <p v-if="errors.length">
-                    <b>Merci de corriger les erreurs suivantes : </b>
-                <ul>
-                    <li v-for="error in errors" :key="error">{{ error }}</li>
-                </ul>
-                </p>
-                <p>
-                    <label for="email">Email* </label>
-                    <input
-                          id="email"
-                          v-model="user.email"
-                          type="email"
-                          name="email"
-                          placeholder="Email"
+    <div class='group'>
+        <div class='group__header'>
+          <div>CONNEXION</div>
+            <form @submit="postData" method="post">
+                <div class='group__header__body '>
+                    <p v-if="errors.length">
+                        <b>Merci de corriger les erreurs suivantes : </b>
+                    <ul>
+                        <li v-for="error in errors" :key="error">{{ error }}</li>
+                    </ul>
+                    </p>
+                    <p>
+                        <label for="email">Email* </label>
+                        <input
+                              id="email"
+                              v-model="user.email"
+                              type="email"
+                              name="email"
+                        ><br> <br>
+                    </p>
+                    <p>
+                        <label for="password">Mot de passe* </label>
+                        <input
+                              id="password"
+                              v-model="user.password"
+                              type="password"
+                              name="password"
+                        >
+                    </p>
+                    <button class=" group__header__body__btn">Connexion</button>
+                </div>
+            </form>
+          <div>Vous n'avez pas de compte:</div>
+        <div>
+          <a class="labelForm" href="/Singnup#/signup">Créer un compte</a>
 
-                    ><br> <br>
-                </p>
-                <p>
-                    <label for="password">Mot de passe* </label>
-                    <input
-                          id="password"
-                          v-model="user.password"
-                          type="password"
-                          name="password"
-                          placeholder="Password"
-
-                    >
-                </p>
-                <button class="btn">Conexion</button>
-            </div>
-        </form>
-      <div>Vous n'avez pas de compte:</div>
-     <div>
-       <a class="labelForm" href="/Singnup#/signup">Créer un compte</a>
-
-       </div>
+          </div>
+        </div>
     </div>
 </template>
 
@@ -119,30 +117,8 @@
 
 
 </script>
-<style scoped>
+<style lang="scss">
+    @import 'sass/main.scss';
    
-   .group {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    .group__header {
-        font-size: 1.2rem;
-        align-items: center;
-        padding: 1rem;
-        border-radius: 2rem;
-          background-color: rgb(35, 49, 82);
-    }
-
-    .group__header__body {
-        padding: 1rem;
-        background-color: rgba(196, 192, 192, 0.849);
-
-        border-radius: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-  
+ 
 </style>

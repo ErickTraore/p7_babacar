@@ -1,49 +1,46 @@
 <template>
-<div>
-  <div id="container" class="proj-prev"> 
-           <div class="proj-prev__groupo rotateLogo">
-             <img  alt="Logo-groupomania" src="./assets/plus/logo-transp.png" class="rotating proj-prev__groupo__img"> 
-           <div class="proj-prev__pic">
-             Groupomania
-           </div>
-           </div>
-  </div>
-<nav class="navbar navbar-expand-sm navbar-dark">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/">Home</router-link> 
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/profile">Profile</router-link>  
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
-          <router-link class="nav-link" v-else  to="/logout">Logout</router-link> 
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" v-if= testBool  to="/compte">Admin-users</router-link> 
-        </li>
-         <li class="nav-item">
-          <router-link class="nav-link" v-if= testBool  to="/comptemessages">Admin-messages</router-link> 
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="text" placeholder="Search">
-        <button class="btn btn-primary" type="button">Search</button>
-      </form>
+    <div>
+      <div id="container" class="projPrev"> 
+              <div class="projPrev__groupo rotateLogo">
+                  <img  alt="Logo-groupomania" src="./assets/plus/logo-transp.png" class="rotating projPrev__groupo__img"> 
+                  <div class="projPrev__groupo__pic">
+                  Groupomania
+                  </div>
+              </div>
+      </div>
+    <nav class="navbar navbar-expand-sm navbar-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Home</router-link> 
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/profile">Profile</router-link>  
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
+              <router-link class="nav-link" v-else  to="/logout">Logout</router-link> 
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" v-if= testBool  to="/compte">Admin-users</router-link> 
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" v-if= testBool  to="/comptemessages">Admin-messages</router-link> 
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="text" placeholder="Search">
+            <button class="btn btn-primary" type="button">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+      <router-view/>
     </div>
-  </div>
-</nav>
-  <router-view/>
-
-</div>
-        
-
 </template>
 
 <script>
@@ -78,9 +75,7 @@ export default {
         .then(response => {
           this.item = response.data
           })
-         .catch(function(err) {
-                err.statusCode = 401;
-              });
+        .catch(error => console.log(error()))
   },
 
   props: {},
@@ -91,10 +86,10 @@ export default {
 <style lang="scss">
     @import 'sass/main.scss';
 
-.navbar-dark{
-  background-clip:  white;
-}
 
+navbar-toggler-icon{
+  color:black;
+}
 
 </style>
 
