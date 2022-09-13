@@ -1,20 +1,20 @@
 {
     "development": {
-        "username": "tde",
+        "username": "root",
         "password": "Erick2691",
         "database": "dbDaouda_development",
         "host": "127.0.0.1",
         "dialect": "mysql"
     },
     "test": {
-        "username": "tde",
+        "username": "root",
         "password": "Erick2691",
         "database": "dbDaouda_test",
         "host": "127.0.0.1",
         "dialect": "mysql"
     },
     "production": {
-        "username": "tde",
+        "username": "root",
         "password": "Erick2691",
         "database": "dbDaouda_production",
         "host": "127.0.0.1",
