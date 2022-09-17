@@ -170,7 +170,6 @@ module.exports = {
                 },
                 function(userLive, done) {
                     if (userLive) {
-
                         models.Message.findOne({
                                 where: {
                                     id: messageId,
@@ -187,6 +186,7 @@ module.exports = {
                     }
 
                 },
+                // Dans messagelive, on impose 0 au like et au dislike avant effacement du message.
                 function(messageLive, userLive, done) {
                     console.log('messageLive.UserId :', messageLive)
                     console.log('userId', userId)
@@ -198,50 +198,63 @@ module.exports = {
                         messageLive.update({
                             likes: messageLive.likes * 0,
                             dislikes: messageLive.dislike * 0,
-                        }).then(function() {
-                            done(messageLive);
-                        }).catch(function(err) {
+                        })
+                        .then(function(messagelikedislikenull) {
+                            done(null, messagelikedislikenull);
+                        })
+                        .catch(function(err) {
                             res.status(500).json({ 'error': 'cannot update likes=0 and dislike=0' });
                         });
+                    }else {
+                        return res.status(201).json({ 'error': 'You are not the owner message' });
+                        }
+                    },
+                function(messagelikedislikenull, done) {
+                    if (messagelikedislikenull) {
                         models.Like.destroy({
                                 where: {
                                     messageId: messageId,
                                 }
                             })
-                            .then(function(newLike) {
+                            .then(function(likenull) {
                                 // return res.status(200).json({ deleteLikeLive });
-                                done(newLike)
+                                done(null, likenull)
                             })
                             .catch(function(error) {
-                                return res.status(502).json({ 'error': 'unable to delete like' });
+                                return res.status(502).json({ 'error': 'unable to delete like and dislike' });
                             });
+                        }
+                        else{
+                            return res.status(502).json({ 'error': 'unable to destroy like and dislike' });
+                        }
+                    },
+                function(likenull, done) {
+                    if(typeof likenull == 'undefined') {
+                        return res.status(502).json({ 'error': 'the value like is undefined' });
+                    } else 
+                    {
+
                         models.Message.destroy({
                                 where: {
                                     id: messageId,
                                 }
                             })
                             .then(function(destroyMessage) {
-                                // return res.status(200).json({ deleteLikeLive });
                                 done(destroyMessage)
                             })
                             .catch(function(error) {
                                 return res.status(502).json({ 'error': 'unable to delete like' });
                             });
-
-
-                    } else {
-                        res.status(404).json({ 'error': 'unable to load message found' });
-                    }
-                },
+                    } 
+                    },
             ],
-            function(destroyMessage) {
-                if (!destroyMessage) {
-                    return res.status(201).json('message delete');
-                } else {
-                    return res.status(500).json({ 'error': 'cannot delete message' });
+                function(destroyMessage) {
+                    if (destroyMessage) {
+                        return res.status(200).json({ 'error': 'sucess destroy message' });
+                    } else {
+                        return res.status(500).json({ 'error': 'cannot destroy message' });
+                    }
                 }
-            }
-
         );
     },
     delMessPostAdmin: function(req, res) {
