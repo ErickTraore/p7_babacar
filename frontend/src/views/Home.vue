@@ -182,6 +182,7 @@
               image:'',
               selectedFile: null,
               messages: [],
+              messages: {},
               likes: 0,
               dislikes:0,
               posts: {
@@ -399,6 +400,7 @@
       e.preventDefault();
     },
     doDelete: function (id) {
+        console.log('Envoie message pour écrasement');
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
@@ -407,7 +409,7 @@
               'Authorization': token
             }
           })
-        .then(reponse => {
+          .then(reponse => {
             console.log('Deleting message-1')
             axios
               .get('http://localhost:3000/api/messages/')
@@ -417,16 +419,21 @@
                 this.resetForm()
                 res.status(200).json(this.messages);
                 })
-               .catch(function(err) {
+              .catch(function(err) {
                 err.statusCode = 401;
                 });
           })
         .catch(function(err) {
               err.statusCode = 401;
               });
+        
+
+        
       }
-  }
-  }
+
+          }
+        }
+  
 </script>
 
 <style lang="scss">
