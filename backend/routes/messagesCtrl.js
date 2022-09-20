@@ -256,6 +256,129 @@ module.exports = {
                     }
                 }
         );
+    },    
+    updateMessage: function(req, res) {
+        // Getting auth header
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var recepteur = userId
+        console.log('Utilisateur', userId);
+        console.log(headerAuth);
+
+        // Params
+        var messageId = parseInt(req.params.messageId);
+        console.log('message.id', messageId);
+
+        if (messageId <= 0) {
+            return res.status(400).json({ 'error': 'invalid parameters' });
+        }
+
+        asyncLib.waterfall([
+                // on charge le message concerné dans la variable messageFound..
+                function(done) {
+                    models.User.findOne({
+                            where: {
+                                id: userId
+                            }
+                        })
+                        .then(function(userLive) {
+                            done(null, userLive);
+                        })
+                        .catch(function(error) {
+                            return res.status(500).json({ 'error': 'unable to load user' });
+                        });
+                },
+                function(userLive, done) {
+                    if (userLive) {
+                        models.Message.findOne({
+                                where: {
+                                    id: messageId,
+                                }
+                            })
+                            .then(function(messageLive) {
+                                done(null, messageLive, userLive);
+                            })
+                            .catch(function(error) {
+                                return res.status(502).json({ 'error': 'is not the owner message' });
+                            });
+                    } else {
+                        return res.status(201).json({ 'error': 'You are not the owner message for updateMessage' });
+                    }
+                },
+                // Dans messagelive, on impose 0 au like et au dislike avant effacement du message.
+                function(messageLive, userLive, done) {
+                    var title = req.body.title
+                    var content = req.body.content
+                    console.log('messageLive.UserId :', messageLive)
+                    console.log('userId', userId)
+                    console.log('messageLive.UserId :', messageLive.UserId)
+                    console.log('messageLive.Likes :', messageLive.likes)
+                    console.log('messageLive.Dislikes :', messageLive.dislikes)
+                    console.log('messageLive.id :', messageId)
+                    if (messageLive.UserId = userId) {
+                        messageLive.update({
+                            title: (title ? title : messageLive.title),
+                            content: (content ? content : messageLive.content),
+                            likes: messageLive.likes * 0,
+                            dislikes: messageLive.dislike * 0,
+                        })
+                        .then(function(messageupdate) {
+                            done(null, messageupdate);
+                        })
+                        .catch(function(err) {
+                            res.status(500).json({ 'error': 'cannot update likes=0 and dislike=0' });
+                        });
+                    }else {
+                        return res.status(201).json({ 'error': 'You are not the owner message' });
+                        }
+                },
+            ],
+                function(messageupdate) {
+                    if (messageupdate) {
+                        return res.status(200).json({ 'error': 'sucess messageupdate' });
+                    } else {
+                        return res.status(500).json({ 'error': 'cannot messageupdate' });
+                    }
+                }
+        );
+    },
+    getMessage: function(req, res) {
+
+        // Params
+        var messageId = parseInt(req.params.messageId);
+        console.log('L\'id de mon message',messageId);
+
+       
+
+        asyncLib.waterfall([
+                // on charge le message concerné dans la variable messageFound..
+                function(done) {
+                    if (messageId > 0) {
+                        models.Message.findOne({
+                                where: {
+                                    id: messageId,
+                                }
+                            })
+                            .then(function(messageedit) {
+                                done(messageedit)
+                            })
+                            .catch(function(error) {
+                                return res.status(502).json({ 'error': 'unable selected message' });
+                            });
+                    } else {
+                        return res.status(400).json({ 'error': 'Parametre message Id invalid' });
+                    }
+                },
+                // Dans messagelive, on impose 0 au like et au dislike avant effacement du message.
+            ],
+                function(messageedit) {
+                    if (messageedit) {
+                        return res.status(200).json(messageedit);
+                    } else {
+                        return res.status(500).json({ 'error': 'cannot messageupdate' });
+                    }
+                }
+        );
     },
     delMessPostAdmin: function(req, res) {
         // Getting auth header
