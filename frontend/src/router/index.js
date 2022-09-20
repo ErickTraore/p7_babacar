@@ -70,6 +70,15 @@ const routes = [{
             import ( /* webpackChunkName: "comptemessages" */ '../views/Comptemessages.vue')
     },
     {
+        path: '/getMessage/:id/',
+        name: 'GetMessage',
+        props: true,
+        component: () =>
+            import ( /* webpackChunkName: "getMessage" */ '../views/GetMessage.vue'),
+        
+    },
+  
+    {
         path: '*',
         name: 'NotFound',
         // route level code-splitting

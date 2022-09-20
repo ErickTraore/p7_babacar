@@ -3,8 +3,8 @@
      <div v-if="loadingTemplate" class="progress conteneur">
            <pulse-loader :loading="loading" :color="color" :size="size"></pulse-loader>
 
-       <!-- <div class="spinner-border"></div> -->
-        <!-- <div class="value v-80 striped animate s-10">Chargement...</div> -->
+       <div class="spinner-border"></div>
+        <div class="value v-80 striped animate s-10">Chargement...</div>
      </div>
     <div v-else>
     <div id="app" class="group__header">
@@ -17,8 +17,9 @@
                        <div id="progress-bar">
                           <div></div>
                         </div>
-                      <!-- <b>Mon id: {{ myId }}</b> <br> -->
-                      <!-- <b>Mon messageUserId: {{ item.UserId}}</b> <br> -->
+                        <b>Mon item.i</b>
+                      <b>Mon id: {{ myId }}</b> <br>
+                      <b>Mon messageUserId: {{ item.UserId}}</b> <br>
                       <b>{{ item .User.username }}</b> à écrit le
                       {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                       {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
@@ -51,6 +52,9 @@
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
+                        <button @click="showMessageupdate(item .id);"> Message 3</button>
+                     </div>
+                     <div _ngcontent-cpa-c6="" class="dislikes">
                         <button
                         class="btn-1"
                         v-if="myId == item.UserId" 
@@ -58,16 +62,16 @@
                         >
                         Suppression !
                         </button>
-                    </div>
+                     </div>
                   </div>
 
                 </div>
-                 <ul>
-  </ul>
+                  <ul>
+                  </ul>
             </div>
       
         </div>
-            <div class='group__header__body'>
+        <div class='group__header__body'>
                 <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
                     
                     
@@ -133,7 +137,7 @@
                       Envoyer</button>
                 </form>
             </div>
-        </div>
+       </div>
     </div>
     </div>
 </template>
@@ -166,9 +170,10 @@
    
     data() {
       return {
-        // loading: false,
+        loading: false,
         loadingTemplate: true,
         loadingImage: true,
+              id: Number,
               myId: Number,
               idImage: '',
               testName: Boolean,
@@ -221,6 +226,9 @@
     },
 
   methods: {
+      showMessageupdate: function (id) {
+        this.$router.push({name : 'GetMessage', params : {id :id}});
+      },
       resetForm() {
         console.log('Reseting the form')
         var self = this; //you need this because *this* will refer to Object.keys below`
@@ -400,7 +408,7 @@
       e.preventDefault();
     },
     doDelete: function (id) {
-        console.log('Envoie message pour écrasement');
+        console.log('position: doDelete dans home.vue');
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
@@ -426,10 +434,8 @@
         .catch(function(err) {
               err.statusCode = 401;
               });
-        
-
-        
-      }
+      },
+      // }
 
           }
         }

@@ -21,6 +21,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/profile">Profile</router-link>  
             </li>
+             <li class="nav-item">
+              <!-- <router-link class="nav-link" :to="{name: 'Updatemessage', params : {id : 'Lucas'}}"> Message 1 </router-link>   -->
+            </li>
             <li class="nav-item">
               <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
               <router-link class="nav-link" v-else  to="/logout">Logout</router-link> 
