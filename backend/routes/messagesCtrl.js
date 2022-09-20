@@ -251,7 +251,7 @@ module.exports = {
                 function(destroyMessage) {
                     if (destroyMessage) {
                         return res.status(200).json({ 'error': 'sucess destroy message' });
-                    } else {
+                    }else {
                         return res.status(500).json({ 'error': 'cannot destroy message' });
                     }
                 }
@@ -334,7 +334,7 @@ module.exports = {
                 },
             ],
                 function(messageupdate) {
-                    if (messageupdate) {
+                    if (!messageupdate) {
                         return res.status(200).json({ 'error': 'sucess messageupdate' });
                     } else {
                         return res.status(500).json({ 'error': 'cannot messageupdate' });
