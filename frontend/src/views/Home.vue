@@ -133,8 +133,9 @@
                       <button 
                       type="submit"
                       value="val"
-                    >
-                      Envoyer</button>
+                      >
+                      Envoyer
+                      </button>
                 </form>
             </div>
        </div>
@@ -323,7 +324,7 @@
                 err.statusCode = 401;
               });
       },
-      onFileSelected(e) {
+    onFileSelected(e) {
       this.selectedFile = e.target.files[0];
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
