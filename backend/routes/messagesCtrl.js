@@ -309,6 +309,7 @@ module.exports = {
                 function(messageLive, userLive, done) {
                     var title = req.body.title
                     var content = req.body.content
+                    var attachment = req.body.attachment
                     console.log('messageLive.UserId :', messageLive)
                     console.log('userId', userId)
                     console.log('messageLive.UserId :', messageLive.UserId)
@@ -319,6 +320,7 @@ module.exports = {
                         messageLive.update({
                             title: (title ? title : messageLive.title),
                             content: (content ? content : messageLive.content),
+                            attachment: (attachment ? attachment : messageLive.attachment),
                             likes: messageLive.likes * 0,
                             dislikes: messageLive.dislike * 0,
                         })
