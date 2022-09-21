@@ -26,8 +26,41 @@
                 name="content"
               >
               <br><br>
+              <input
+                id="attachment"
+                v-model="posts.attachment"
+                type="hidden"
+                name="attachment"
+              > 
+              <br> 
+                <div>
+                    <div v-if="!image">
+                        <h3>Modifier image</h3>
+                    <div id="list"> </div>
+                    <input 
+                            id="file" 
+                            type="file" 
+                            @change="onFileSelected"
+                            name="attachment"
+                            alt="mon-image"
+                    >
+                    </div>
+                    <div v-else>
+                      <div v-if="loadingImage" class="progress">
+                        <div class="value v-80 striped animate s-10">Chargement...</div>
+                      </div>
+                      <div v-else>
+                        <img :src="image" />
+                      </div>
+                      <button @click="removeImage">Remove image</button>
+                    </div>
+                </div> <br><br>
+                <div>
+                </div>
               <button 
                 type="submit"
+                value="val"
+
               >
                 Envoyer
               </button>
@@ -54,6 +87,16 @@
         props: ['id'],
         data() {
       return {
+        loading: false,
+        loadingTemplate: true,
+        loadingImage: true,
+              id: Number,
+              myId: Number,
+              idImage: '',
+              testName: Boolean,
+              image:'',
+              selectedFile: null,
+              file: Blob,
               errors: [],
               message: {
                 title: '',
@@ -68,6 +111,7 @@
               },
     }
   },
+  
   created: function  () {
     console.log('Je teste');
     console.log(this.id);
@@ -172,6 +216,7 @@
                 this.messages = response.data
                 this.resetForm()
                 this.image = '';
+                this.$router.push('/');
                 res.status(200).json(this.messages);
                 })
               .catch(function(err) {

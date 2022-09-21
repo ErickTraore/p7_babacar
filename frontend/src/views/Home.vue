@@ -52,15 +52,20 @@
                   </div>
                   <div class="right">
                      <div _ngcontent-cpa-c6="" class="dislikes">
-                        <button @click="showMessageupdate(item .id);"> Message 3</button>
+                        <button
+                        class="btn-1"
+                        v-if="myId == item.UserId"  
+                        @click="showMessageupdate(item .id);"> 
+                        Modifier
+                      </button>
                      </div>
                      <div _ngcontent-cpa-c6="" class="dislikes">
                         <button
                         class="btn-1"
                         v-if="myId == item.UserId" 
-                        v-on:click="doDelete(item .id)"
-                        >
-                        Suppression !
+                        v-on:click="doDelete(item .id)">
+                        <i class="fa fa-trash-o"></i>
+
                         </button>
                      </div>
                   </div>
@@ -106,7 +111,7 @@
                     <br> 
                           <div>
                             <div v-if="!image">
-                            <h2>Select an image</h2>
+                            <h3>Choisir image</h3>
                             <div id="list">
                             </div>
                     <input 
@@ -521,20 +526,20 @@ background: rgb(134, 228, 139);
 border: solid 1px black;
 
  }
-  .spanDislikes{
+.spanDislikes{
 padding: 2px 10px 3px 10px;
 
 background: rgb(230, 122, 122);
 border: solid 1px black;
  }
-  .container{
+.container{
 border: solid 5px rgb(189, 182, 182);
 background: rgba(248, 247, 247, 0.801);
 border-radius: 10px;
 margin-bottom: 1rem;
 
   }
-   .labelForm {
+  .labelForm {
 color:white;
    }
 img {
@@ -542,7 +547,11 @@ width: 80%;
 margin: auto;
 display: block;
 margin-bottom: 10px;
-
 }
+.fa-trash-o:before {
+    content: "\f014";
+    font-size: 13px;
+    color: orange;
+  }
 
 </style>
