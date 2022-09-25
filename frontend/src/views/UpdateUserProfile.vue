@@ -48,7 +48,8 @@ Vue.use(VueAxios, axios)
                   // console.warn(this.posts);
                 this.axios.put('http://localhost:3000/api/users/me/',this.posts,{
                   headers: {
-                   'Authorization': token}  
+                   'Authorization': token
+                  }  
                    
                 })
                   .then(reponse => {

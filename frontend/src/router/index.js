@@ -77,6 +77,14 @@ const routes = [{
             import ( /* webpackChunkName: "getMessage" */ '../views/GetMessage.vue'),
         
     },
+    {
+        path: '/getUser/:id/',
+        name: 'GetUser',
+        props: true,
+        component: () =>
+            import ( /* webpackChunkName: "getUser" */ '../views/GetUser.vue'),
+        
+    },
   
     {
         path: '*',
@@ -86,7 +94,8 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "pageNotFound.vue'" */ '../views/PageNotFound.vue')
-    }
+    },
+   
 ]
 
 const router = new VueRouter({

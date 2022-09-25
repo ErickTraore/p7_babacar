@@ -6,12 +6,12 @@
       <div class='group__header__body'>
         <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message" id="this.id">
             <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
-                        <p v-if="errors.length">
+              <p v-if="errors.length">
                         <b>Merci de corriger les erreurs suivantes : </b>
                       <ul>
                           <li v-for="error in errors" :key="error">{{ error }}</li>
                       </ul>
-                </p>
+              </p>
               <input 
                 id="title"
                 v-model="posts.title"
@@ -83,7 +83,7 @@
   var req = require('request');
 
     export default {
-        name: 'GetMessage' ,
+        name: 'GetMessage',
         props: ['id'],
         data() {
       return {
@@ -216,7 +216,7 @@
                 this.messages = response.data
                 this.resetForm()
                 this.image = '';
-                this.$router.push('/');
+                this.$router.push('/comptemessages');
                 res.status(200).json(this.messages);
                 })
               .catch(function(err) {
