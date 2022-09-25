@@ -172,6 +172,33 @@ module.exports = {
             });
         }
     },
+    getUser: function(req, res) {
+        console.log('Je suis dans getUser');
+
+        // Getting auth header
+
+         // Params
+         var theUserId = parseInt(req.params.userId);
+         console.log('theUserId', theUserId);
+
+        if (theUserId < 0) {
+            var testUser = 'testOk'
+            return res.status(201).json({ testUser });
+        } else {
+            models.User.findOne({
+                attributes: ['id', 'email', 'username', 'bio', 'isAdmin'],
+                where: { id: theUserId }
+            }).then(function(user) {
+                if (user) {
+                    res.status(201).json(user);
+                } else {
+                    res.status(405).json({ 'error': 'user not found' });
+                }
+            }).catch(function(err) {
+                res.status(500).json({ 'error': 'cannot fetch user' });
+            });
+        }
+    },
     updateUserProfile: function(req, res) {
         // Getting auth header
         var headerAuth = req.headers['authorization'];
@@ -195,6 +222,97 @@ module.exports = {
                 if (userFound) {
                     userFound.update({
                         bio: (bio ? bio : userFound.bio)
+                    }).then(function() {
+                        done(userFound);
+                    }).catch(function(err) {
+                        res.status(500).json({ 'error': 'cannot update user' });
+                    });
+                } else {
+                    res.status(404).json({ 'error': 'user not found' });
+                }
+            },
+        ], function(userFound) {
+            if (userFound) {
+                return res.status(201).json(userFound);
+            } else {
+                return res.status(500).json({ 'error': 'cannot update user profile' });
+            }
+        });
+    },
+    updateOneUser: function(req, res) {
+        console.log('1-Je suis dans updateUserProfile')
+        // Params
+        var theUserId = parseInt(req.params.userId);
+        console.log('2-theUserId', theUserId);
+
+       
+        var userId = parseInt(req.params.userId);
+        console.log('3-user.id', userId);
+        if (userId <= 0) {
+            return res.status(400).json({ 'error': 'invalid parameters:userId' });
+        }
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                        where: { id: userId}
+                    }).then(function(userFound) {
+                        done(null, userFound);
+                    })
+                    .catch(function(err) {
+                        return res.status(500).json({ 'error': 'unable to verify user' });
+                    });
+            },
+            function(userFound, done) {
+                var bio = req.body.bio;
+                var username = req.body.username;
+                if (userFound) {
+                    userFound.update({
+                        bio: (bio ? bio : userFound.bio),
+                        username: (username ? username : userFound.username)
+                    }).then(function(userUpdate) {
+                        done(userUpdate);
+                    }).catch(function(err) {
+                        res.status(500).json({ 'error': 'cannot update user' });
+                    });
+                } else {
+                    res.status(404).json({ 'error': 'user not found' });
+                }
+            },
+        ], function(userUpdate) {
+            if (userUpdate) {
+                return res.status(201).json(userUpdate);
+            } else {
+                return res.status(500).json({ 'error': 'cannot update user profile' });
+            }
+        });
+    },
+    updateUserList: function(req, res) {
+        // Getting auth header
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        // Params
+        var theUserId = parseInt(req.params.userId);
+        console.log('user.id', theUserId);
+        var bio = req.body.bio;
+        var username = req.body.username;
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                        attributes: ['id', 'bio', 'username'],
+                        where: { id: theUserId }
+                    }).then(function(userFound) {
+                        done(null, userFound);
+                    })
+                    .catch(function(err) {
+                        return res.status(500).json({ 'error': 'unable to verify user' });
+                    });
+            },
+            function(userFound, done) {
+                if (userFound) {
+                    userFound.update({
+                        bio: (bio ? bio : userFound.bio),
+                        username: (username ? username : userFound.username)
                     }).then(function() {
                         done(userFound);
                     }).catch(function(err) {

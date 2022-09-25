@@ -277,6 +277,7 @@ module.exports = {
                 // on charge le message concerné dans la variable messageFound..
                 function(done) {
                     models.User.findOne({
+                        
                             where: {
                                 id: userId
                             }

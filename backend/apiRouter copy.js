@@ -17,8 +17,9 @@ exports.router = (function() {
     router.post('/users/delProfil', usersCtrl.destroyProfil);
     router.get('/users/', usersCtrl.listUsers);
     router.post('/users/:userId/del', usersCtrl.destroyUser);
-    // router.post('/users/:userId/delMe', usersCtrl.delMeUser);
+    router.get('/users/:userId/getUser', usersCtrl.getUser);
     router.put('/users/me/', usersCtrl.updateUserProfile);
+    router.put('/users/:userId/update/', usersCtrl.updateUserlist);
 
     router.get('/messages/', messagesCtrl.listMessages);
     router.get('/messagesAdmin/', messagesCtrl.listMessagesAdmin);
