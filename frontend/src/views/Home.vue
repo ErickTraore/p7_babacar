@@ -15,14 +15,13 @@
                                   <div id="progress-bar">
                                   <div></div>
                                   </div>
-                                  <b>Mon item.i</b>
-                                  <b>Mon id: {{ myId }}</b> <br>
-                                  <b>Mon messageUserId: {{ item.UserId}}</b> <br>
-                                  <b>{{ item .User.username }}</b> à écrit le
+                                 
+                                  <b>Publié par: {{ item .User.username }}</b><b> le
                                   {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
-                                  {{ new Date(item .createdAt) | dateFormat('hh:mm') }} : <br>
+                                  {{ new Date(item .createdAt) | dateFormat('hh:mm') }} :</b> <br>
                                   <div class="group__header__body__first__title"> 
-                                    Titre: {{ item .title }}
+                                    <div class="title">Titre:</div>
+                                    <div class="texte"> {{ item .title }}</div>
                                   </div>
                               </div>
                               <div class="group__header__body__first__down"> 
@@ -71,7 +70,7 @@
               </div>
             <div class='group__header__body'>
                     <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
-                        <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
+                        <label class="labelForm">Message avec image optionnelle</label> <br> <br>
                         <p v-if="errors.length">
                             <b>Merci de corriger les erreurs suivantes : </b>
                             <ul>
@@ -100,7 +99,7 @@
                         > <br> 
                         <div>
                             <div v-if="!image">
-                                <h3>Choisir image</h3>
+                                <h5>Choisir image</h5>
                                 <div id="list">
                                 </div>
                                 <input 
@@ -446,18 +445,6 @@
         align-items: center;
     }
  
-    .group {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-    .group__header {
-        font-size: 1.2rem;
-        align-items: center;
-        padding: 1rem;
-          background-color: #071b46;
-    }
     .group__header__body {
         padding: 1rem;
         border-radius: 2rem;
@@ -473,6 +460,7 @@
         font-size: 10px;
      }
     .group__header__body__first__title {
+        display:flex;
         height: 100%;
         font-size: 1.2rem;
         background-color:white;
@@ -481,7 +469,7 @@
     .group__header__body__first__down {
         height: 5rem;
         font-size: 10px;
-        background-color:white;
+        background-color: #d4d4d4;;
         border: solid 3px grey;
      }
      .group__header__body__second {
@@ -544,4 +532,8 @@
         font-size: 13px;
         color: orange;
       }
+.labelForm {
+  color: blue;
+}
+
 </style>

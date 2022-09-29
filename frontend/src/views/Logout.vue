@@ -87,13 +87,13 @@ export default {
   }
   .Logout__header__body__first__in {
       /* font-family: "Lato"; */
-      background-color: rgb(200, 255, 0) !important;
+      background-color: rgba(196, 192, 192, 0.849) !important;
       border-radius: 20px !important;
       padding: 5px;
       }
   .Logout__header__body__second {
       /* font-family: "Lato"; */
-      background-color: rgb(255, 247, 0) !important;
+      background-color: rgba(196, 192, 192, 0.849) !important;
       border-radius: 20px !important;
       padding: 5px;
       }

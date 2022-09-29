@@ -1,26 +1,73 @@
-.projPrev {
+.preview {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 40px;
+    border: solid 10px #4E5166;
+    border-radius: 10px 10px 0px 0px;
+    
+    &__symbol{
+        width: 20%;
+        height: auto;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+        left: 12%;
+    }
+    &__texte{
+        width: 80%;
+        height: auto;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+        img{
+            width: 80%;
+            object-fit: cover;
+            margin: opx auto;
+            position: relative;
+            right: 14%;
+
+
+
+
+        }
+    }
+
+
+}
+    .projPrev {
     display: flex;
     width: 100%;
     height: 100%;
     text-align: center;
-    background:$primary;
-    padding: 2%;
+    background: #4E5166;
     margin: 0 auto;
-    margin-top: 0.5rem;
     flex-direction: row;
+    justify-self: flex-end;
     color: #fff;
+    &__fixeLogo{
+        width: 50%;
+
+    }
     &__groupo {
         width: 80%;
         height: 100%;
         padding: 2%;
         display: flex;
         margin: 0 auto;
-        &__img {
+        justify-content: flex-start;
+        img {
             display: flex;
             width: 20%;
             height: 100%;
+            font-size: 5rem;
             object-fit: cover;
-            margin: 0 auto;
             filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(103deg) brightness(106%) contrast(100%);
         }
         &__pic {
