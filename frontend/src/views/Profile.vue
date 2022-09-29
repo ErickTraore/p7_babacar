@@ -3,11 +3,15 @@
         <div class='group__header'>
             <div id="app">
                 <div class='group__header__body'>
-                    <h2>Mon profil</h2>
-                    <div>Pseudo: {{ profile.username }}</div>
-                    <div>Email: {{ profile.email }}</div>
-                    <div>Biographie: {{ profile.bio }}</div>
+                    <h3>Mon profil</h3>
+                <div class="Logout__header__body">
+                    <div class="Logout__header__body__first__in">
+                      <div>Pseudo: {{ profile.username }}</div>
+                      <div>Email: {{ profile.email }}</div>
+                      <div>Biographie: {{ profile.bio }}</div>
+                    </div>
                 </div>
+              </div>
             </div>
             <form @submit="postData" method="post">
                 <div class='group__header__body'>
@@ -19,12 +23,17 @@
                             type="text"
                             v-model="posts.bio"
                     ></textarea> <br> <br>
-                    <button type="submit">Soumettre</button>
-                    <button @click="delProfil()">Supprimer</button>
+                    <div class="valid">
+                      <div class="valid__in">
+                        <button-1 type="submit">Validez</button-1>
+                      </div>
+                      <div class="valid__in">
+                        <button-2 @click='goHome()'>Annulez</button-2>
+                      </div>
+                    </div>
                 </div>
             </form>
         </div>
-
     </div>
 </template>
 
@@ -54,6 +63,7 @@
         })
         .then(response => {
           this.profile = response.data
+          this.posts = response.data
           this.testUser = this.profile.testUser
           console.log(this.testUser) // this.$store.dispatch("beforeLogged")
       if(this.testUser == 'testOk'){
@@ -74,6 +84,8 @@
         })
           .then(response => {
             this.profile.bio = response.data.bio
+            this.$router.push('/')
+            response.status(200).json(this.profile);
           })
           .catch(error => console.log(error()))
         e.preventDefault();
@@ -89,34 +101,66 @@
         })
           .then(response => {
             this.profile = response.data
+      
           })
           .catch(error => console.log(error()))
+      },
+      goHome() {
+            this.$router.push('/')
       }
+
     }
   }
 </script>
 <style scoped>
-    .group {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-    * {
-        box-sizing: border-box;
-    }
-    .group__header {
-        font-size: 1.2rem;
-        align-items: center;
-        padding: 1rem;
-        border-radius: 2rem;
-          background-color: rgb(35, 49, 82);
-    }
-    .group__header__body {
-        padding: 1rem;
-        background-color: rgba(196, 192, 192, 0.849);
-        border-radius: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+   .valid {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+  button-1 {
+      background-color: rgb(0, 255, 145) !important;
+      border-radius: 20px !important;
+      padding: 5px;
+      }
+  button-2 {
+      background-color: rgb(255, 247, 0) !important;
+      border-radius: 20px !important;
+      padding: 5px;
+      }
+  .group {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+  }
+  * {
+      box-sizing: border-box;
+  }
+  .group__header {
+      font-size: 1.2rem;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 2rem;
+      background-color: rgb(35, 49, 82);
+      margin-bottom: 2rem;
+
+  }
+  .group__header__body {
+      padding: 1rem;
+      background-color: rgba(196, 192, 192, 0.849);
+      border-radius: 2rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+  }
+  h3 {
+      display: flex;
+      padding: 1rem;
+      background-color: rgba(196, 192, 192, 0.849);
+      border-radius: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+
+  }
 </style>

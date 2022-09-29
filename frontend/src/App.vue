@@ -19,14 +19,14 @@
               <router-link class="nav-link" to="/">Home</router-link> 
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/profile">Profile</router-link>  
+              <router-link class="nav-link" to="/profile">Profil</router-link>  
             </li>
              <li class="nav-item">
               <!-- <router-link class="nav-link" :to="{name: 'Updatemessage', params : {id : 'Lucas'}}"> Message 1 </router-link>   -->
             </li>
             <li class="nav-item">
               <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
-              <router-link class="nav-link" v-else  to="/logout">Logout</router-link> 
+              <router-link class="nav-link" v-else  to="/logout">Déconnexion</router-link> 
             </li>
             <li class="nav-item">
               <router-link class="nav-link" v-if= testBool  to="/compte">Admin-users</router-link> 

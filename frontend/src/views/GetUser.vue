@@ -30,40 +30,32 @@
                 </div>
             </form>
         </div>
-
     </div>
 </template>
-
 <script>
   import Vue from 'vue'
   import axios from 'axios'
   import VueAxios from 'vue-axios'
-
   Vue.use(VueAxios, axios);
-
   export default {
     name: 'GetUser',
     props: ['id'],
     data() {
       return {
-
         profile: {
           id: this.id,
           username: '',
           bio: ''
         },
-     
       }
     },
     created: function  () {
-     
       this.axios.get('http://localhost:3000/api/users/'+ this.id + '/getUser')
         .then(response => {
           this.profile = response.data
           this.resetForm()
           this.$router.push('/compte');
           response.status(200).json(this.messages);
-              
         })
         .catch(error => console.log(error()))
     },
@@ -82,7 +74,6 @@
                   headers: {
                    'Authorization': token
                   }  
-                   
                 })
                   .then(response => {
                     this.profile = response.data
@@ -92,14 +83,12 @@
                   .catch(function(err) {
                     err.statusCode = 401;
               });
-
                 e.preventDefault();
               }, 
       delProfil() {
         let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
         let token = myStorageToken.myToken;
-
         this.axios.post('http://localhost:3000/api/users/delProfil', null, {
           headers: {
             'Authorization': token
@@ -109,41 +98,10 @@
             this.profile = response.data
           })
           .catch(error => console.log(error()))
-
       }
     }
   }
-
 </script>
 <style scoped>
-    .group {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    .group__header {
-        font-size: 1.2rem;
-        align-items: center;
-        padding: 1rem;
-        border-radius: 2rem;
-          background-color: rgb(35, 49, 82);
-
-
-
-    }
-
-    .group__header__body {
-        padding: 1rem;
-        background-color: rgba(196, 192, 192, 0.849);
-
-        border-radius: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+  
 </style>
