@@ -33,7 +33,7 @@
             </form>
           <div>Vous n'avez pas de compte:</div>
         <div>
-          <a class="labelForm" href="/signup">Créer un compte</a>
+          <a class="labelForm" href="/Singnup#/signup">Créer un compte</a>
 
           </div>
         </div>

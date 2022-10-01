@@ -74,7 +74,6 @@
             }
             
             .btn-1 {
-                border: 1px solid#ececec;
                 border-radius: 5px;
                 outline: 0;
                 background-color: #ececec;
@@ -83,9 +82,12 @@
                 transform: scale(1);
                 transition: transform 330ms ease-in-out;
                 border: solid 1px black;
+                color: red !important;
+                
                 &:hover {
-                    background-color: #e04151;
+                    background-color: $secondary;
                     Transform: scale(1.1);
-                    border: solid 1px red;
+                    border: solid 1px $primary;
                 }
             }
+            

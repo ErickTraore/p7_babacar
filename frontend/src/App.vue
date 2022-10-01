@@ -6,7 +6,6 @@
             </div>
             <div class="preview__texte">
               <img alt="logo"  src="./assets/plus/icon-left-font-monochrome-black.svg" />
-
             </div>
         </div>
         <nav class="navbar navbar-expand-sm navbar-dark">
@@ -17,7 +16,7 @@
             <div class="collapse navbar-collapse" id="mynavbar">
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                  <router-link class="nav-link" to="/">Home</router-link> 
+                  <router-link class="nav-link" to="/">Messagerie</router-link> 
                 </li>
                 <li class="nav-item">
                   <router-link class="nav-link" to="/profile">Profile</router-link>  
@@ -54,31 +53,31 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 import { mapState } from 'vuex'
 export default {
-  computed: {
-    ...mapState(['logged']),
-     testBool(){
-      return this.item.isAdmin
+computed: {
+  ...mapState(['logged']),
+    testBool(){
+    return this.item.isAdmin
+  }
+},
+data() {
+  return {
+    item:''
+  };
+},
+created() {
+  let objMySession = localStorage.getItem("obj")
+  let myStorageToken = JSON.parse(objMySession)
+  let token = myStorageToken.myToken;
+  
+  axios
+    .get('http://localhost:3000/api/users/me/',{
+      headers: {
+        'Authorization': token
     }
-    // ...mapGetters(['nowLogged'])
-  },
-    data() {
-    return {
-      item:''
-    };
-  },
-   created() {
-     let objMySession = localStorage.getItem("obj")
-     let myStorageToken = JSON.parse(objMySession)
-     let token = myStorageToken.myToken;
-    axios
-     .get('http://localhost:3000/api/users/me/',{
-            headers: {
-              'Authorization': token
-            }
-          })
-        .then(response => {
-          this.item = response.data
-          })
+      })
+    .then(response => {
+      this.item = response.data
+    })
         .catch(error => console.log(error()))
   },
 

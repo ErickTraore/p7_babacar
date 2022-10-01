@@ -3,8 +3,6 @@
          <div id="app" class="group__header">
         <div class='group__header__body'>
         <div class="container"  v-for="item  in users" :key="item .id">
-              <!-- <div v-for="item  in messages | paginate" :key="item .id"> -->
-              <!-- <tr v-for="item in items | paginate"> -->
                 <div class="group__header__body__first"> 
                     <div class="group__header__body__first__in"> 
                     <div  _ngcontent-cpa-c6="">
@@ -13,7 +11,7 @@
                         dernière maj le:{{ new Date(item .updatedAt) | dateFormat('DD/MM/YYYY') }} à
                         {{ new Date(item .updatedAt) | dateFormat('hh:mm') }} : <br>
                     <div class="group__header__body__first__title"> 
-                      <label>Nom: </label><p>{{ item .username }}</p><br>
+                      <label>Nom: </label><p> {{  item .username }}</p><br>
                     </div>
                     <div class="group__header__body__first__down"> 
                       <label>Prénom: </label><p>{{ item .bio }}</p><br> 
@@ -24,23 +22,23 @@
                 </div>
                 <div class="group__header__body__button"> 
                     <div>
-                        <button-1
-                          class="btn-1"
-                          @click="showUserUpdate(item .id);"> 
-                          Modifier
-                        </button-1>
+                        <button
+                            class="btn-1"
+                            @click="showUserUpdate(item .id);"> 
+                            Modifier
+                        </button>
                     </div>
                     <div>
-                        <button-2
+                        <button
+                         class="btn-1"
                           @click="destroyUser(item .id)">
-                          <i class="fa fa-trash-o"></i>                  
-                        </button-2>                
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>                
                     </div>
                 </div>
                 </div>
                 </div>
               </div>
-        
             </div>
         </div>
       </div>
@@ -99,44 +97,16 @@
   }
 </script>
 <style scoped>
-    .group {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-    .group__header__body {
-        padding: 1rem;
-        background-color: rgba(14, 14, 15, 0.205);
-        border-radius: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-    .like-buttons[_ngcontent-cpa-c6] {
-        display: flex;
-    }
-    .dislikes[_ngcontent-cpa-c6], .likes[_ngcontent-cpa-c6] {
-        margin: 0 .3em;
-    }
-    button-1 {
-      background-color: rgb(0, 255, 145) !important;
-      border-radius: 20px !important;
-      padding: 5px;
-      }
-  button-2 {
-      background-color: rgb(255, 247, 0) !important;
-      border-radius: 20px !important;
-      padding: 5px;
-      }
- .group__header__body__button{
+.group__header__body__button{
   height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-top: 10px;
  }
- label {
+ /*  label {
   color: blue;
   font-size: 12px;
- }
+ } */
+
 </style>

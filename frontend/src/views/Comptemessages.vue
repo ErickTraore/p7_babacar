@@ -2,8 +2,7 @@
     <div class="group">
      <div v-if="loadingTemplate" class="progress conteneur">
            <pulse-loader :loading="loading" :color="color" :size="size"></pulse-loader>
-
-       <div class="spinner-border"></div>
+       <!-- <div class="spinner-border"></div> -->
         <div class="value v-80 striped animate s-10">Chargement...</div>
      </div>
     <div v-else>

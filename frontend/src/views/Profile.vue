@@ -25,10 +25,10 @@
                     ></textarea> <br> <br>
                     <div class="valid">
                       <div class="valid__in">
-                        <button-1 type="submit">Validez</button-1>
+                        <button type="submit">Validez</button>
                       </div>
                       <div class="valid__in">
-                        <button-2 @click='goHome()'>Annulez</button-2>
+                        <button @click='goHome()'>Annulez</button>
                       </div>
                     </div>
                 </div>
@@ -112,23 +112,21 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss">
+    @import 'sass/main.scss';
    .valid {
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
   }
-  button-1 {
-      background-color: rgb(0, 255, 145) !important;
+  button {
+      background-color: white
+       !important;
       border-radius: 20px !important;
       padding: 5px;
       }
-  button-2 {
-      background-color: rgb(255, 247, 0) !important;
-      border-radius: 20px !important;
-      padding: 5px;
-      }
+ 
   .group {
       height: 100%;
       display: flex;

@@ -9,7 +9,6 @@
                     <li v-for="error in errors" :key="error">{{ error }}</li>
                 </ul>
                 </p>
-
                 <p>
                     <label for="username">Pseudo* </label>
                     <input

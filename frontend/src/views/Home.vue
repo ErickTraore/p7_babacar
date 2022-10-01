@@ -1,138 +1,149 @@
 <template>
-    <div class="group">
-        <div v-if="loadingTemplate">
-            <div class="text-center">
-            <b-spinner variant="primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
-            </div>
-        </div>
-        <div v-else>
-          <div id="app" class="group__header">
-                  <div class="group__header__body">
-                      <div class="container" v-for="item  in messages" :key="item .id">
-                          <div class="group__header__body__first"> 
-                              <div class="group__header__body__first__in"> 
-                                  <img :src="item.attachment" />
-                                  <div id="progress-bar">
-                                  <div></div>
-                                  </div>
-                                 
-                                  <b>Publié par: {{ item .User.username }}</b><b> le
-                                  {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
-                                  {{ new Date(item .createdAt) | dateFormat('hh:mm') }} :</b> <br>
-                                  <div class="group__header__body__first__title"> 
-                                    <div class="title">Titre:</div>
-                                    <div class="texte"> {{ item .title }}</div>
-                                  </div>
-                              </div>
-                              <div class="group__header__body__first__down"> 
-                                  {{ item .content }}<br> 
-                              </div> 
-                          </div>
-                      <div _ngcontent-cpa-c6="" class="position like-buttons group__header__body__second">
-                          <div class="left">
-                              <div _ngcontent-cpa-c6="" class="likes">
-                                  <button id="dolike"
-                                          v-on:click="doLike(item .id)">
-                                      <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
-                                  </button>
-                                  <span class="spanLikes" _ngcontent-cpa-c6="">{{ item .likes }}</span>
-                              </div>
-                              <div _ngcontent-cpa-c6="" class="dislikes">
-                                  <button
-                                          v-on:click="doDislike(item .id)">
-                                      <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
-                                  </button>
-                                  <span class="spanDislikes" _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
-                              </div>
-                          </div>
-                          <div class="right">
-                              <div _ngcontent-cpa-c6="" class="dislikes">
-                                  <button
-                                  class="btn-1"
-                                  v-if="myId == item.UserId"  
-                                  @click="showMessageupdate(item .id);"> 
-                                  Modifier
-                                </button>
-                              </div>
-                              <div _ngcontent-cpa-c6="" class="dislikes">
-                                  <button
-                                  class="btn-1"
-                                  v-if="myId == item.UserId" 
-                                  v-on:click="doDelete(item .id)">
-                                  <i class="fa fa-trash-o"></i>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                    <ul></ul>
+      <div class="group">
+
+    <div v-if= logged >
+      <div class="connecte">
+      <h3> <i class="fa fa-info-circle"> Vous n'êtes pas connecté</i></h3> 
+      </div>
+      <ConexionComponent />
+    </div>
+    <div v-else>
+          
+              <div v-if="loadingTemplate">
+                  <div class="text-center">
+                  <b-spinner variant="primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
                   </div>
-                </div>
               </div>
-            <div class='group__header__body'>
-                    <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
-                        <label class="labelForm">Message avec image optionnelle</label> <br> <br>
-                        <p v-if="errors.length">
-                            <b>Merci de corriger les erreurs suivantes : </b>
-                            <ul>
-                            <li v-for="error in errors" :key="error">{{ error }}</li>
-                            </ul>
-                        </p>
-                        <input
-                            id="title"
-                            v-model="message.title"
-                            type="text"
-                            name="title"
-                            placeholder="Titre"
-                        > <br> <br>
-                        <input
-                            id="content"
-                            v-model="message.content"
-                            type="text"
-                            name="content"
-                            placeholder="Contenu"
-                        > 
-                        <input
-                            id="attachment"
-                            v-model="message.attachment"
-                            type="hidden"
-                            name="attachment"
-                        > <br> 
-                        <div>
-                            <div v-if="!image">
-                                <h5>Choisir image</h5>
-                                <div id="list">
+              <div v-else>
+                <div id="app" class="group__header">
+                        <div class="group__header__body">
+                            <div class="container" v-for="item  in messages" :key="item .id">
+                                <div class="group__header__body__first"> 
+                                    <div class="group__header__body__first__in"> 
+                                        <img :src="item.attachment" />
+                                        <div id="progress-bar">
+                                        <div></div>
+                                        </div>
+                                      
+                                        <b>Publié par: {{ item .User.username }}</b><b> le
+                                        {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
+                                        {{ new Date(item .createdAt) | dateFormat('hh:mm') }} :</b> <br>
+                                        <div class="group__header__body__first__title"> 
+                                          <div class="title">Titre:</div>
+                                          <div class="texte"> {{ item .title }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="group__header__body__first__down"> 
+                                        {{ item .content }}<br> 
+                                    </div> 
                                 </div>
-                                <input 
-                                    id="file" 
-                                    type="file" 
-                                    @change="onFileSelected"
-                                    name="attachment"
-                                    alt="example"
-                                >
+                            <div _ngcontent-cpa-c6="" class="position like-buttons group__header__body__second">
+                                <div class="left">
+                                    <div _ngcontent-cpa-c6="" class="likes">
+                                        <button id="dolike"
+                                                v-on:click="doLike(item .id)">
+                                            <i _ngcontent-cpa-c6="" class="like fa-thumbs-up fa-lg far"></i>
+                                        </button>
+                                        <span class="spanLikes" _ngcontent-cpa-c6="">{{ item .likes }}</span>
+                                    </div>
+                                    <div _ngcontent-cpa-c6="" class="dislikes">
+                                        <button
+                                                v-on:click="doDislike(item .id)">
+                                            <i _ngcontent-cpa-c6="" class="dislike fa-thumbs-down fa-lg far"></i>
+                                        </button>
+                                        <span class="spanDislikes" _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div _ngcontent-cpa-c6="" class="dislikes">
+                                        <button
+                                        class="btn-1"
+                                        v-if="myId == item.UserId"  
+                                        @click="showMessageupdate(item .id);"> 
+                                        Modifier
+                                      </button>
+                                    </div>
+                                    <div _ngcontent-cpa-c6="" class="dislikes">
+                                        <button
+                                        class="btn-1"
+                                        v-if="myId == item.UserId" 
+                                        v-on:click="doDelete(item .id)">
+                                        <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div v-else>
-                                <div v-if="loadingImage" class="progress">
-                                        <div class="value v-80 striped animate s-10">Chargement...</div>
+                          <ul></ul>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+              <div class='group__header__body'>
+                        <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message">
+                          <h3> <i class="connecte fas fa-comment"> Votre messagerie</i></h3> 
+
+                            <p v-if="errors.length">
+                                <b>Merci de corriger les erreurs suivantes : </b>
+                                <ul>
+                                <li v-for="error in errors" :key="error">{{ error }}</li>
+                                </ul>
+                            </p>
+                            <input
+                                id="title"
+                                v-model="message.title"
+                                type="text"
+                                name="title"
+                                placeholder="Titre"
+                            > <br> <br>
+                            <textarea
+                                id="content"
+                                v-model="message.content"
+                                type="text"
+                                name="content"
+                                placeholder="Contenu"
+                            ></textarea> 
+                            <input
+                                id="attachment"
+                                v-model="message.attachment"
+                                type="hidden"
+                                name="attachment"
+                            > <br> 
+                            <div>
+                                <div v-if="!image">
+                                  <h3> <i class="connecte fas fa-comment"> Inserer une image</i></h3> 
+
+                                    <div id="list">
+                                    </div>
+                                    <input 
+                                        id="file" 
+                                        type="file" 
+                                        @change="onFileSelected"
+                                        name="attachment"
+                                        alt="example"
+                                    >
                                 </div>
                                 <div v-else>
-                                        <img :src="image" />
+                                    <div v-if="loadingImage" class="progress">
+                                            <div class="value v-80 striped animate s-10">Chargement...</div>
+                                    </div>
+                                    <div v-else>
+                                            <img :src="image" />
+                                    </div>
+                                    <button @click="removeImage">Remove image</button>
                                 </div>
-                                <button @click="removeImage">Remove image</button>
+                            </div><br><br>
+                            <div>
                             </div>
-                        </div><br><br>
-                        <div>
-                        </div>
-                        <button 
-                            type="submit"
-                            value="val"
-                        >
-                            Envoyer
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    <!-- </div> -->
+                            <button 
+                                type="submit"
+                                value="val"
+                            >
+                            <i class="fa fa-paper-plane "></i>
+                            </button>
+                        </form>
+              </div>
+      </div>
+    </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
 <script>
@@ -153,6 +164,8 @@
   import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
   import FormData from 'form-data'
   import { mapGetters } from 'vuex'
+  import { mapState } from 'vuex'
+  import ConexionComponent from '@/components/ConexionComponent.vue'
 
    Vue.use(VueFilterDateFormat);
    Vue.use(VueAxios, axios);
@@ -161,9 +174,9 @@
   export default {
     name: 'Home',
     computed: {
-      ...mapGetters(["imageExist"])
-,    },
-   
+      ...mapGetters(["imageExist"]),
+      ...mapState(['logged']),
+    },
     data() {
       return {
         loading: false,
@@ -200,17 +213,22 @@
       }
     },
      components: {
-    PulseLoader
+    PulseLoader,
+    ConexionComponent,
     },
     created() {
 
-       let objMySession = localStorage.getItem("obj")
+        let myId = -1;
+        let objMySession = localStorage.getItem("obj")
         let myStorageToken = JSON.parse(objMySession)
-        let myId = myStorageToken.myId;
+        myId = myStorageToken.myId;
         setTimeout(() => {
       axios
         .get('http://localhost:3000/api/messages/')
         .then(response => {
+          // if(logged){
+          //   // this.$router.push('/login');
+          // }
           this.myId = myId
           this.messages = response.data
           })
@@ -220,6 +238,7 @@
         )
     }, 1000)
     },
+    props: {},
 
   methods: {
       showMessageupdate: function (id) {
@@ -535,5 +554,25 @@
 .labelForm {
   color: blue;
 }
-
+.connecte {
+    width: 100%;
+    justify-content: center;   
+    text-align: center; 
+    }
+   
+.fa{
+  color: $primary;
+}
+.fas{
+  padding: 3px;
+  color: $tertiary;
+}
+input,
+textarea{
+  width: 100%;
+}
+.fa-paper-plane{
+  color: green;
+  font-size: large;
+}
 </style>

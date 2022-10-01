@@ -114,7 +114,6 @@ body {
           border: solid 1px black; }
 
 .btn-1 {
-  border: 1px solid #ececec;
   border-radius: 5px;
   outline: 0;
   background-color: #ececec;
@@ -122,11 +121,12 @@ body {
   padding: 3px 6px 3px 6px;
   transform: scale(1);
   transition: transform 330ms ease-in-out;
-  border: solid 1px black; }
+  border: solid 1px black;
+  color: red !important; }
   .btn-1:hover {
-    background-color: #e04151;
+    background-color: #FFD7D7;
     Transform: scale(1.1);
-    border: solid 1px red; }
+    border: solid 1px #FD2D01; }
 
 .preview {
   display: flex;

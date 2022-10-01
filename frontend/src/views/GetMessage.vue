@@ -1,17 +1,19 @@
 <template>
     <div>
-      <h3>Modification</h3>
-      <p>My message number</p>
-      <p>  {{ id }} </p> 
+      <!-- <h3>Modification</h3>
+      <p>My message number</p> 
+      <p>  {{ id }} </p> -->
       <div class='group__header__body'>
         <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message" id="this.id">
-            <label class="labelForm">Nouveau message avec image optionnelle</label> <br> <br>
+            <h3><label class="labelForm">Modification messagerie</label></h3> <br> <br>
               <p v-if="errors.length">
                         <b>Merci de corriger les erreurs suivantes : </b>
                       <ul>
                           <li v-for="error in errors" :key="error">{{ error }}</li>
                       </ul>
               </p>
+                    <label>Titre</label>
+
               <input 
                 id="title"
                 v-model="posts.title"
@@ -19,6 +21,7 @@
                 name="title"
               >
               <br><br>
+              <label>Message</label>
               <input 
                 id="content"
                 v-model="posts.content"
