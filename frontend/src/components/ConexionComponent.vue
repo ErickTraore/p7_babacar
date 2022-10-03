@@ -34,18 +34,14 @@
           <div>Vous n'avez pas de compte:</div>
         <div>
           <a class="labelForm" href="/Singnup#/signup">Créer un compte</a>
-
           </div>
         </div>
     </div>
 </template>
-
 <script>
   import Vue from "vue";
-  
   import VueAxios from "vue-axios";
   import axios from "axios";
-
   Vue.use(VueAxios, axios)
   export default {
     name: 'ConexionComponent',
@@ -60,29 +56,22 @@
     },
     methods: {
       postData: function (e) {
-
         e.preventDefault();
-
         this.errors = [];
-
         if (!this.user.password) {
           this.errors.push('Veillez saisir un mot de passe');
         } else if (!this.validPassword(this.user.password)) {
           this.errors.push('Votre mot de passe doit contenir entre 4 et 8 caractères et au moins un chiffre');
         }
-
         if (!this.user.email) {
           this.errors.push('Veillez saisir votre email');
         } else if (!this.validEmail(this.user.email)) {
           this.errors.push('L\'adresse email est invalide.');
         }
-
         if (!this.errors.length) {
           return this.post(this.user);
         }
-
       },
-
       post: function (user) {
          this.axios.post('http://localhost:3000/api/users/login/',user)
           .then(reponse => {
@@ -97,16 +86,13 @@
                     this.$store.dispatch("nowLogged");
                     this.$router.push({path: '/'});
                     window.location.reload();
-
                     })
 
           .catch(error => console.log(error()))
       },
-
       validEmail: function (email) {
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return regex.test(email);
-
       },
       validPassword: function (password) {
         const regex = /^(?=.*\d).{4,8}$/;
@@ -114,11 +100,7 @@
       }
     }
   }
-
-
 </script>
 <style lang="scss">
     @import 'sass/main.scss';
-   
- 
 </style>

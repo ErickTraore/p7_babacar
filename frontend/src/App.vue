@@ -2,17 +2,17 @@
     <div>
         <div class="preview">
             <div class="preview__symbol">
-              <img alt="logo"  src="./assets/plus/logo-transp.svg" class="rotating"/>
+              <img alt="logo1"  src="./assets/plus/logo-transp.svg" class=""/>
             </div>
             <div class="preview__texte">
-              <img alt="logo"  src="./assets/plus/icon-left-font-monochrome-black.svg" />
+              <img alt="logo2"  src="./assets/plus/icon-left-font-monochrome-black.svg" />
             </div>
         </div>
         <nav class="navbar navbar-expand-sm navbar-dark">
           <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <button-0 class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
               <span class="navbar-toggler-icon"></span>
-            </button>
+            </button-0>
             <div class="collapse navbar-collapse" id="mynavbar">
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">
@@ -22,7 +22,6 @@
                   <router-link class="nav-link" to="/profile">Profile</router-link>  
                 </li>
                 <li class="nav-item">
-                  <!-- <router-link class="nav-link" :to="{name: 'Updatemessage', params : {id : 'Lucas'}}"> Message 1 </router-link>   -->
                 </li>
                 <li class="nav-item">
                   <router-link class="nav-link" v-if=logged to="/login">Login</router-link>  
@@ -43,13 +42,16 @@
           </div>
         </nav>
         <router-view/>
+        <FooterComponent />
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import axios from 'axios';
-import VueAxios from 'vue-axios'
+import VueAxios from 'vue-axios';
+import FooterComponent from '@/components/FooterComponent.vue';
+
 Vue.use(VueAxios, axios)
 import { mapState } from 'vuex'
 export default {
@@ -80,7 +82,9 @@ created() {
     })
         .catch(error => console.log(error()))
   },
-
+  components: {
+    FooterComponent
+  },
   props: {},
   methods: {
   },
@@ -88,12 +92,9 @@ created() {
 </script>
 <style lang="scss">
     @import 'sass/main.scss';
-
-
 navbar-toggler-icon{
   color:black;
 }
-
 </style>
 
 
