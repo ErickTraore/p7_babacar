@@ -1,8 +1,5 @@
 <template>
     <div>
-      <!-- <h3>Modification</h3>
-      <p>My message number</p> 
-      <p>  {{ id }} </p> -->
       <div class='group__header__body'>
         <form @submit="onPostData" method="post" enctype="multipart/form-data" name="message" id="this.id">
             <h3><label class="labelForm">Modification messagerie</label></h3> <br> <br>

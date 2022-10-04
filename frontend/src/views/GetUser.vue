@@ -3,8 +3,7 @@
         <div class='group__header'>
             <div id="app">
                 <div class='group__header__body'>
-                  {{ id }}
-                    <h4>Modification de l'utilisateur par l'administrateur</h4>
+                    <h4>Info utilisateur.</h4>
                     <div>Nom: {{ profile.username }}</div>
                     <div>Email: {{ profile.email }}</div>
                     <div>Biographie: {{ profile.bio }}</div>
@@ -12,7 +11,7 @@
             </div>
             <form @submit="postData" method="post">
                 <div class='group__header__body'>
-                    <label>Mettre à jour ma biographie</label> <br> <br>
+                    <label>Modification de l'utilisateur</label> <br> <br>
                     <label>Nom</label>
                     <input 
                             id="username"
