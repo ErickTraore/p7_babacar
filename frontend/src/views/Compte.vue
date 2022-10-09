@@ -23,14 +23,14 @@
                 <div class="group__header__body__button"> 
                     <div>
                         <button
-                            class="btn-1"
+                            aria-label="btn-logoutclicks"
                             @click="showUserUpdate(item .id);"> 
                             Modifier
                         </button>
                     </div>
                     <div>
                         <button
-                         class="btn-1"
+                         aria-label="btn-logoutclicks"
                           @click="destroyUser(item .id)">
                           <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>                

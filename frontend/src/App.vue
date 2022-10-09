@@ -2,17 +2,22 @@
     <div>
         <div class="preview">
             <div class="preview__symbol">
-              <img alt="logo1"  src="./assets/plus/logo-transp.svg" class=""/>
+              <img alt="logo1"  src="./assets/plus/ico/icon-left-font-monochrome-black.svg" class="" />
             </div>
-            <div class="preview__texte">
+            <!-- <div class="preview__texte">
               <img alt="logo2"  src="./assets/plus/icon-left-font-monochrome-black.svg" />
-            </div>
+            </div> -->
         </div>
         <nav class="navbar navbar-expand-sm navbar-dark">
           <div class="container-fluid">
-            <button-0 class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <button class="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#mynavbar"
+                    aria-label="btn-navbar"
+                    >
               <span class="navbar-toggler-icon"></span>
-            </button-0>
+            </button>
             <div class="collapse navbar-collapse" id="mynavbar">
               <ul class="navbar-nav me-auto">
                 <li class="nav-item">

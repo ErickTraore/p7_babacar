@@ -4,17 +4,24 @@
         <div id="app">
             <div class="group__header__body">
                 <h3>
-                    Se déconnecter
+                    Se déconnecter ou continuer
                 </h3>
                 <div class="Logout__header__body__first">
                   
                   <div class="Logout__header__body__first__in">
                       Merci de votre visite:
-                          <button @click="logoutClick"> Se Déconnecter </button> 
+                          <button
+                          aria-label="btn-logoutclicks"
+                          @click="logoutClick"> 
+                          Se Déconnecter 
+                        </button> 
                     </div> <br> 
                     <div class="Logout__header__body__second">
                       Continuer votre visite:  
-                          <button @click="continuerClick" >  Retour page d'accueille  </button> 
+                          <button
+                          aria-label="btn-continuerclick"
+                          @click="continuerClick" >  
+                          Retour page d'accueille  </button> 
                     </div>
                 </div>
               </div>
@@ -98,6 +105,10 @@ export default {
       padding: 5px;
       }
       button{
+        width: 200px;
+        height: 50px;
+        padding: 5px;
+        font-size: 16px;
         border-radius: 5px !important;
       }
  

@@ -18,10 +18,12 @@
                 <div class="container" v-for="item  in messages" :key="item .id">
                     <div class="group__header__body__first"> 
                         <div class="group__header__body__first__in"> 
-                            <img :src="item.attachment" alt="" />
-                            <div id="progress-bar">
-                            <div></div>
-                            </div>
+                          <div v-if= "item.attachment" class= "group__header__body__first__in__image">
+                            <img :src= "item.attachment" alt= "monImage" />
+                              <div id= "progress-bar">
+                                <div></div>
+                              </div>
+                          </div>
                             <b>Publié par: {{ item .User.username }}</b><b> le
                                 {{ new Date(item .createdAt) | dateFormat('DD/MM/YYYY') }} à
                                 {{ new Date(item .createdAt) | dateFormat('hh:mm') }} :</b> <br>
@@ -37,40 +39,43 @@
                     <div class="group__header__body__like">
                         <div class="group__header__body__like__left">
                                 <div class="group__header__body__like__left__likes">
-                                    <button-1 
-                                    id="dolike"
+                                    <button
+                                    aria-label="btn-dolike"
                                     v-on:click="doLike(item .id)"
                                     >
                                     <i class="like fa-thumbs-up fa-lg far"></i>
-                                    </button-1>
+                                    </button>
                                     <span class="spanLikes" _ngcontent-cpa-c6="">{{ item .likes }}</span>
                                 </div>
                                 <div class="group__header__body__like__left__dislikes">
-                                    <button-2
-                                        v-on:click="doDislike(item .id)">
+                                    <button
+                                        v-on:click="doDislike(item .id)"
+                                        aria-label="btn-doDislike">
                                     <i class="dislike fa-thumbs-down fa-lg far"></i>
-                                    </button-2>
+                                    </button>
                                     <span class="spanDislikes" _ngcontent-cpa-c6="">{{ item .dislikes }}</span>
                                 </div>
                         </div>
-                        <div class="right">
-                                <div class="dislikes">
-                                    <button-3
-                                        class="btn-1"
+                    <div class="group__header__body__like">
+                        <div class="group__header__body__like__left">
+                                <div class="group__header__body__like__left__but">
+                                    <button
+                                        aria-label="btn-dislikes"
                                         v-if="myId == item.UserId"  
                                         @click="showMessageupdate(item .id);"> 
                                         Modifier
-                                    </button-3>
+                                    </button>
                                 </div>
-                                <div class="dislikes">
-                                    <button-4
-                                        class="btn-1"
+                        <div class="group__header__body__like__left__but">
+                                    <button
+                                        aria-label="btn-delete"
                                         v-if="myId == item.UserId" 
                                         v-on:click="doDelete(item .id)">
                                         <i class="fa fa-trash-o"></i>
-                                    </button-4>
-                                </div>
+                                    </button>
+                                  </div>
                         </div>
+                      </div>
                     </div>
                     <ul></ul>
                         </div>
@@ -322,17 +327,7 @@ methods: {
        .then(reponse => {
           this.message = reponse.data
           console.log('message crée ok')
-          axios
-            .get('http://localhost:3000/api/messages/')
-            .then(response => {
-              this.messages = response.data
-              this.resetForm()
-              this.image = '';
-              res.status(200).json(this.messages);
-              })
-            .catch(function(err) {
-              err.statusCode = 401;
-            });
+          this.$router.push('/')
         })
         .catch(function(err) {
               err.statusCode = 401;

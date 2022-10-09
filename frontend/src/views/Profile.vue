@@ -23,14 +23,28 @@
                             type="text"
                             v-model="posts.bio"
                     ></textarea> <br> <br>
-                    <div class="valid">
-                      <div class="valid__in">
-                        <button type="submit">Validez</button>
-                      </div>
-                      <div class="valid__in">
-                        <button @click='goHome()'>Annulez</button>
-                      </div>
+                    <div class="group__header__body__like">
+                        <div class="group__header__body__like__left">
+                                <div class="group__header__body__like__left__but">
+                                    <button
+                                      aria-label="btn-valid"
+                                      type="submit">
+                                      Validez
+                                    </button>
+                                </div>
+                        </div>
+                    <div class="group__header__body__like">
+                        <div class="group__header__body__like__left">
+                                <div class="group__header__body__like__left__but">
+                                    <button
+                                      aria-label="btn-gohome"
+                                      @click='goHome()'>
+                                      Annulez
+                                    </button>
+                                </div>
+                        </div>
                     </div>
+                  </div>
                 </div>
             </form>
         </div>
